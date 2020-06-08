@@ -1,2 +1,1 @@
-# slashchain_app
-slashchain Apps
+# [slashchain](https://hichain.jp/slashchain) Web App

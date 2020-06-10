@@ -1,4 +1,5 @@
-import { Game, Ctx, PlayerID } from "boardgame.io";
+import { Game, PlayerID } from "boardgame.io";
+import { INVALID_MOVE } from "boardgame.io/core";
 
 type GameState = {
   cells: Array<PlayerID | null>;

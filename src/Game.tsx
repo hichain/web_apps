@@ -2,8 +2,9 @@ import { Game, PlayerID } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 
 type GameState = {
-  cells: Array<PlayerID | null>;
+  cells: Array<Cell>;
 };
+type Cell = PlayerID | null;
 
 export const TicTacToe: Game<GameState> = {
   setup: () => ({ cells: Array(9).fill(null) }),
@@ -18,4 +19,35 @@ export const TicTacToe: Game<GameState> = {
       G.cells[id] = ctx.currentPlayer;
     },
   },
+  endIf: (G, ctx) => {
+    if (isVictory(G.cells)) {
+      return { winner: ctx.currentPlayer };
+    }
+    if (isDraw(G.cells)) {
+      return { draw: true };
+    }
+  },
 };
+
+// Return true if `cells` is in a winning configuration.
+const isVictory = (cells: Array<Cell>) => {
+  const winLines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  return winLines.some((winLine) =>
+    winLine.every((i) => cells[i] === cells[winLine[0]])
+  );
+};
+
+// Return true if all `cells` are occupied.
+function isDraw(cells: Array<Cell>) {
+  return cells.filter((c) => c === null).length === 0;
+}

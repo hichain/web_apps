@@ -1,7 +1,7 @@
 import { Game, PlayerID } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 
-type GameState = {
+export type GameState = {
   cells: Array<Cell>;
 };
 type Cell = PlayerID | null;

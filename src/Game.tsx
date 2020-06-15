@@ -43,11 +43,13 @@ const isVictory = (cells: Array<Cell>) => {
   ];
 
   return winLines.some((winLine) =>
-    winLine.every((i) => cells[i] === cells[winLine[0]])
+    winLine
+      .map((i) => cells[i])
+      .every((i) => i !== null && i === cells[winLine[0]])
   );
 };
 
 // Return true if all `cells` are occupied.
 function isDraw(cells: Array<Cell>) {
-  return cells.filter((c) => c === null).length === 0;
+  return !cells.some((c) => c === null);
 }

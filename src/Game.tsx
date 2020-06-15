@@ -27,6 +27,18 @@ export const TicTacToe: Game<GameState> = {
       return { draw: true };
     }
   },
+  ai: {
+    enumerate: (G, _) => {
+      return G.cells
+        .filter((cell) => cell)
+        .map((_, i) => {
+          return {
+            move: "clickCell",
+            args: [i],
+          };
+        });
+    },
+  },
 };
 
 // Return true if `cells` is in a winning configuration.

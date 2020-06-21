@@ -21,6 +21,7 @@
     "typescript": "^3.9.5"
   },
   "scripts": {
+    "start": "node ./dist/server/Server.js",
     "build": "npm-run-all -p build:*",
     "start:client": "react-scripts start",
     "build:client": "react-scripts build",

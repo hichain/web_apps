@@ -10,10 +10,6 @@ class Cell {
   equals(cell: Cell): Boolean {
     return this.x === cell.x && this.y === cell.y;
   }
-
-  near(cell: Cell): Boolean {
-    return Math.abs(this.x - cell.x + this.y - cell.y) === 1;
-  }
 }
 
 interface Line {
@@ -50,7 +46,7 @@ export class Tile {
     this.lowerRight = lowerRight;
   }
 
-  cells() {
+  innerCells() {
     return [
       new LineCell(0, 0, this.upperLeft),
       new LineCell(0, 1, this.upperRight),
@@ -68,4 +64,13 @@ const emptyTile: Tile = new Tile(emptyLine, emptyLine, emptyLine, emptyLine);
 
 export class TileCell extends Cell {
   tile: Tile = emptyTile;
+
+  adjacentCells(): Array<TileCell> {
+    return [
+      new TileCell(this.x, this.y - 1),
+      new TileCell(this.x + 1, this.y),
+      new TileCell(this.x, this.y + 1),
+      new TileCell(this.x - 1, this.y)
+    ]
+  }
 }

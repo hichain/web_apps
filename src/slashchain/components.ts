@@ -70,6 +70,10 @@ const emptyTile: Tile = new Tile(emptyLine, emptyLine, emptyLine, emptyLine);
 export class TileCell extends Cell {
   tile: Tile = emptyTile;
 
+  isEmpty(): boolean {
+    return this.tile === emptyTile
+  }
+
   adjacentCells(): Array<TileCell> {
     return [
       new TileCell(this.x, this.y - 1),

@@ -1,16 +1,9 @@
 import { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { PlayerHands } from "../hands";
 import { Board } from "../board.js";
 import { HandsSet } from "../rules.js";
-import { Tile, TileCell } from "../components.js";
-
-export type GameState = {
-  ruleName: string;
-  board: Board;
-  hands: { [key: string]: PlayerHands };
-  pickedTile?: Tile;
-};
+import { TileCell } from "../components.js";
+import { GameState } from "./game_state.js";
 
 const handsSet = new HandsSet();
 

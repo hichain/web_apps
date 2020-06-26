@@ -29,6 +29,7 @@ export class LineCell extends Cell implements Line {
 }
 
 export class Tile {
+  readonly name: String;
   private readonly upperLeft: Line;
   private readonly upperRight: Line;
   private readonly lowerLeft: Line;
@@ -38,12 +39,14 @@ export class Tile {
     upperLeft: Line,
     upperRight: Line,
     lowerLeft: Line,
-    lowerRight: Line
+    lowerRight: Line,
+    name?: String
   ) {
     this.upperLeft = upperLeft;
     this.upperRight = upperRight;
     this.lowerLeft = lowerLeft;
     this.lowerRight = lowerRight;
+    this.name = name || ""
   }
 
   innerCells() {

@@ -47,20 +47,8 @@ export class BoardComponent extends React.Component<IProps> {
         <table id="board">
           <tbody>{tbody}</tbody>
         </table>
-        <div id="winner">{this.winner()}</div>
       </div>
     );
-  }
-
-  winner() {
-    if (!this.props.ctx.gameover) {
-      return "";
-    }
-    if (this.props.ctx.gameover.winner !== undefined) {
-      return `Winner: ${this.props.ctx.gameover.winner}`;
-    } else {
-      return "Draw!";
-    }
   }
 }
 

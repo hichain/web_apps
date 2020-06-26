@@ -3,7 +3,7 @@ import { GameState } from "./Game";
 import { Ctx } from "boardgame.io";
 import { Board } from "../board";
 
-interface IProps {
+export interface IProps {
   moves: any;
   G: GameState;
   ctx: Ctx;

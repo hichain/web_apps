@@ -27,8 +27,11 @@ export const Slashchain: Game<GameState> = {
   },
   moves: {
     clickCell: (G, ctx, id) => {
-      // TODO: define moves
-      return INVALID_MOVE;
+      const targetCell = G.board.cellFromString(id)
+      if (!targetCell || !targetCell.isEmpty()) {
+        return INVALID_MOVE;
+      }
+      // TODO: put the tile on board
     },
   },
   endIf: (G, ctx) => {

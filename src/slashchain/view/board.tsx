@@ -1,5 +1,5 @@
 import React from "react";
-import { GameState } from "./Game";
+import { GameState } from "./game_state";
 import { Ctx } from "boardgame.io";
 import { Board } from "../board";
 import { Cell, TileCell } from "../components.js";

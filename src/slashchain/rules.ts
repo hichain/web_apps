@@ -3,37 +3,23 @@ import { TileRepository } from "./tiles.js";
 
 export type Rule = {
   name: string;
-  hands: HandsSet;
+  hands: PlayerHands;
 };
 
-export type HandsSet = {
-  first: PlayerHands;
-  second: PlayerHands;
-};
-
-export class RuleSet {
+export class HandsSet {
   private tileRepository = new TileRepository();
   rules: { [key: string]: Rule } = {
     basic_1x: {
       name: "Basic Tiles, a tile of each types",
-      hands: {
-        first: this.basicHands(1),
-        second: this.basicHands(1),
-      },
+      hands: this.basicHands(1),
     },
     basic_2x: {
       name: "Basic Tiles, 2 tiles of each types",
-      hands: {
-        first: this.basicHands(2),
-        second: this.basicHands(2),
-      },
+      hands: this.basicHands(2),
     },
     basic_3x: {
       name: "Basic Tiles, 3 tiles of each types",
-      hands: {
-        first: this.basicHands(3),
-        second: this.basicHands(3),
-      },
+      hands: this.basicHands(3),
     },
   };
 

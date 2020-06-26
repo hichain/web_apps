@@ -3,7 +3,7 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import { PlayerHands } from "../hands";
 import { Board } from "../board.js";
 import { HandsSet } from "../rules.js";
-import { Tile } from "../components.js";
+import { Tile, TileCell } from "../components.js";
 
 export type GameState = {
   ruleName: string;
@@ -28,9 +28,8 @@ export const Slashchain: Game<GameState> = {
     moveLimit: 1,
   },
   moves: {
-    clickCell: (G, ctx, id) => {
-      const targetCell = G.board.cellFromString(id);
-      if (!targetCell || !targetCell.isEmpty()) {
+    clickCell: (G, ctx, cell?: TileCell) => {
+      if (!cell || !cell.isEmpty()) {
         return INVALID_MOVE;
       }
       // TODO: put the tile on board

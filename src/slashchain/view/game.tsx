@@ -13,6 +13,7 @@ export type GameState = {
 const handsSet = new HandsSet();
 
 export const Slashchain: Game<GameState> = {
+  name: "slashchain",
   setup: (): GameState => ({
     ruleName: handsSet.rules.basic_3x.name,
     board: new Board(),

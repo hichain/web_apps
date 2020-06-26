@@ -32,6 +32,11 @@ export const Slashchain: Game<GameState> = {
   },
   endIf: (G, ctx) => {
     // TODO: define victory conditions
-    return { draw: true };
+    const noHands = Object.keys(G.hands).every(
+      (player) => G.hands[player].tiles.length === 0
+    );
+    if (noHands) {
+      return { draw: true };
+    }
   },
 };

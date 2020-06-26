@@ -5,12 +5,10 @@ import { GameState } from "./game_state";
 
 export interface HandsFieldProps {
   G: GameState;
+  playerID: PlayerID;
 }
 
-export class HandsFieldComponent extends React.Component<
-  HandsFieldProps,
-  PlayerID
-> {
+export class HandsFieldComponent extends React.Component<HandsFieldProps> {
   private gameState = this.props.G;
 
   onClick(tile: Tile) {
@@ -30,7 +28,7 @@ export class HandsFieldComponent extends React.Component<
       "object-fit": "contain",
     };
 
-    const tileItems = this.gameState.hands[this.state].tiles.map((tile) => (
+    const tileItems = this.gameState.hands[this.props.playerID].tiles.map((tile) => (
       <p style={tileStyle} onClick={() => this.onClick(tile)}>
         {tile.name}
       </p>

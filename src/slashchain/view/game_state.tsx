@@ -1,7 +1,9 @@
 import React from "react";
+import { BoardComponent } from "./board";
 import { PlayerHands } from "../hands";
 import { Tile } from "../components";
 import { Board } from "../board.js";
+import { HandsFieldComponent } from "./hands_field.js";
 import { Ctx } from "boardgame.io";
 
 export type GameState = {
@@ -21,8 +23,16 @@ export class GameStateComponent extends React.Component<GameStateProps> {
   private gameState = this.props.G;
 
   render() {
+    const style: { [key: string]: string } = {
+      margin: "auto",
+		};
+		const playerID = this.props.ctx.playerID;
+		if (playerID === undefined) return
+
     return (
-      <div>
+      <div style={style}>
+        <BoardComponent moves={this.props.moves} G={this.props.G} />
+        <HandsFieldComponent G={this.props.G} playerID={playerID}/>
         <div id="winner">{this.winner()}</div>
       </div>
     );

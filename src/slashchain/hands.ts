@@ -1,6 +1,6 @@
 import { Tile } from "./components.js";
 
-class PlayerHands {
+export class PlayerHands {
   readonly tiles: Tile[];
 
   constructor(tiles: Tile[]) {

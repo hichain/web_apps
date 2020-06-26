@@ -17,6 +17,8 @@ interface Line {
   backslash: boolean;
 }
 
+export type { Line }
+
 export class LineCell extends Cell implements Line {
   slash: boolean;
   backslash: boolean;

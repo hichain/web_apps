@@ -1,8 +1,8 @@
 import React from "react";
 import { PlayerHands } from "../hands";
 import { Tile } from "../components";
-import type { IProps } from "./board";
 import { Board } from "../board.js";
+import { Ctx } from "boardgame.io";
 
 export type GameState = {
   ruleName: string;
@@ -11,7 +11,13 @@ export type GameState = {
   pickedTile?: Tile;
 };
 
-export class GameStateComponent extends React.Component<IProps> {
+export interface GameStateProps {
+  moves: any;
+  G: GameState;
+  ctx: Ctx;
+}
+
+export class GameStateComponent extends React.Component<GameStateProps> {
   private gameState = this.props.G;
 
   render() {

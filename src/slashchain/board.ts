@@ -10,9 +10,22 @@ export class Board {
     this.addAdjacentCells(cell);
   }
 
-  tile(cell: Cell) {
-    return this.tileCells.find(cell => cell.equals(cell))
+  cellFromString(cellString: string) {
+    return this.tile(this.parseCell(cellString))
   }
+
+  toCellString(x: number, y: number) {
+    return `${x},${y}`;
+  }
+
+  private tile(cell: Cell) {
+    return this.tileCells.find((i) => i.equals(cell))
+  }
+
+  private parseCell = (rawCell: string): Cell => {
+    const position = rawCell.split(",").map((p) => parseInt(p));
+    return new Cell(position[0], position[1]);
+  };
 
   private applyLines(tileCell: TileCell) {
     const newLineCells = tileCell.tile

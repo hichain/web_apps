@@ -1,17 +1,15 @@
 import React from "react";
 import { GameState } from "./game_state";
-import { Ctx } from "boardgame.io";
 import { Board } from "../board";
 import { Cell, TileCell } from "../components.js";
 
-export interface IProps {
+export interface BoardProps {
   moves: any;
   G: GameState;
-  ctx: Ctx;
 }
 
-export class BoardComponent extends React.Component<IProps> {
-	private gameState = this.props.G
+export class BoardComponent extends React.Component<BoardProps> {
+  private gameState = this.props.G;
 
   onClick(cell?: TileCell) {
     this.props.moves.clickCell(cell);
@@ -32,7 +30,7 @@ export class BoardComponent extends React.Component<IProps> {
       let cells = [];
       for (let y = range.minY; y <= range.maxY; y++) {
         const key = `${x},${y}`;
-        const cell = this.gameState.board.tile(new Cell(x, y))
+        const cell = this.gameState.board.tile(new Cell(x, y));
         cells.push(
           <td style={cellStyle} key={key} onClick={() => this.onClick(cell)}>
             {cell?.tile.name}

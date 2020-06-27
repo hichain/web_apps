@@ -27,7 +27,10 @@ export class BoardComponent extends React.Component<BoardProps> {
         const cell = this.gameState.board.tile(new Cell(x, y));
         let cellBody;
         if (cell?.tile.imageUrl !== undefined) {
-          cellBody = <img src={cell.tile.imageUrl} alt={cell.tile.name} />;
+          const imageStyle: { [key: string]: string } = {
+            transform: `rotate(${90 * cell.tile.rotateCount}deg)`,
+          };
+          cellBody = <img src={cell.tile.imageUrl} style={imageStyle} alt={cell.tile.name} />;
         }
         cells.push(
           <td

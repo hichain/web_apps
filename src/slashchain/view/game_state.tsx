@@ -20,23 +20,38 @@ export interface GameStateProps {
 }
 
 export class GameStateComponent extends React.Component<GameStateProps> {
-  private gameState = this.props.G;
-
   render() {
     const style: { [key: string]: string } = {
       margin: "auto",
     };
+
     const playerID = this.props.ctx.playerID;
+    let myHandsField;
+    if (playerID === undefined) {
+      myHandsField = "";
+    } else {
+      myHandsField = (
+        <HandsFieldComponent G={this.props.G} playerID={playerID} />
+      );
+    }
+
     const otherPlayerID = this.props.ctx.playOrder.find(
       (player) => player !== playerID
     );
-    if (playerID === undefined || otherPlayerID === undefined) return;
+    let otherHandsField;
+    if (otherPlayerID === undefined) {
+      otherHandsField = "";
+    } else {
+      otherHandsField = (
+        <HandsFieldComponent G={this.props.G} playerID={otherPlayerID} />
+      );
+    }
 
     return (
       <div style={style}>
-        <HandsFieldComponent G={this.props.G} playerID={otherPlayerID} />
+        {otherHandsField}
         <BoardComponent moves={this.props.moves} G={this.props.G} />
-        <HandsFieldComponent G={this.props.G} playerID={playerID} />
+        {myHandsField}
         <div id="winner">{this.winner()}</div>
       </div>
     );

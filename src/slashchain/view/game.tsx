@@ -22,10 +22,13 @@ export const Slashchain: Game<GameState> = {
   },
   moves: {
     clickCell: (G, ctx, cell?: TileCell) => {
-      if (!cell || !cell.isEmpty()) {
+      const pickedTile = G.pickedTile;
+      if (!(cell && cell.isEmpty() && pickedTile)) {
         return INVALID_MOVE;
       }
-      // TODO: put the tile on board
+      G.board.put(cell, pickedTile);
+      G.hands[ctx.currentPlayer].pick(pickedTile);
+      G.pickedTile = undefined;
     },
   },
   endIf: (G, ctx) => {

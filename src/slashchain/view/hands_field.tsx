@@ -12,22 +12,28 @@ export interface HandsFieldProps {
   updatePlayerState?: (state: PlayerState) => void;
 }
 
-export class HandsFieldComponent extends React.Component<HandsFieldProps, PlayerState> {
+export class HandsFieldComponent extends React.Component<
+  HandsFieldProps,
+  PlayerState
+> {
   private gameState = this.props.G;
 
-	constructor(props: HandsFieldProps) {
-		super(props)
-		this.state = {
-			pickedTile: undefined
-		}
-	}
+  constructor(props: HandsFieldProps) {
+    super(props);
+    this.state = {
+      pickedTile: undefined,
+    };
+  }
 
   onClick(tile: Tile) {
-		const state = {
+    if (this.state.pickedTile === tile) {
+      tile.rotate(1);
+    }
+    const state = {
       pickedTile: tile,
     };
     this.props.updatePlayerState?.(state);
-		this.setState(state);
+    this.setState(state);
   }
 
   render() {
@@ -40,10 +46,10 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps, Player
       tileClass.push(style.pickable);
     }
 
-		const pickedTile = this.state.pickedTile
-		if (!pickedTile) {
-			tileClass.push(style["with-animation"]);
-		}
+    const pickedTile = this.state.pickedTile;
+    if (!pickedTile) {
+      tileClass.push(style["with-animation"]);
+    }
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
       (tile) => {
         const classNames =

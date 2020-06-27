@@ -4,7 +4,7 @@ import { PlayerHands } from "../hands";
 import { Tile } from "../components";
 import { Board } from "../board";
 import { HandsFieldComponent } from "./hands_field";
-import { Ctx } from "boardgame.io";
+import { Ctx, BoardProps } from "boardgame.io";
 
 export type GameState = {
   ruleName: string;
@@ -13,7 +13,7 @@ export type GameState = {
   pickedTile?: Tile;
 };
 
-export interface GameStateProps {
+export interface GameStateProps extends BoardProps {
   moves: any;
   G: GameState;
   ctx: Ctx;

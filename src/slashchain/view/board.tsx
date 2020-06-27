@@ -2,6 +2,7 @@ import React from "react";
 import { GameState } from "./game_state";
 import { Board } from "../board";
 import { Cell, TileCell } from "../components";
+import style from "../css/component.module.scss"
 
 export interface BoardProps {
   moves: any;
@@ -16,14 +17,6 @@ export class BoardComponent extends React.Component<BoardProps> {
   }
 
   render() {
-    const cellStyle: { [key: string]: string } = {
-      border: "1px solid #555",
-      width: "50px",
-      height: "50px",
-      lineHeight: "50px",
-      textAlign: "center",
-    };
-
     const range = boardRange(this.gameState.board);
     const tbody = [];
     for (let x = range.minX; x <= range.maxX; x++) {
@@ -32,7 +25,7 @@ export class BoardComponent extends React.Component<BoardProps> {
         const key = `${x},${y}`;
         const cell = this.gameState.board.tile(new Cell(x, y));
         cells.push(
-          <td style={cellStyle} key={key} onClick={() => this.onClick(cell)}>
+          <td className={style.cell} key={key} onClick={() => this.onClick(cell)}>
             {cell?.tile.name}
           </td>
         );
@@ -42,7 +35,7 @@ export class BoardComponent extends React.Component<BoardProps> {
 
     return (
       <div>
-        <table id="board">
+        <table className={style.board}>
           <tbody>{tbody}</tbody>
         </table>
       </div>

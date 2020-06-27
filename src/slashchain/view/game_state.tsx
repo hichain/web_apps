@@ -21,10 +21,6 @@ export interface GameStateProps {
 
 export class GameStateComponent extends React.Component<GameStateProps> {
   render() {
-    const style: { [key: string]: string } = {
-      margin: "auto",
-    };
-
     const playerID = this.props.ctx.playerID;
     let myHandsField;
     if (playerID === undefined) {
@@ -48,7 +44,7 @@ export class GameStateComponent extends React.Component<GameStateProps> {
     }
 
     return (
-      <div style={style}>
+      <div>
         {otherHandsField}
         <BoardComponent moves={this.props.moves} G={this.props.G} />
         {myHandsField}

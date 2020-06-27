@@ -27,7 +27,7 @@ export const Slashchain: Game<GameState> = {
       const myPlayerID = ctx.playerID;
       const pickedTileIndex = G.pickedTileIndex
       if (myPlayerID === undefined || pickedTileIndex === undefined) {
-        return
+        return INVALID_MOVE;
       }
       const pickedTile = G.hands[myPlayerID].tiles[pickedTileIndex];
       if (!(cell && cell.isEmpty() && pickedTile)) {

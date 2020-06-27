@@ -17,7 +17,7 @@ export interface GameStateProps extends BoardProps {
   ctx: Ctx;
 }
 
-export class GameStateComponent extends React.Component<GameStateProps> {
+export class GameComponent extends React.Component<GameStateProps> {
   render() {
     const playerID = this.props.playerID;
     let myHandsField;

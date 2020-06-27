@@ -25,7 +25,10 @@ export class HandsSet {
 
   private basicHands(number: number): PlayerHands {
     const basicTiles = this.tileRepository.basicTiles;
-    const tiles = new Array(number).map(() => basicTiles).flat();
+    const tiles = new Array(number)
+      .fill(null)
+      .map(() => basicTiles)
+      .flat();
     return new PlayerHands(tiles);
   }
 }

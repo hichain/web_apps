@@ -18,8 +18,8 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps> {
 
   render() {
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
-      (tile) => (
-        <p className={style.tile} onClick={() => this.onClick(tile)}>
+      (tile, i) => (
+        <p className={style.tile} key={`${this.props.playerID}:${i}`} onClick={() => this.onClick(tile)}>
           {tile.name}
         </p>
       )

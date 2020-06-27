@@ -31,7 +31,7 @@ export class LineCell extends Cell implements Line {
 }
 
 export class Tile {
-  readonly name: String;
+  readonly name: string;
   private readonly upperLeft: Line;
   private readonly upperRight: Line;
   private readonly lowerLeft: Line;
@@ -42,7 +42,7 @@ export class Tile {
     upperRight: Line,
     lowerLeft: Line,
     lowerRight: Line,
-    name?: String
+    name?: string
   ) {
     this.upperLeft = upperLeft;
     this.upperRight = upperRight;

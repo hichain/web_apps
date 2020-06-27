@@ -17,7 +17,7 @@ interface Line {
   backslash: boolean;
 }
 
-export type { Line }
+export type { Line };
 
 export class LineCell extends Cell implements Line {
   slash: boolean;
@@ -32,23 +32,26 @@ export class LineCell extends Cell implements Line {
 
 export class Tile {
   readonly name: string;
+  readonly imageUrl: string;
   private readonly upperLeft: Line;
   private readonly upperRight: Line;
   private readonly lowerLeft: Line;
   private readonly lowerRight: Line;
 
   constructor(
+    name: string,
+    imageUrl: string,
     upperLeft: Line,
     upperRight: Line,
     lowerLeft: Line,
-    lowerRight: Line,
-    name?: string
+    lowerRight: Line
   ) {
+    this.name = name;
+    this.imageUrl = imageUrl;
     this.upperLeft = upperLeft;
     this.upperRight = upperRight;
     this.lowerLeft = lowerLeft;
     this.lowerRight = lowerRight;
-    this.name = name || ""
   }
 
   innerCells() {
@@ -71,7 +74,7 @@ export class TileCell extends Cell {
   tile: Tile = emptyTile;
 
   isEmpty(): boolean {
-    return this.tile === emptyTile
+    return this.tile === emptyTile;
   }
 
   adjacentCells(): Array<TileCell> {
@@ -79,7 +82,7 @@ export class TileCell extends Cell {
       new TileCell(this.x, this.y - 1),
       new TileCell(this.x + 1, this.y),
       new TileCell(this.x, this.y + 1),
-      new TileCell(this.x - 1, this.y)
-    ]
+      new TileCell(this.x - 1, this.y),
+    ];
   }
 }

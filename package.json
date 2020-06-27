@@ -30,9 +30,6 @@
     "build:server": "npm run tsc -- --project server",
     "tsc": "tsc"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",

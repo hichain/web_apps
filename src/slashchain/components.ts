@@ -31,20 +31,20 @@ export class LineCell extends Cell implements Line {
 }
 
 export class Tile {
-  readonly name: string;
-  readonly imageUrl: string;
+  readonly name?: string;
+  readonly imageUrl?: string;
   private readonly upperLeft: Line;
   private readonly upperRight: Line;
   private readonly lowerLeft: Line;
   private readonly lowerRight: Line;
 
   constructor(
-    name: string,
-    imageUrl: string,
     upperLeft: Line,
     upperRight: Line,
     lowerLeft: Line,
-    lowerRight: Line
+    lowerRight: Line,
+    name?: string,
+    imageUrl?: string
   ) {
     this.name = name;
     this.imageUrl = imageUrl;

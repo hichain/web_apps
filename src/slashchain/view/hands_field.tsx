@@ -1,6 +1,5 @@
 import React from "react";
 import { PlayerID } from "boardgame.io";
-import { Tile } from "../components";
 import { GameState } from "./game_state";
 import style from "../css/component.module.scss";
 
@@ -13,19 +12,18 @@ export interface HandsFieldProps {
 export class HandsFieldComponent extends React.Component<HandsFieldProps> {
   private gameState = this.props.G;
 
-  onClick(tile: Tile, index: number) {
-		this.gameState.pickedTile = tile;
-		this.gameState.hands[this.props.playerID].pick(index);
+  onClick(index: number) {
+		this.gameState.pickedTileIndex = index;
   }
 
   render() {
-		let clickHandler: (tile: Tile, i: number) => void = () => {};
+		let clickHandler: (i: number) => void = () => {};
 		if (this.props.isMine) {
-			clickHandler = (tile: Tile, i: number) => this.onClick(tile, i)
+			clickHandler = (i: number) => this.onClick(i)
 		}
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
       (tile, i) => (
-        <p className={style.tile} key={`${this.props.playerID}:${i}`} onClick={() => clickHandler(tile, i)}>
+        <p className={style.tile} key={`${this.props.playerID}:${i}`} onClick={() => clickHandler(i)}>
           {tile.name}
         </p>
       )

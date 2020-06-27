@@ -1,7 +1,6 @@
 import React from "react";
 import { BoardComponent } from "./board";
 import { PlayerHands } from "../hands";
-import { Tile } from "../components";
 import { Board } from "../board";
 import { HandsFieldComponent } from "./hands_field";
 import { Ctx, BoardProps } from "boardgame.io";
@@ -10,7 +9,7 @@ export type GameState = {
   ruleName: string;
   board: Board;
   hands: { [key: string]: PlayerHands };
-  pickedTile?: Tile;
+  pickedTileIndex?: number;
 };
 
 export interface GameStateProps extends BoardProps {

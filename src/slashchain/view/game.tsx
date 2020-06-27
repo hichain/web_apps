@@ -24,12 +24,18 @@ export const Slashchain: Game<GameState> = {
   },
   moves: {
     clickCell: (G, ctx, cell?: TileCell) => {
-      const pickedTile = G.pickedTile;
+      const myPlayerID = ctx.playerID;
+      const pickedTileIndex = G.pickedTileIndex
+      if (myPlayerID === undefined || pickedTileIndex === undefined) {
+        return
+      }
+      const pickedTile = G.hands[myPlayerID].tiles[pickedTileIndex];
       if (!(cell && cell.isEmpty() && pickedTile)) {
         return INVALID_MOVE;
       }
       G.board.put(cell, pickedTile);
-      G.pickedTile = undefined;
+      G.hands[myPlayerID].pick(pickedTileIndex)
+      G.pickedTileIndex = undefined;
     },
   },
   endIf: (G, ctx) => {

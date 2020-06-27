@@ -18,6 +18,6 @@ export class PlayerHands {
   }
 
   clone() {
-    return new PlayerHands([...this.tiles]);
+    return new PlayerHands(this.tiles.map(tile => tile.clone()));
   }
 }

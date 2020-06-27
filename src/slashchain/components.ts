@@ -54,6 +54,10 @@ export class Tile {
     this.lowerRight = lowerRight;
   }
 
+  clone() {
+    return new Tile(this.upperLeft, this.upperRight, this.lowerLeft, this.lowerRight, this.name, this.imageUrl)
+  }
+
   innerCells() {
     return [
       new LineCell(0, 0, this.upperLeft),

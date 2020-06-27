@@ -27,12 +27,12 @@ export class TileRepository {
     );
 
     return new Tile(
-      name,
-      imageUrls[name],
       lines[0],
       lines[1],
       lines[2],
-      lines[3]
+      lines[3],
+      name,
+      imageUrls[name]
     );
   };
 

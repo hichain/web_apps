@@ -28,9 +28,23 @@
 
   .tile {
     border: 1px solid #555;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
-    margin: .6em;
+    margin: 0.6em;
+
+    &.pickable {
+      transition: 0.08s;
+      transition-timing-function: ease-in-out;
+
+      &:hover {
+        width: 80px;
+        height: 80px;
+      }
+
+      &:active {
+        border-width: 2px;
+      }
+    }
   }
 }

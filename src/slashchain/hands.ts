@@ -9,5 +9,9 @@ export class PlayerHands {
 
   pick(i: number) {
     this.tiles.splice(i, 1);
-  }
+	}
+	
+	clone() {
+		return new PlayerHands([...this.tiles])
+	}
 }

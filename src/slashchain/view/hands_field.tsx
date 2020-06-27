@@ -19,24 +19,30 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps> {
   }
 
   render() {
-    let tileClass = style.tile;
+    let tileClass = [style.tile];
     let clickHandler: (tile: Tile) => void = () => {};
     const isMyTurn = this.props.ctx.currentPlayer === this.props.myPlayerID;
     const isMyField = this.props.myPlayerID === this.props.playerID;
     if (isMyTurn && isMyField) {
       clickHandler = (tile: Tile) => this.onClick(tile);
-      tileClass += " " + style.pickable;
+      tileClass.push(style.pickable);
     }
-    const tileItems = this.gameState.hands[
-      this.props.playerID
-    ].tiles.map((tile, i) => (
+
+    const pickedTile = this.state.pickedTile
+    const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
+      (tile) => {
+        const classNames =
+          pickedTile === tile ? [...tileClass, style.pickedtile] : tileClass;
+        return (
       <img
-        className={tileClass}
+            className={classNames.join(" ")}
         src={tile.imageUrl}
         alt={tile.name}
         onClick={() => clickHandler(tile)}
       />
-    ));
+        );
+      }
+    );
 
     return <div className={style.field}>{tileItems}</div>;
   }

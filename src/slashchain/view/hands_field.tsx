@@ -7,6 +7,7 @@ import style from "../css/component.module.scss";
 export interface HandsFieldProps {
   G: GameState;
   playerID: PlayerID;
+  isMine: boolean;
 }
 
 export class HandsFieldComponent extends React.Component<HandsFieldProps> {
@@ -18,9 +19,13 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps> {
   }
 
   render() {
+		let clickHandler: (tile: Tile, i: number) => void = () => {};
+		if (this.props.isMine) {
+			clickHandler = (tile: Tile, i: number) => this.onClick(tile, i)
+		}
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
       (tile, i) => (
-        <p className={style.tile} key={`${this.props.playerID}:${i}`} onClick={() => this.onClick(tile, i)}>
+        <p className={style.tile} key={`${this.props.playerID}:${i}`} onClick={() => clickHandler(tile, i)}>
           {tile.name}
         </p>
       )

@@ -1,5 +1,5 @@
-import { PlayerHands } from "./hands.js";
-import { TileRepository } from "./tiles.js";
+import { PlayerHands } from "./hands";
+import { TileRepository } from "./tiles";
 
 export type Rule = {
   name: string;

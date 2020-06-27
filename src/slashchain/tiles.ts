@@ -1,4 +1,4 @@
-import { Tile, Line } from "./components.js";
+import { Tile, Line } from "./components";
 import basicTilesJson from "./data/tiles.json";
 
 export class TileRepository {

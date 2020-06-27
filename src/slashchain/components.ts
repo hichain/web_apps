@@ -33,10 +33,10 @@ export class LineCell extends Cell implements Line {
 export class Tile {
   readonly name?: string;
   readonly imageUrl?: string;
-  private readonly upperLeft: Line;
-  private readonly upperRight: Line;
-  private readonly lowerLeft: Line;
-  private readonly lowerRight: Line;
+  private upperLeft: Line;
+  private upperRight: Line;
+  private lowerLeft: Line;
+  private lowerRight: Line;
 
   constructor(
     upperLeft: Line,
@@ -55,7 +55,36 @@ export class Tile {
   }
 
   clone() {
-    return new Tile(this.upperLeft, this.upperRight, this.lowerLeft, this.lowerRight, this.name, this.imageUrl)
+    return new Tile(
+      this.upperLeft,
+      this.upperRight,
+      this.lowerLeft,
+      this.lowerRight,
+      this.name,
+      this.imageUrl
+    );
+  }
+
+  rotate(number: number) {
+    if (number % 4 === 0) {
+      return;
+    } else if (number % 4 > 0) {
+      [this.upperLeft, this.lowerLeft, this.lowerRight, this.upperRight] = [
+        this.upperRight,
+        this.upperLeft,
+        this.lowerLeft,
+        this.lowerRight,
+      ];
+      this.rotate((number % 4) - 1);
+    } else {
+      [this.upperLeft, this.lowerLeft, this.lowerRight, this.upperRight] = [
+        this.lowerLeft,
+        this.lowerRight,
+        this.upperRight,
+        this.upperLeft,
+      ];
+      this.rotate((number % 4) + 1);
+    }
   }
 
   innerCells() {

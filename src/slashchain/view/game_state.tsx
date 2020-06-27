@@ -9,7 +9,6 @@ export type GameState = {
   ruleName: string;
   board: Board;
   hands: { [key: string]: PlayerHands };
-  pickedTileIndex?: number;
 };
 
 export interface GameStateProps extends BoardProps {

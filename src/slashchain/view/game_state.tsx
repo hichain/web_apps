@@ -22,9 +22,7 @@ export class GameStateComponent extends React.Component<GameStateProps> {
   render() {
     const playerID = this.props.playerID;
     let myHandsField;
-    if (playerID === null) {
-      myHandsField = "";
-    } else {
+    if (playerID !== null) {
       myHandsField = (
         <HandsFieldComponent
           G={this.props.G}
@@ -39,9 +37,7 @@ export class GameStateComponent extends React.Component<GameStateProps> {
       (player) => player !== playerID
     );
     let otherHandsField;
-    if (otherPlayerID === undefined) {
-      otherHandsField = "";
-    } else {
+    if (otherPlayerID !== undefined) {
       otherHandsField = (
         <HandsFieldComponent
           G={this.props.G}

@@ -33,6 +33,7 @@ export class LineCell extends Cell implements Line {
 export class Tile {
   readonly name?: string;
   readonly imageUrl?: string;
+  rotateCount: number = 0;
   private upperLeft: Line;
   private upperRight: Line;
   private lowerLeft: Line;
@@ -67,6 +68,7 @@ export class Tile {
 
   rotate(number: number) {
     if (number % 4 === 0) {
+      this.rotateCount = this.rotateCount % 4;
       return;
     } else if (number % 4 > 0) {
       [this.upperLeft, this.lowerLeft, this.lowerRight, this.upperRight] = [

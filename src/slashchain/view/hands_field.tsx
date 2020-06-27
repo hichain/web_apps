@@ -51,12 +51,17 @@ export class HandsFieldComponent extends React.Component<
       tileClass.push(style["with-animation"]);
     }
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
-      (tile) => {
+      (tile, i) => {
         const classNames =
           pickedTile === tile ? [...tileClass, style.picked] : tileClass;
+        const imageStyle: { [key: string]: string } = {
+          transform: `rotate(${90 * tile.rotateCount}deg)`,
+        };
         return (
           <img
-            className={classNames.join(" ")}
+						className={classNames.join(" ")}
+						key={`${this.props.playerID}:${i}`}
+            style={imageStyle}
             src={tile.imageUrl}
             alt={tile.name}
             onClick={() => clickHandler(tile)}

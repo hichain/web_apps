@@ -7,15 +7,7 @@ export class PlayerHands {
     this.tiles = tiles;
   }
 
-  pick(tile: Tile) {
-    this.remove(tile, this.tiles)
+  pick(i: number) {
+    this.tiles.splice(i, 1);
   }
-
-  private remove<T>(item: T, array: T[]) {
-		const index = array.findIndex((i) => i === item)
-		if (index !== -1) {
-			return;
-		}
-		array.splice(index, 1)
-	}
 }

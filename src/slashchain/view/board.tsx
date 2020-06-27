@@ -2,7 +2,7 @@ import React from "react";
 import { GameState } from "./game_state";
 import { Board } from "../board";
 import { Cell, TileCell } from "../components";
-import style from "../css/component.module.scss"
+import style from "../css/component.module.scss";
 
 export interface BoardProps {
   moves: any;
@@ -25,7 +25,11 @@ export class BoardComponent extends React.Component<BoardProps> {
         const key = `${x},${y}`;
         const cell = this.gameState.board.tile(new Cell(x, y));
         cells.push(
-          <td className={style.cell} key={key} onClick={() => this.onClick(cell)}>
+          <td
+            className={style.cell}
+            key={key}
+            onClick={() => this.onClick(cell)}
+          >
             {cell?.tile.name}
           </td>
         );

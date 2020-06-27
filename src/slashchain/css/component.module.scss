@@ -37,13 +37,9 @@
       transition: 0.08s;
       transition-timing-function: ease-in-out;
 
-      &:hover {
+      &.with-animation:hover {
         width: 80px;
         height: 80px;
-      }
-
-      &:active {
-        border-width: 2px;
       }
     }
 

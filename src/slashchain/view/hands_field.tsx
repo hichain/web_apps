@@ -40,7 +40,10 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps, Player
       tileClass.push(style.pickable);
     }
 
-    const pickedTile = this.state.pickedTile
+		const pickedTile = this.state.pickedTile
+		if (!pickedTile) {
+			tileClass.push(style["with-animation"]);
+		}
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
       (tile) => {
         const classNames =

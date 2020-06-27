@@ -11,7 +11,7 @@ export const Slashchain: Game<GameState> = {
     const handsSet = new HandsSet().rules.basic_3x
     const hands = ctx.playOrder.reduce((obj, player) => ({
       ...obj,
-      [player]: handsSet.hands
+      [player]: handsSet.hands.clone()
     }), {})
     return {
       ruleName: handsSet.name,

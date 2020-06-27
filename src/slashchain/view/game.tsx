@@ -8,11 +8,14 @@ import { GameState } from "./game_state";
 export const Slashchain: Game<GameState> = {
   name: "slashchain",
   setup: (ctx): GameState => {
-    const handsSet = new HandsSet().rules.basic_3x
-    const hands = ctx.playOrder.reduce((obj, player) => ({
-      ...obj,
-      [player]: handsSet.hands.clone()
-    }), {})
+    const handsSet = new HandsSet().rules.basic_3x;
+    const hands = ctx.playOrder.reduce(
+      (obj, player) => ({
+        ...obj,
+        [player]: handsSet.hands.clone(),
+      }),
+      {}
+    );
     return {
       ruleName: handsSet.name,
       board: new Board(),
@@ -25,17 +28,18 @@ export const Slashchain: Game<GameState> = {
   moves: {
     clickCell: (G, ctx, cell?: TileCell) => {
       const myPlayerID = ctx.playerID;
-      const pickedTileIndex = G.pickedTileIndex
-      if (myPlayerID === undefined || pickedTileIndex === undefined) {
+      if (myPlayerID === undefined) {
         return INVALID_MOVE;
       }
-      const pickedTile = G.hands[myPlayerID].tiles[pickedTileIndex];
+      const pickedTile = G.hands[myPlayerID].pickedTile;
+      if (pickedTile === undefined) {
+        return INVALID_MOVE;
+      }
       if (!(cell && cell.isEmpty() && pickedTile)) {
         return INVALID_MOVE;
       }
       G.board.put(cell, pickedTile);
-      G.hands[myPlayerID].pick(pickedTileIndex)
-      G.pickedTileIndex = undefined;
+      G.hands[myPlayerID].pick(pickedTile);
     },
   },
   endIf: (G, ctx) => {

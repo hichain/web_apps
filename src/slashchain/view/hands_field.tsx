@@ -12,14 +12,15 @@ export interface HandsFieldProps {
 export class HandsFieldComponent extends React.Component<HandsFieldProps> {
   private gameState = this.props.G;
 
-  onClick(tile: Tile) {
-    this.gameState.pickedTile = tile;
+  onClick(tile: Tile, index: number) {
+		this.gameState.pickedTile = tile;
+		this.gameState.hands[this.props.playerID].pick(index);
   }
 
   render() {
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
       (tile, i) => (
-        <p className={style.tile} key={`${this.props.playerID}:${i}`} onClick={() => this.onClick(tile)}>
+        <p className={style.tile} key={`${this.props.playerID}:${i}`} onClick={() => this.onClick(tile, i)}>
           {tile.name}
         </p>
       )

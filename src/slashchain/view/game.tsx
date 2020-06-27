@@ -29,7 +29,6 @@ export const Slashchain: Game<GameState> = {
         return INVALID_MOVE;
       }
       G.board.put(cell, pickedTile);
-      G.hands[ctx.currentPlayer].pick(pickedTile);
       G.pickedTile = undefined;
     },
   },

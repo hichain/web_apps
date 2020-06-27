@@ -5,20 +5,18 @@ import { HandsSet } from "../rules";
 import { TileCell } from "../components";
 import { GameState } from "./game_state";
 
-const handsSet = new HandsSet();
-
 export const Slashchain: Game<GameState> = {
   name: "slashchain",
   setup: (ctx): GameState => {
-    const firstPlayer = ctx.currentPlayer
-    const secondPlayer = ctx.playOrder.find(player => player !== firstPlayer)!!
+    const handsSet = new HandsSet().rules.basic_3x
+    const hands = ctx.playOrder.reduce((obj, player) => ({
+      ...obj,
+      [player]: handsSet.hands
+    }), {})
     return {
-      ruleName: handsSet.rules.basic_3x.name,
+      ruleName: handsSet.name,
       board: new Board(),
-      hands: {
-        [firstPlayer]: handsSet.rules.basic_3x.hands,
-        [secondPlayer]: handsSet.rules.basic_3x.hands
-      },
+      hands: hands,
     };
   },
   turn: {

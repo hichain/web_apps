@@ -5,10 +5,13 @@
   table-layout: fixed;
 
   .cell {
-    border: 1px solid #555;
     width: 80px;
     height: 80px;
     padding: 0;
+
+    &.available {
+      border: 1px solid #555;
+    }
 
     img {
       width: 100%;

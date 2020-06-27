@@ -25,16 +25,26 @@ export class BoardComponent extends React.Component<BoardProps> {
       for (let y = range.minY; y <= range.maxY; y++) {
         const key = `${x},${y}`;
         const cell = this.gameState.board.tile(new Cell(x, y));
+        const cellStyles = [style.cell];
         let cellBody;
-        if (cell?.tile.imageUrl !== undefined) {
-          const imageStyle: { [key: string]: string } = {
-            transform: `rotate(${90 * cell.tile.rotateCount}deg)`,
-          };
-          cellBody = <img src={cell.tile.imageUrl} style={imageStyle} alt={cell.tile.name} />;
+        if (cell !== undefined) {
+          cellStyles.push(style.available);
+          if (cell.tile.imageUrl) {
+            const imageStyle: { [key: string]: string } = {
+              transform: `rotate(${90 * cell.tile.rotateCount}deg)`,
+            };
+            cellBody = (
+              <img
+                src={cell.tile.imageUrl}
+                style={imageStyle}
+                alt={cell.tile.name}
+              />
+            );
+          }
         }
         cells.push(
           <td
-            className={style.cell}
+            className={cellStyles.join(" ")}
             key={key}
             onClick={() => this.onClick(cell)}
           >

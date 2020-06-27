@@ -70,20 +70,22 @@ export class Tile {
       return;
     } else if (number % 4 > 0) {
       [this.upperLeft, this.lowerLeft, this.lowerRight, this.upperRight] = [
-        this.upperRight,
-        this.upperLeft,
         this.lowerLeft,
         this.lowerRight,
+        this.upperRight,
+        this.upperLeft,
       ];
       this.rotate((number % 4) - 1);
+      this.rotateCount++;
     } else {
       [this.upperLeft, this.lowerLeft, this.lowerRight, this.upperRight] = [
-        this.lowerLeft,
-        this.lowerRight,
         this.upperRight,
         this.upperLeft,
+        this.lowerLeft,
+        this.lowerRight,
       ];
       this.rotate((number % 4) + 1);
+      this.rotateCount--;
     }
   }
 

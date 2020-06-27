@@ -7,6 +7,7 @@ export interface HandsFieldProps {
   G: GameState;
   playerID: PlayerID;
   ctx: Ctx;
+  myPlayerID?: PlayerID;
 }
 
 export class HandsFieldComponent extends React.Component<HandsFieldProps> {
@@ -18,8 +19,8 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps> {
 
   render() {
 		let clickHandler: (i: number) => void = () => {};
-		const isMyTurn = this.props.ctx.currentPlayer === this.props.ctx.playerID;
-		const isMyField = this.props.ctx.playerID === this.props.playerID;
+		const isMyTurn = this.props.ctx.currentPlayer === this.props.myPlayerID;
+		const isMyField = this.props.myPlayerID === this.props.playerID;
 		if (isMyTurn && isMyField) {
       clickHandler = (i: number) => this.onClick(i);
     }

@@ -20,13 +20,18 @@ export interface GameStateProps extends BoardProps {
 
 export class GameStateComponent extends React.Component<GameStateProps> {
   render() {
-    const playerID = this.props.playerID
+    const playerID = this.props.playerID;
     let myHandsField;
     if (playerID === null) {
       myHandsField = "";
     } else {
       myHandsField = (
-        <HandsFieldComponent G={this.props.G} playerID={playerID} ctx={this.props.ctx} />
+        <HandsFieldComponent
+          G={this.props.G}
+          playerID={playerID}
+          ctx={this.props.ctx}
+          myPlayerID={playerID}
+        />
       );
     }
 
@@ -38,7 +43,12 @@ export class GameStateComponent extends React.Component<GameStateProps> {
       otherHandsField = "";
     } else {
       otherHandsField = (
-        <HandsFieldComponent G={this.props.G} playerID={otherPlayerID} ctx={this.props.ctx} />
+        <HandsFieldComponent
+          G={this.props.G}
+          playerID={otherPlayerID}
+          ctx={this.props.ctx}
+          myPlayerID={playerID ?? undefined}
+        />
       );
     }
 

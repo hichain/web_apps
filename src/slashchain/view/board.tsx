@@ -1,19 +1,20 @@
 import React from "react";
 import { GameState } from "./game_state";
 import { Board } from "../board";
-import { Cell, TileCell } from "../components";
+import { Cell, TileCell, Tile } from "../components";
 import style from "../css/component.module.scss";
 
 export interface BoardProps {
   moves: any;
   G: GameState;
+  pickedTile?: Tile;
 }
 
 export class BoardComponent extends React.Component<BoardProps> {
   private gameState = this.props.G;
 
   onClick(cell?: TileCell) {
-    this.props.moves.clickCell(cell);
+    this.props.moves.clickCell(cell, this.props.pickedTile);
   }
 
   render() {
@@ -26,7 +27,7 @@ export class BoardComponent extends React.Component<BoardProps> {
         const cell = this.gameState.board.tile(new Cell(x, y));
         let cellBody;
         if (cell?.tile.imageUrl !== undefined) {
-          cellBody = (<img src={cell.tile.imageUrl} alt={cell.tile.name}/>)
+          cellBody = <img src={cell.tile.imageUrl} alt={cell.tile.name} />;
         }
         cells.push(
           <td

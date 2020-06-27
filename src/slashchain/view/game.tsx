@@ -2,7 +2,7 @@ import { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { Board } from "../board";
 import { HandsSet } from "../rules";
-import { TileCell } from "../components";
+import { TileCell, Tile } from "../components";
 import { GameState } from "./game_state";
 
 export const Slashchain: Game<GameState> = {
@@ -26,20 +26,16 @@ export const Slashchain: Game<GameState> = {
     moveLimit: 1,
   },
   moves: {
-    clickCell: (G, ctx, cell?: TileCell) => {
+    clickCell: (G, ctx, cell?: TileCell, tile?: Tile) => {
       const myPlayerID = ctx.playerID;
       if (myPlayerID === undefined) {
         return INVALID_MOVE;
       }
-      const pickedTile = G.hands[myPlayerID].pickedTile;
-      if (pickedTile === undefined) {
+      if (!(cell && cell.isEmpty() && tile)) {
         return INVALID_MOVE;
       }
-      if (!(cell && cell.isEmpty() && pickedTile)) {
-        return INVALID_MOVE;
-      }
-      G.board.put(cell, pickedTile);
-      G.hands[myPlayerID].pick(pickedTile);
+      G.board.put(cell, tile);
+      G.hands[myPlayerID].pick(tile);
     },
   },
   endIf: (G, ctx) => {

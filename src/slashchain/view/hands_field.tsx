@@ -1,6 +1,6 @@
 import React from "react";
 import { PlayerID, Ctx } from "boardgame.io";
-import { GameState } from "./game_state";
+import { GameState, PlayerState } from "./game_state";
 import style from "../css/component.module.scss";
 import { Tile } from "../components.js";
 
@@ -9,13 +9,25 @@ export interface HandsFieldProps {
   playerID: PlayerID;
   ctx: Ctx;
   myPlayerID?: PlayerID;
+  updatePlayerState?: (state: PlayerState) => void;
 }
 
-export class HandsFieldComponent extends React.Component<HandsFieldProps> {
+export class HandsFieldComponent extends React.Component<HandsFieldProps, PlayerState> {
   private gameState = this.props.G;
 
+	constructor(props: HandsFieldProps) {
+		super(props)
+		this.state = {
+			pickedTile: undefined
+		}
+	}
+
   onClick(tile: Tile) {
-    this.props.G.hands[this.props.playerID].pickedTile = tile;
+		const state = {
+      pickedTile: tile,
+    };
+    this.props.updatePlayerState?.(state);
+		this.setState(state);
   }
 
   render() {
@@ -32,14 +44,14 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps> {
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
       (tile) => {
         const classNames =
-          pickedTile === tile ? [...tileClass, style.pickedtile] : tileClass;
+          pickedTile === tile ? [...tileClass, style.picked] : tileClass;
         return (
-      <img
+          <img
             className={classNames.join(" ")}
-        src={tile.imageUrl}
-        alt={tile.name}
-        onClick={() => clickHandler(tile)}
-      />
+            src={tile.imageUrl}
+            alt={tile.name}
+            onClick={() => clickHandler(tile)}
+          />
         );
       }
     );

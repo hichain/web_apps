@@ -27,9 +27,7 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps> {
     }
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
       (tile, i) => (
-        <p className={style.tile} key={`${this.props.playerID}:${i}`} onClick={() => clickHandler(tile)}>
-          {tile.name}
-        </p>
+        <img className={style.tile} src={tile.imageUrl} alt={tile.name} onClick={() => clickHandler(tile)} />
       )
     );
 

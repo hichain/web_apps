@@ -46,5 +46,11 @@
         border-width: 2px;
       }
     }
+
+    &.picked {
+      border-width: 2.5px;
+      width: 80px;
+      height: 80px;
+    }
   }
 }

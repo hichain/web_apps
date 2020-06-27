@@ -9,14 +9,18 @@ const handsSet = new HandsSet();
 
 export const Slashchain: Game<GameState> = {
   name: "slashchain",
-  setup: (): GameState => ({
-    ruleName: handsSet.rules.basic_3x.name,
-    board: new Board(),
-    hands: {
-      first: handsSet.rules.basic_3x.hands,
-      second: handsSet.rules.basic_3x.hands,
-    },
-  }),
+  setup: (ctx): GameState => {
+    const firstPlayer = ctx.currentPlayer
+    const secondPlayer = ctx.playOrder.find(player => player !== firstPlayer)!!
+    return {
+      ruleName: handsSet.rules.basic_3x.name,
+      board: new Board(),
+      hands: {
+        [firstPlayer]: handsSet.rules.basic_3x.hands,
+        [secondPlayer]: handsSet.rules.basic_3x.hands
+      },
+    };
+  },
   turn: {
     moveLimit: 1,
   },

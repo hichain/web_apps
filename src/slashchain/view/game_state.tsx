@@ -2,8 +2,8 @@ import React from "react";
 import { BoardComponent } from "./board";
 import { PlayerHands } from "../hands";
 import { Tile } from "../components";
-import { Board } from "../board.js";
-import { HandsFieldComponent } from "./hands_field.js";
+import { Board } from "../board";
+import { HandsFieldComponent } from "./hands_field";
 import { Ctx } from "boardgame.io";
 
 export type GameState = {

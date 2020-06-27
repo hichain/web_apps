@@ -1,4 +1,4 @@
-import { Tile } from "./components.js";
+import { Tile } from "./components";
 
 export class PlayerHands {
   readonly tiles: Tile[];

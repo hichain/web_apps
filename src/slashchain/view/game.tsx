@@ -1,9 +1,9 @@
 import { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { Board } from "../board.js";
-import { HandsSet } from "../rules.js";
-import { TileCell } from "../components.js";
-import { GameState } from "./game_state.js";
+import { Board } from "../board";
+import { HandsSet } from "../rules";
+import { TileCell } from "../components";
+import { GameState } from "./game_state";
 
 const handsSet = new HandsSet();
 

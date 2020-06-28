@@ -3,9 +3,9 @@
     "target": "es5",
     "module": "commonjs",
     "allowJs": false,
-    "jsx": "react",
     "outDir": "../../dist",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   }
 }

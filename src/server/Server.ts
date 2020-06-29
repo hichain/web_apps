@@ -1,7 +1,7 @@
 import { Server } from "boardgame.io/server";
 import path from "path";
 import serve from "koa-static";
-import { TicTacToe } from "../src/tic-tac-toe/Game";
+import { TicTacToe } from "../tic-tac-toe/Game";
 
 const server = Server({ games: [TicTacToe] });
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000;

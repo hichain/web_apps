@@ -2,7 +2,7 @@ import React from "react";
 import { GameState } from "./game_state";
 import { Board } from "../board";
 import { Cell, TileCell, Tile } from "../components";
-import style from "../css/component.module.scss";
+import style from "../styles/component.module.scss";
 
 export interface BoardProps {
   moves: any;

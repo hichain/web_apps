@@ -1,5 +1,5 @@
 import { Tile, Line } from "./components";
-import basicTilesJson from "./data/tiles.json";
+import basicTilesJson from "./tiles.json";
 
 export class TileRepository {
   private parseLines = (name: string, rawLines: string): Tile => {

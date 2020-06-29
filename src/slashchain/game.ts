@@ -1,9 +1,9 @@
 import { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { Board } from "../board";
-import { HandsSet } from "../rules";
-import { TileCell, Tile } from "../components";
-import { GameState } from "./game_state";
+import { Board } from "./board";
+import { HandsSet } from "./rules";
+import { TileCell, Tile } from "./components";
+import { GameState } from "./view/game_state";
 
 export const Slashchain: Game<GameState> = {
   name: "slashchain",

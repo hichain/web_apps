@@ -1,20 +1,5 @@
 import { Tile, Line } from "./components";
 import basicTilesJson from "./data/tiles.json";
-import arrow from "./data/images/arrow.png";
-import square from "./data/images/square.png";
-import cross from "./data/images/cross.png";
-import parallel from "./data/images/parallel.png";
-import pin from "./data/images/pin.png";
-import power from "./data/images/power.png";
-
-const imageUrls: { [key: string]: string } = {
-  arrow,
-  square,
-  cross,
-  parallel,
-  pin,
-  power,
-};
 
 export class TileRepository {
   private parseLines = (name: string, rawLines: string): Tile => {
@@ -32,7 +17,6 @@ export class TileRepository {
       lines[2],
       lines[3],
       name,
-      imageUrls[name]
     );
   };
 

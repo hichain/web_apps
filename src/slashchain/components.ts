@@ -32,7 +32,6 @@ export class LineCell extends Cell implements Line {
 
 export class Tile {
   readonly name?: string;
-  readonly imageUrl?: string;
   rotateCount: number = 0;
   private upperLeft: Line;
   private upperRight: Line;
@@ -44,11 +43,9 @@ export class Tile {
     upperRight: Line,
     lowerLeft: Line,
     lowerRight: Line,
-    name?: string,
-    imageUrl?: string
+    name?: string
   ) {
     this.name = name;
-    this.imageUrl = imageUrl;
     this.upperLeft = upperLeft;
     this.upperRight = upperRight;
     this.lowerLeft = lowerLeft;
@@ -61,8 +58,7 @@ export class Tile {
       this.upperRight,
       this.lowerLeft,
       this.lowerRight,
-      this.name,
-      this.imageUrl
+      this.name
     );
   }
 

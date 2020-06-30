@@ -11,13 +11,7 @@ export class TileRepository {
       })
     );
 
-    return new Tile(
-      lines[0],
-      lines[1],
-      lines[2],
-      lines[3],
-      name,
-    );
+    return new Tile(name, lines[0], lines[1], lines[2], lines[3]);
   };
 
   private parseBitMask = (bits: number): boolean[] => {

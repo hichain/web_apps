@@ -6,21 +6,18 @@ export class Board {
 
   put(cell: TileCell, tile: Tile) {
     cell.tile = tile;
-    this.applyLines(cell);
+    this.applyLines(cell.x, cell.y, tile);
     this.addAdjacentCells(cell);
   }
 
   tile(cell: Cell) {
-    return this.tileCells.find((i) => i.equals(cell))
+    return this.tileCells.find((i) => i.equals(cell));
   }
 
-  private applyLines(tileCell: TileCell) {
-    const newLineCells = tileCell.tile
+  private applyLines(x: number, y: number, tile: Tile) {
+    const newLineCells = tile
       .innerCells()
-      .map(
-        (cell) =>
-          new LineCell(cell.x + tileCell.x * 2, cell.y + tileCell.y * 2, cell)
-      );
+      .map((cell) => new LineCell(cell.x + x * 2, cell.y + y * 2, cell));
     this.lineCells = this.lineCells.concat(newLineCells);
   }
 

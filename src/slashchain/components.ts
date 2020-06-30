@@ -31,7 +31,7 @@ export class LineCell extends Cell implements Line {
 }
 
 export class Tile {
-  readonly name?: string;
+  readonly name: string;
   rotateCount: number = 0;
   private upperLeft: Line;
   private upperRight: Line;
@@ -39,11 +39,11 @@ export class Tile {
   private lowerRight: Line;
 
   constructor(
+    name: string,
     upperLeft: Line,
     upperRight: Line,
     lowerLeft: Line,
-    lowerRight: Line,
-    name?: string
+    lowerRight: Line
   ) {
     this.name = name;
     this.upperLeft = upperLeft;
@@ -54,11 +54,11 @@ export class Tile {
 
   clone() {
     return new Tile(
+      this.name,
       this.upperLeft,
       this.upperRight,
       this.lowerLeft,
-      this.lowerRight,
-      this.name
+      this.lowerRight
     );
   }
 
@@ -97,18 +97,8 @@ export class Tile {
   }
 }
 
-const emptyLine: Line = {
-  slash: false,
-  backslash: false,
-};
-const emptyTile: Tile = new Tile(emptyLine, emptyLine, emptyLine, emptyLine);
-
 export class TileCell extends Cell {
-  tile: Tile = emptyTile;
-
-  isEmpty(): boolean {
-    return this.tile === emptyTile;
-  }
+  tile?: Tile;
 
   adjacentCells(): Array<TileCell> {
     return [

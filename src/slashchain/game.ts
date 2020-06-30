@@ -31,7 +31,7 @@ export const Slashchain: Game<GameState> = {
       if (myPlayerID === undefined) {
         return INVALID_MOVE;
       }
-      if (!(cell && cell.isEmpty() && tile)) {
+      if (!(cell && !cell.tile && tile)) {
         return INVALID_MOVE;
       }
       G.board.put(cell, tile);

@@ -27,8 +27,7 @@ export class HandsSet {
     const basicTiles = this.tileRepository.basicTiles;
     const tiles = new Array(number)
       .fill(null)
-      .map(() => basicTiles)
-      .flat();
+      .reduce((acc) => [...acc, basicTiles], []);
     return new PlayerHands(tiles);
   }
 }

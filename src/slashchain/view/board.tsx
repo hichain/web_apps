@@ -3,7 +3,7 @@ import { TileComponent } from "./tile";
 import { GameState } from "./game_state";
 import { Board } from "../board";
 import { Cell, TileCell, Tile } from "../components";
-import style from "../styles/component.module.scss";
+import style from "../styles/board.module.scss";
 
 export interface BoardProps {
   moves: any;
@@ -42,7 +42,7 @@ export class BoardComponent extends React.Component<BoardProps> {
             key={key}
             onClick={() => this.onClick(cell)}
           >
-            {cellBody}
+            <div className={style.tile}>{cellBody}</div>
           </td>
         );
       }

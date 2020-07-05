@@ -2,7 +2,8 @@ import React from "react";
 import { PlayerID, Ctx } from "boardgame.io";
 import { GameState, PlayerState } from "./game_state";
 import style from "../styles/component.module.scss";
-import { Tile } from "../components.js";
+import { Tile } from "../components";
+import { TileComponent } from "./tile";
 
 export interface HandsFieldProps {
   G: GameState;
@@ -37,35 +38,30 @@ export class HandsFieldComponent extends React.Component<
   }
 
   render() {
-    let tileClass = [style.tile];
+    const handClasses = [style.hand];
     let clickHandler: (tile: Tile) => void = () => {};
     const isMyTurn = this.props.ctx.currentPlayer === this.props.myPlayerID;
     const isMyField = this.props.myPlayerID === this.props.playerID;
     if (isMyTurn && isMyField) {
       clickHandler = (tile: Tile) => this.onClick(tile);
-      tileClass.push(style.pickable);
+      handClasses.push(style.pickable);
     }
 
     const pickedTile = this.state.pickedTile;
     if (!pickedTile) {
-      tileClass.push(style["with-animation"]);
+      handClasses.push(style["with-animation"]);
     }
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
       (tile, i) => {
-        const classNames =
-          pickedTile === tile ? [...tileClass, style.picked] : tileClass;
-        const imageStyle: { [key: string]: string } = {
-          transform: `rotate(${90 * tile.rotateCount}deg)`,
-        };
+        const classes = pickedTile === tile ? [...handClasses, style.picked] : handClasses
         return (
-          <img
-						className={classNames.join(" ")}
-						key={`${this.props.playerID}:${i}`}
-            style={imageStyle}
-            src={tile.imageUrl}
-            alt={tile.name}
+          <div
+            className={classes.join(" ")}
+            key={`${this.props.playerID}:${i}`}
             onClick={() => clickHandler(tile)}
-          />
+          >
+            <TileComponent tile={tile} />
+          </div>
         );
       }
     );

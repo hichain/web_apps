@@ -1,4 +1,5 @@
 import React from "react";
+import { TileComponent } from "./tile";
 import { GameState } from "./game_state";
 import { Board } from "../board";
 import { Cell, TileCell, Tile } from "../components";
@@ -25,26 +26,19 @@ export class BoardComponent extends React.Component<BoardProps> {
       for (let y = range.minY; y <= range.maxY; y++) {
         const key = `${x},${y}`;
         const cell = this.gameState.board.tile(new Cell(x, y));
-        const cellStyles = [style.cell];
+        const classes = [style.cell];
+        if (cell == null) {
+          cells.push(<td className={classes.join(" ")} key={key} />);
+          continue;
+        }
+        classes.push(style.available);
         let cellBody;
-        if (cell !== undefined) {
-          cellStyles.push(style.available);
-          if (cell.tile.imageUrl) {
-            const imageStyle: { [key: string]: string } = {
-              transform: `rotate(${90 * cell.tile.rotateCount}deg)`,
-            };
-            cellBody = (
-              <img
-                src={cell.tile.imageUrl}
-                style={imageStyle}
-                alt={cell.tile.name}
-              />
-            );
-          }
+        if (cell.tile != null) {
+          cellBody = <TileComponent tile={cell.tile} />;
         }
         cells.push(
           <td
-            className={cellStyles.join(" ")}
+            className={classes.join(" ")}
             key={key}
             onClick={() => this.onClick(cell)}
           >

@@ -1,6 +1,6 @@
 import React from "react";
 import { TileComponent } from "./tile";
-import { GameState } from "./game_state";
+import { GameState } from "../game";
 import { Board } from "../board";
 import { Cell, TileCell, Tile } from "../components";
 import style from "../styles/board.module.scss";

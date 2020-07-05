@@ -1,9 +1,10 @@
 import React from "react";
 import { PlayerID, Ctx } from "boardgame.io";
-import { GameState, PlayerState } from "./game_state";
+import { GameState } from "../game";
 import style from "../styles/field.module.scss";
 import { Tile } from "../components";
 import { TileComponent } from "./tile";
+import { PlayerState } from "./game_state";
 
 export interface HandsFieldProps {
   G: GameState;

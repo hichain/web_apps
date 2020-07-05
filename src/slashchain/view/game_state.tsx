@@ -1,16 +1,9 @@
 import React from "react";
 import { BoardComponent } from "./board";
-import { PlayerHands } from "../hands";
-import { Board } from "../board";
 import { HandsFieldComponent } from "./hands_field";
 import { Ctx } from "boardgame.io";
-import { Tile } from "../components.js";
-
-export type GameState = {
-  ruleName: string;
-  board: Board;
-  hands: { [key: string]: PlayerHands };
-};
+import { Tile } from "../components";
+import { GameState } from "../game";
 
 export interface PlayerState {
   pickedTile?: Tile;

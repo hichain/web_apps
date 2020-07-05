@@ -1,5 +1,4 @@
 import React from "react";
-import styleClass from "../styles/component.module.scss";
 import square from "../images/square.png";
 import arrow from "../images/arrow.png";
 import pin from "../images/pin.png";
@@ -30,7 +29,7 @@ export class TileComponent extends React.Component<TileProps> {
     };
     if (image == null) {
       return (
-				<div className={styleClass.tile} style={style}>
+				<div style={style}>
           {tile.name}
         </div>
       );
@@ -38,7 +37,6 @@ export class TileComponent extends React.Component<TileProps> {
       return (
         <img
           src={image}
-					className={styleClass.tile}
           style={style}
           alt={tile.name}
         />

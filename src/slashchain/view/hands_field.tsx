@@ -1,7 +1,7 @@
 import React from "react";
 import { PlayerID, Ctx } from "boardgame.io";
 import { GameState, PlayerState } from "./game_state";
-import style from "../styles/component.module.scss";
+import style from "../styles/field.module.scss";
 import { Tile } from "../components";
 import { TileComponent } from "./tile";
 
@@ -38,7 +38,7 @@ export class HandsFieldComponent extends React.Component<
   }
 
   render() {
-    const handClasses = [style.hand];
+    const handClasses = [style.tile];
     let clickHandler: (tile: Tile) => void = () => {};
     const isMyTurn = this.props.ctx.currentPlayer === this.props.myPlayerID;
     const isMyField = this.props.myPlayerID === this.props.playerID;
@@ -48,9 +48,6 @@ export class HandsFieldComponent extends React.Component<
     }
 
     const pickedTile = this.state.pickedTile;
-    if (!pickedTile) {
-      handClasses.push(style["with-animation"]);
-    }
     const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
       (tile, i) => {
         const classes = pickedTile === tile ? [...handClasses, style.picked] : handClasses

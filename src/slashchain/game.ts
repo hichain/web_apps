@@ -18,7 +18,7 @@ export const Slashchain: Game<GameState> = {
     const hands = ctx.playOrder.reduce(
       (obj, player) => ({
         ...obj,
-        [player]: handsSet.hands.clone(),
+        [player]: () => handsSet.hands.clone(),
       }),
       {}
     );
@@ -47,7 +47,7 @@ export const Slashchain: Game<GameState> = {
   endIf: (G, ctx) => {
     // TODO: define victory conditions
     const noHands = Object.keys(G.hands).every(
-      (player) => G.hands[player].tiles.length === 0
+      (player) => () => G.hands[player].tiles.length === 0
     );
     if (noHands) {
       return { draw: true };

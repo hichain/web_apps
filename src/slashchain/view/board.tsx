@@ -1,49 +1,41 @@
 import React from "react";
-import { TileComponent } from "./tile";
-import { GameState } from "../game";
 import { Board } from "../board";
-import { Cell, TileCell, Tile } from "../components";
+import { TileCell, Tile } from "../components";
 import style from "../styles/board.module.scss";
+import { CellComponent } from "./cell";
 
 export interface BoardProps {
   moves: any;
-  G: GameState;
+  board: Board;
   pickedTile?: Tile;
 }
 
 export class BoardComponent extends React.Component<BoardProps> {
-  private gameState = this.props.G;
+  constructor(props: BoardProps) {
+    super(props);
+    this.cell = this.cell.bind(this);
+  }
 
   onClick(cell?: TileCell) {
     this.props.moves.clickCell(cell, this.props.pickedTile);
   }
 
+  cell(x: number, y: number) {
+    return this.props.board.tileCells.find(i => i.equals(x, y));
+  }
+
   render() {
-    const range = boardRange(this.gameState.board);
+    const range = boardRange(this.props.board);
     const tbody = [];
     for (let x = range.minX; x <= range.maxX; x++) {
       let cells = [];
       for (let y = range.minY; y <= range.maxY; y++) {
-        const key = `${x},${y}`;
-        const cell = this.gameState.board.tile(new Cell(x, y));
-        const classes = [style.cell];
-        if (cell == null) {
-          cells.push(<td className={classes.join(" ")} key={key} />);
-          continue;
-        }
-        classes.push(style.available);
-        let cellBody;
-        if (cell.tile != null) {
-          cellBody = <TileComponent tile={cell.tile} />;
-        }
         cells.push(
-          <td
-            className={classes.join(" ")}
-            key={key}
-            onClick={() => this.onClick(cell)}
-          >
-            <div className={style.tile}>{cellBody}</div>
-          </td>
+          <CellComponent
+            key={`${x},${y}`}
+            cell={this.cell(x, y)}
+            onClick={this.onClick.bind(this)}
+          />
         );
       }
       tbody.push(<tr key={x}>{cells}</tr>);

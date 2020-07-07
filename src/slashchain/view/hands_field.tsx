@@ -1,16 +1,13 @@
 import React from "react";
-import { PlayerID, Ctx } from "boardgame.io";
-import { GameState } from "../game";
 import style from "../styles/field.module.scss";
 import { Tile } from "../components";
 import { TileComponent } from "./tile";
 import { PlayerState } from "./game_state";
+import { PlayerHands } from "../hands.js";
 
 export interface HandsFieldProps {
-  G: GameState;
-  playerID: PlayerID;
-  ctx: Ctx;
-  myPlayerID?: PlayerID;
+  hands: PlayerHands;
+  isMyTurn: boolean;
   updatePlayerState?: (state: PlayerState) => void;
 }
 
@@ -18,8 +15,6 @@ export class HandsFieldComponent extends React.Component<
   HandsFieldProps,
   PlayerState
 > {
-  private gameState = this.props.G;
-
   constructor(props: HandsFieldProps) {
     super(props);
     this.state = {
@@ -41,28 +36,26 @@ export class HandsFieldComponent extends React.Component<
   render() {
     const handClasses = [style.tile];
     let clickHandler: (tile: Tile) => void = () => {};
-    const isMyTurn = this.props.ctx.currentPlayer === this.props.myPlayerID;
-    const isMyField = this.props.myPlayerID === this.props.playerID;
-    if (isMyTurn && isMyField) {
+    const isMyField = this.props.updatePlayerState != null
+    if (this.props.isMyTurn && isMyField) {
       clickHandler = (tile: Tile) => this.onClick(tile);
       handClasses.push(style.pickable);
     }
 
     const pickedTile = this.state.pickedTile;
-    const tileItems = this.gameState.hands[this.props.playerID].tiles.map(
-      (tile, i) => {
-        const classes = pickedTile === tile ? [...handClasses, style.picked] : handClasses
-        return (
-          <div
-            className={classes.join(" ")}
-            key={`${this.props.playerID}:${i}`}
-            onClick={() => clickHandler(tile)}
-          >
-            <TileComponent tile={tile} />
-          </div>
-        );
-      }
-    );
+    const tileItems = this.props.hands.tiles.map((tile, i) => {
+      const classes =
+        pickedTile === tile ? [...handClasses, style.picked] : handClasses;
+      return (
+        <div
+          className={classes.join(" ")}
+          key={`${isMyField ? "me" : "other"}:${i}`}
+          onClick={() => clickHandler(tile)}
+        >
+          <TileComponent tile={tile} />
+        </div>
+      );
+    });
 
     return <div className={style.field}>{tileItems}</div>;
   }

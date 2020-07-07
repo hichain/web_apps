@@ -1,4 +1,4 @@
-import { LineCell, TileCell, Tile, Cell } from "./components";
+import { LineCell, TileCell, Tile } from "./components";
 
 export class Board {
   tileCells: ReadonlyArray<TileCell> = [new TileCell(0, 0)];
@@ -8,10 +8,6 @@ export class Board {
     cell.tile = tile;
     this.applyLines(cell.x, cell.y, tile);
     this.addAdjacentCells(cell);
-  }
-
-  tile(cell: Cell) {
-    return this.tileCells.find((i) => i.equals(cell));
   }
 
   private applyLines(x: number, y: number, tile: Tile) {
@@ -25,7 +21,8 @@ export class Board {
     const newCells = cell
       .adjacentCells()
       .filter(
-        (newCell) => !this.tileCells.some((cell) => newCell.equals(cell))
+        (newCell) =>
+          !this.tileCells.some((cell) => newCell.equals(cell.x, cell.y))
       );
     this.tileCells = this.tileCells.concat(newCells);
   }

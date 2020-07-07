@@ -1,7 +1,7 @@
 import React from "react";
 import { BoardComponent } from "./board";
 import { HandsFieldComponent } from "./hands_field";
-import { Ctx } from "boardgame.io";
+import { Ctx, PlayerID } from "boardgame.io";
 import { Tile } from "../components";
 import { GameState } from "../game";
 
@@ -27,16 +27,26 @@ export class GameComponent extends React.Component<
     };
   }
 
+  hands(player: PlayerID | null | undefined) {
+    if (player == null) {
+      return null;
+    }
+    return this.props.G.hands[player];
+  }
+
+  isMyTurn() {
+    return this.props.ctx.currentPlayer === this.props.playerID;
+  }
+
   render() {
     const playerID = this.props.playerID;
     let myHandsField;
-    if (playerID !== null) {
+    const myHands = this.hands(playerID);
+    if (myHands != null) {
       myHandsField = (
         <HandsFieldComponent
-          G={this.props.G}
-          playerID={playerID}
-          ctx={this.props.ctx}
-          myPlayerID={playerID}
+          hands={myHands}
+          isMyTurn={this.isMyTurn()}
           updatePlayerState={this.updatePlayerState.bind(this)}
         />
       );
@@ -46,14 +56,10 @@ export class GameComponent extends React.Component<
       (player) => player !== playerID
     );
     let otherHandsField;
-    if (otherPlayerID !== undefined) {
+    const otherHands = this.hands(otherPlayerID);
+    if (otherHands != null) {
       otherHandsField = (
-        <HandsFieldComponent
-          G={this.props.G}
-          playerID={otherPlayerID}
-          ctx={this.props.ctx}
-          myPlayerID={playerID ?? undefined}
-        />
+        <HandsFieldComponent hands={otherHands} isMyTurn={false} />
       );
     }
 
@@ -62,7 +68,7 @@ export class GameComponent extends React.Component<
         {otherHandsField}
         <BoardComponent
           moves={this.props.moves}
-          G={this.props.G}
+          board={this.props.G.board}
           pickedTile={this.state.pickedTile}
         />
         {myHandsField}

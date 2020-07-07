@@ -7,8 +7,8 @@ export class Cell {
     this.y = y;
   }
 
-  equals(cell: Cell): Boolean {
-    return this.x === cell.x && this.y === cell.y;
+  equals(x: number, y: number): Boolean {
+    return this.x === x && this.y === y;
   }
 }
 

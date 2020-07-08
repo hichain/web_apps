@@ -9,27 +9,27 @@ export interface CellProps {
   onClick: (cell: TileCell) => void;
 }
 
-export class CellComponent extends React.Component<CellProps> {
-  render() {
-    const classes = [style.cell];
-    const cell = this.props.cell;
-    const key = this.props.key;
-    if (cell == null) {
-      return <td className={classes.join(" ")} key={key} />;
-    }
-    classes.push(style.available);
-    let cellBody;
-    if (cell.tile != null) {
-      cellBody = <TileComponent tile={cell.tile} />;
-    }
-    return (
-      <td
-        className={classes.join(" ")}
-        key={key}
-        onClick={() => this.props.onClick(cell)}
-      >
-        <div className={style.tile}>{cellBody}</div>
-      </td>
-    );
+const CellComponent = (props: CellProps) => {
+  const classes = [style.cell];
+  const cell = props.cell;
+  const key = props.key;
+  if (cell == null) {
+    return <td className={classes.join(" ")} key={key} />;
   }
-}
+  classes.push(style.available);
+  let cellBody;
+  if (cell.tile != null) {
+    cellBody = <TileComponent tile={cell.tile} />;
+  }
+  return (
+    <td
+      className={classes.join(" ")}
+      key={key}
+      onClick={() => props.onClick(cell)}
+    >
+      <div className={style.tile}>{cellBody}</div>
+    </td>
+  );
+};
+
+export default CellComponent

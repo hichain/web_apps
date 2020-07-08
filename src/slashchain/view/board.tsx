@@ -2,7 +2,7 @@ import React from "react";
 import { Board } from "../board";
 import { TileCell, Tile } from "../components";
 import style from "../styles/board.module.scss";
-import { CellComponent } from "./cell";
+import CellComponent from "./cell";
 
 export interface BoardProps {
   moves: any;
@@ -10,46 +10,34 @@ export interface BoardProps {
   pickedTile?: Tile;
 }
 
-export class BoardComponent extends React.Component<BoardProps> {
-  constructor(props: BoardProps) {
-    super(props);
-    this.cell = this.cell.bind(this);
-  }
+const BoardComponent = (props: BoardProps) => {
+  const onClick = (cell: TileCell) =>
+    props.moves.clickCell(cell, props.pickedTile);
+  const cell = (x: number, y: number) =>
+    props.board.tileCells.find((i) => i.equals(x, y));
 
-  onClick(cell?: TileCell) {
-    this.props.moves.clickCell(cell, this.props.pickedTile);
-  }
-
-  cell(x: number, y: number) {
-    return this.props.board.tileCells.find(i => i.equals(x, y));
-  }
-
-  render() {
-    const range = boardRange(this.props.board);
-    const tbody = [];
-    for (let x = range.minX; x <= range.maxX; x++) {
-      let cells = [];
-      for (let y = range.minY; y <= range.maxY; y++) {
-        cells.push(
-          <CellComponent
-            key={`${x},${y}`}
-            cell={this.cell(x, y)}
-            onClick={this.onClick.bind(this)}
-          />
-        );
-      }
-      tbody.push(<tr key={x}>{cells}</tr>);
+  const range = boardRange(props.board);
+  const tbody = [];
+  for (let x = range.minX; x <= range.maxX; x++) {
+    let cells = [];
+    for (let y = range.minY; y <= range.maxY; y++) {
+      cells.push(
+        <CellComponent key={`${x},${y}`} cell={cell(x, y)} onClick={onClick} />
+      );
     }
-
-    return (
-      <div>
-        <table className={style.board}>
-          <tbody>{tbody}</tbody>
-        </table>
-      </div>
-    );
+    tbody.push(<tr key={x}>{cells}</tr>);
   }
-}
+
+  return (
+    <div>
+      <table className={style.board}>
+        <tbody>{tbody}</tbody>
+      </table>
+    </div>
+  );
+};
+
+export default BoardComponent;
 
 type BoardRange = { minX: number; maxX: number; minY: number; maxY: number };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { BoardComponent } from "./board";
+import BoardComponent from "./board";
 import { HandsFieldComponent } from "./hands_field";
 import { Ctx, PlayerID } from "boardgame.io";
 import { Tile } from "../components";

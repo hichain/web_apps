@@ -10,7 +10,7 @@ export interface PlayerState {
 }
 
 export interface GameStateProps {
-  playerID: null;
+  playerID: PlayerID;
   moves: any;
   G: GameState;
   ctx: Ctx;

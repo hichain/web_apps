@@ -1,33 +1,41 @@
 import { PlayerHands } from "./hands";
-import { TileRepository } from "./tiles";
+import { basicTiles } from "./tiles";
+import { Tile } from "./components.js";
 
 export type Rule = {
   name: string;
+  tileType: TileType;
   hands: PlayerHands;
 };
 
-export class HandsSet {
-  private tileRepository = new TileRepository();
-  rules: { [key: string]: Rule } = {
-    basic_1x: {
-      name: "Basic Tiles, a tile of each types",
-      hands: this.basicHands(1),
-    },
-    basic_2x: {
-      name: "Basic Tiles, 2 tiles of each types",
-      hands: this.basicHands(2),
-    },
-    basic_3x: {
-      name: "Basic Tiles, 3 tiles of each types",
-      hands: this.basicHands(3),
-    },
-  };
+export type TileType = "basic";
 
-  private basicHands(number: number): PlayerHands {
-    const basicTiles = this.tileRepository.basicTiles;
-    const tiles = new Array(number)
-      .fill(null)
-      .reduce((acc) => [...acc, basicTiles], []);
-    return new PlayerHands(tiles);
-  }
+export interface RuleSet {
+  current: Rule;
+  rules: Rule[];
 }
+
+const increase = (tiles: Tile[], number: number): Tile[] => {
+  return new Array(number).fill(null).reduce((acc) => [...acc, tiles], []);
+};
+
+export const buildRule = (
+  name: string,
+  tileType: TileType,
+  tileNumber: number
+): Rule => {
+  const tiles = (): Tile[] => {
+    if (tileType === "basic") {
+      return basicTiles.map((i) => i.clone());
+    } else {
+      const _exhaustiveCheck: never = tileType;
+      return _exhaustiveCheck;
+    }
+  };
+  const hands = new PlayerHands(increase(tiles(), tileNumber));
+  return {
+    name,
+    tileType,
+    hands,
+  };
+};

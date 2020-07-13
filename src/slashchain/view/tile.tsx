@@ -5,7 +5,7 @@ import pin from "../images/pin.png";
 import cross from "../images/cross.png";
 import power from "../images/power.png";
 import parallel from "../images/parallel.png";
-import { Tile } from "../components.js";
+import { NamedTile } from "../components.js";
 
 const images: { [key: string]: string } = {
   square,
@@ -17,7 +17,7 @@ const images: { [key: string]: string } = {
 };
 
 export interface TileProps {
-	tile: Tile
+	tile: NamedTile
 }
 
 export class TileComponent extends React.Component<TileProps> {

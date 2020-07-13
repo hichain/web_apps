@@ -2,13 +2,12 @@ import { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { Board } from "./board";
 import { buildRule, RuleSet } from "./rules";
-import { TileCell, Tile } from "./components";
-import { PlayerHands } from "./hands";
+import { TileCell, NamedTile } from "./components";
 
 export type GameState = {
   ruleSet: RuleSet;
   board: Board;
-  hands: { [key: string]: PlayerHands };
+  hands: { [key: string]: NamedTile[] };
 };
 
 export const Slashchain: Game<GameState> = {
@@ -27,7 +26,7 @@ export const Slashchain: Game<GameState> = {
     const hands = ctx.playOrder.reduce(
       (obj, player) => ({
         ...obj,
-        [player]: () => ruleSet.current.hands.clone(),
+        [player]: ruleSet.current.hands.map((i) => new NamedTile(i.name, i)),
       }),
       {}
     );
@@ -41,7 +40,7 @@ export const Slashchain: Game<GameState> = {
     moveLimit: 1,
   },
   moves: {
-    clickCell: (G, ctx, cell?: TileCell, tile?: Tile) => {
+    clickCell: (G, ctx, cell?: TileCell, tile?: NamedTile) => {
       const myPlayerID = ctx.playerID;
       if (myPlayerID === undefined) {
         return INVALID_MOVE;
@@ -50,13 +49,14 @@ export const Slashchain: Game<GameState> = {
         return INVALID_MOVE;
       }
       G.board.put(cell, tile);
-      G.hands[myPlayerID].pick(tile);
+      const hands = G.hands[myPlayerID];
+      G.hands[myPlayerID] = hands.filter((i) => i !== tile);
     },
   },
   endIf: (G, ctx) => {
     // TODO: define victory conditions
-    const noHands = Object.keys(G.hands).every((player) => () =>
-      G.hands[player].tiles.length === 0
+    const noHands = ctx.playOrder.every(
+      (player) => G.hands[player].length === 0
     );
     if (noHands) {
       return { draw: true };

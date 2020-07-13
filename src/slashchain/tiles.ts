@@ -1,17 +1,22 @@
-import { Tile, Line } from "./components";
+import { NamedTile, Line, Tile } from "./components";
 import basicTilesJson from "./tiles.json";
 
 class TileParser {
-  private parseLines = (name: string, rawLines: string): Tile => {
-    const tile = this.parseBitMask(parseInt(rawLines, 16));
-    const lines = this.chunk(tile, 2).map(
+  private parseLines = (name: string, rawLines: string): NamedTile => {
+    const bits = this.parseBitMask(parseInt(rawLines, 16));
+    const lines = this.chunk(bits, 2).map(
       (line): Line => ({
         slash: line[0],
         backslash: line[1],
       })
     );
-
-    return new Tile(name, lines[0], lines[1], lines[2], lines[3]);
+    const tile: Tile = {
+      upperLeft: lines[0],
+      upperRight: lines[1],
+      lowerLeft: lines[2],
+      lowerRight: lines[3],
+    };
+    return new NamedTile(name, tile);
   };
 
   private parseBitMask = (bits: number): boolean[] => {
@@ -29,10 +34,10 @@ class TileParser {
     );
   };
 
-  parse = (tiles: { [key: string]: string }): Tile[] => {
+  parse = (tiles: { [key: string]: string }): NamedTile[] => {
     return Object.keys(tiles).map((name) => this.parseLines(name, tiles[name]));
   };
 }
 
-const parser = new TileParser()
-export const basicTiles = parser.parse(basicTilesJson)
+const parser = new TileParser();
+export const basicTiles = parser.parse(basicTilesJson);

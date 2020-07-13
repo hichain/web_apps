@@ -14,7 +14,7 @@ const BoardComponent = (props: BoardProps) => {
   const onClick = (cell: TileCell) =>
     props.moves.clickCell(cell, props.pickedTile);
   const cell = (x: number, y: number) =>
-    props.board.tileCells.find((i) => i.equals(x, y));
+    props.board.tileCells.find((i) => TileCell.equals(i, { x, y }));
 
   const range = boardRange(props.board);
   const tbody = [];
@@ -22,7 +22,11 @@ const BoardComponent = (props: BoardProps) => {
     let cells = [];
     for (let y = range.minY; y <= range.maxY; y++) {
       cells.push(
-        <CellComponent key={`${x},${y}`} cell={cell(x, y)} onClick={onClick} />
+        <CellComponent
+          cellKey={`${x},${y}`}
+          cell={cell(x, y)}
+          onClick={onClick}
+        />
       );
     }
     tbody.push(<tr key={x}>{cells}</tr>);

@@ -1,111 +1,90 @@
-export class Cell {
-  readonly x: number;
-  readonly y: number;
+export interface Cell {
+  x: number;
+  y: number;
+}
+
+export interface Line {
+  slash: boolean;
+  backslash: boolean;
+}
+
+export class LineCell implements Line, Cell {
+  slash: boolean;
+  backslash: boolean;
+  x: number;
+  y: number;
+
+  constructor(x: number, y: number, line?: Line) {
+    this.x = x;
+    this.y = y;
+    this.slash = line?.slash || false;
+    this.backslash = line?.backslash || false;
+  }
+}
+
+export interface Tile {
+  upperLeft: Line;
+  upperRight: Line;
+  lowerLeft: Line;
+  lowerRight: Line;
+}
+
+const rotateTile = (tile: Tile, number: number): Tile => {
+  if (number % 4 === 0) {
+    return tile;
+  } else if (number % 4 > 0) {
+    return rotateTile(
+      {
+        upperLeft: tile.lowerLeft,
+        upperRight: tile.lowerRight,
+        lowerLeft: tile.upperRight,
+        lowerRight: tile.upperLeft,
+      },
+      (number % 4) - 1
+    );
+  } else {
+    return rotateTile(
+      {
+        upperLeft: tile.upperRight,
+        upperRight: tile.upperLeft,
+        lowerLeft: tile.lowerLeft,
+        lowerRight: tile.lowerRight,
+      },
+      (number % 4) + 1
+    );
+  }
+};
+
+export class NamedTile implements Tile {
+  readonly name: string;
+  readonly rotateCount: number;
+  readonly upperLeft: Line;
+  readonly upperRight: Line;
+  readonly lowerLeft: Line;
+  readonly lowerRight: Line;
+
+  constructor(name: string, tile: Tile, rotateCount: number = 0) {
+    this.name = name;
+    const rotatedTile = rotateTile(tile, rotateCount);
+    this.rotateCount = rotateCount % 4;
+    this.upperLeft = rotatedTile.upperLeft;
+    this.upperRight = rotatedTile.upperRight;
+    this.lowerLeft = rotatedTile.lowerLeft;
+    this.lowerRight = rotatedTile.lowerRight;
+  }
+}
+
+export class TileCell implements Cell {
+  x: number;
+  y: number;
+  tile?: NamedTile;
 
   constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
   }
 
-  equals(x: number, y: number): Boolean {
-    return this.x === x && this.y === y;
-  }
-}
-
-interface Line {
-  slash: boolean;
-  backslash: boolean;
-}
-
-export type { Line };
-
-export class LineCell extends Cell implements Line {
-  slash: boolean;
-  backslash: boolean;
-
-  constructor(x: number, y: number, line?: Line) {
-    super(x, y);
-    this.slash = line?.slash || false;
-    this.backslash = line?.backslash || false;
-  }
-}
-
-export class Tile {
-  readonly name: string;
-  rotateCount: number = 0;
-  private upperLeft: Line;
-  private upperRight: Line;
-  private lowerLeft: Line;
-  private lowerRight: Line;
-
-  constructor(
-    name: string,
-    upperLeft: Line,
-    upperRight: Line,
-    lowerLeft: Line,
-    lowerRight: Line
-  ) {
-    this.name = name;
-    this.upperLeft = upperLeft;
-    this.upperRight = upperRight;
-    this.lowerLeft = lowerLeft;
-    this.lowerRight = lowerRight;
-  }
-
-  clone() {
-    return new Tile(
-      this.name,
-      this.upperLeft,
-      this.upperRight,
-      this.lowerLeft,
-      this.lowerRight
-    );
-  }
-
-  rotate(number: number) {
-    if (number % 4 === 0) {
-      this.rotateCount = this.rotateCount % 4;
-      return;
-    } else if (number % 4 > 0) {
-      [this.upperLeft, this.lowerLeft, this.lowerRight, this.upperRight] = [
-        this.lowerLeft,
-        this.lowerRight,
-        this.upperRight,
-        this.upperLeft,
-      ];
-      this.rotate((number % 4) - 1);
-      this.rotateCount++;
-    } else {
-      [this.upperLeft, this.lowerLeft, this.lowerRight, this.upperRight] = [
-        this.upperRight,
-        this.upperLeft,
-        this.lowerLeft,
-        this.lowerRight,
-      ];
-      this.rotate((number % 4) + 1);
-      this.rotateCount--;
-    }
-  }
-
-  innerCells() {
-    return [
-      new LineCell(0, 0, this.upperLeft),
-      new LineCell(0, 1, this.upperRight),
-      new LineCell(1, 0, this.lowerLeft),
-      new LineCell(1, 1, this.lowerRight),
-    ];
-  }
-}
-
-export class TileCell extends Cell {
-  tile?: Tile;
-
-  adjacentCells(): Array<TileCell> {
-    return [
-      new TileCell(this.x, this.y - 1),
-      new TileCell(this.x + 1, this.y),
-      new TileCell(this.x, this.y + 1),
-      new TileCell(this.x - 1, this.y),
-    ];
-  }
+  static equals = (cell1: Cell, cell2: Cell): boolean => {
+    return cell1.x === cell2.x && cell1.y === cell2.y;
+  };
 }

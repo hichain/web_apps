@@ -2,11 +2,11 @@ import React from "react";
 import BoardComponent from "./board";
 import { HandsFieldComponent } from "./hands_field";
 import { Ctx, PlayerID } from "boardgame.io";
-import { Tile } from "../components";
+import { NamedTile } from "../components";
 import { GameState } from "../game";
 
 export interface PlayerState {
-  pickedTile?: Tile;
+  pickedTile?: NamedTile;
 }
 
 export interface GameStateProps {

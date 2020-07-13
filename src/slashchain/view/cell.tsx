@@ -4,7 +4,7 @@ import style from "../styles/board.module.scss";
 import { TileComponent } from "./tile";
 
 export interface CellProps {
-  key: string;
+  cellKey: string;
   cell?: TileCell;
   onClick: (cell: TileCell) => void;
 }
@@ -12,7 +12,7 @@ export interface CellProps {
 const CellComponent = (props: CellProps) => {
   const classes = [style.cell];
   const cell = props.cell;
-  const key = props.key;
+  const key = props.cellKey;
   if (cell == null) {
     return <td className={classes.join(" ")} key={key} />;
   }

@@ -1,12 +1,11 @@
 import React from "react";
 import style from "../styles/field.module.scss";
-import { Tile } from "../components";
+import { NamedTile } from "../components";
 import { TileComponent } from "./tile";
 import { PlayerState } from "./game_state";
-import { PlayerHands } from "../hands.js";
 
 export interface HandsFieldProps {
-  hands: PlayerHands;
+  hands: NamedTile[];
   isMyTurn: boolean;
   updatePlayerState?: (state: PlayerState) => void;
 }
@@ -22,10 +21,15 @@ export class HandsFieldComponent extends React.Component<
     };
   }
 
-  onClick(tile: Tile) {
+  onClick(tile: NamedTile) {
     if (this.state.pickedTile === tile) {
-      tile.rotate(1);
+      this.rotate(1);
+    } else {
+      this.pick(tile);
     }
+  }
+
+  private pick(tile: NamedTile) {
     const state = {
       pickedTile: tile,
     };
@@ -33,17 +37,27 @@ export class HandsFieldComponent extends React.Component<
     this.setState(state);
   }
 
+  private rotate(number: number) {
+    const tile = this.state.pickedTile;
+    if (tile == null) {
+      return;
+    }
+    this.setState({
+      pickedTile: new NamedTile(tile.name, tile, number),
+    });
+  }
+
   render() {
     const handClasses = [style.tile];
-    let clickHandler: (tile: Tile) => void = () => {};
-    const isMyField = this.props.updatePlayerState != null
+    let clickHandler: (tile: NamedTile) => void = () => {};
+    const isMyField = this.props.updatePlayerState != null;
     if (this.props.isMyTurn && isMyField) {
-      clickHandler = (tile: Tile) => this.onClick(tile);
+      clickHandler = (tile: NamedTile) => this.onClick(tile);
       handClasses.push(style.pickable);
     }
 
     const pickedTile = this.state.pickedTile;
-    const tileItems = this.props.hands.tiles.map((tile, i) => {
+    const tileItems = this.props.hands.map((tile, i) => {
       const classes =
         pickedTile === tile ? [...handClasses, style.picked] : handClasses;
       return (

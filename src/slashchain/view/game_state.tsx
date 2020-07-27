@@ -2,16 +2,20 @@ import React from "react";
 import BoardComponent from "./board";
 import { HandsFieldComponent } from "./hands_field";
 import { Ctx, PlayerID } from "boardgame.io";
-import { NamedTile } from "../components";
-import { GameState } from "../game";
+import { GameState, Moves } from "../game";
+import { rotate } from "../tiles";
+import { TileBoard } from "../components";
 
 export interface PlayerState {
-  pickedTile?: NamedTile;
+  pickedTile?: {
+    index: number;
+    rotate: number;
+  };
 }
 
 export interface GameStateProps {
   playerID: PlayerID;
-  moves: any;
+  moves: Moves;
   G: GameState;
   ctx: Ctx;
 }
@@ -47,6 +51,7 @@ export class GameComponent extends React.Component<
         <HandsFieldComponent
           hands={myHands}
           isMyTurn={this.isMyTurn()}
+          pickedTile={this.state.pickedTile}
           updatePlayerState={this.updatePlayerState.bind(this)}
         />
       );
@@ -67,9 +72,16 @@ export class GameComponent extends React.Component<
       <div>
         {otherHandsField}
         <BoardComponent
-          moves={this.props.moves}
-          board={this.props.G.board}
-          pickedTile={this.state.pickedTile}
+          move={(x, y) => {
+            const pickedTile = this.state.pickedTile;
+            if (pickedTile != null) {
+              const tile = this.props.G.hands[this.props.playerID][
+                pickedTile.index
+              ];
+              this.props.moves.clickCell(x, y, rotate(tile, pickedTile.rotate));
+            }
+          }}
+          board={new TileBoard(this.props.G.board)}
         />
         {myHandsField}
         <div id="winner">{this.winner()}</div>

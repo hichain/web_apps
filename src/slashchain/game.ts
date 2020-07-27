@@ -1,13 +1,16 @@
 import { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { Board } from "./board";
 import { buildRule, RuleSet } from "./rules";
-import { TileCell, NamedTile } from "./components";
+import { TileBoard, TileCell, Tile } from "./components";
 
 export type GameState = {
   ruleSet: RuleSet;
-  board: Board;
-  hands: { [key: string]: NamedTile[] };
+  board: TileCell[];
+  hands: { [key: string]: Tile[] };
+};
+
+export type Moves = {
+  clickCell: (x: number, y: number, tile: Tile) => void;
 };
 
 export const Slashchain: Game<GameState> = {
@@ -26,29 +29,31 @@ export const Slashchain: Game<GameState> = {
     const hands = ctx.playOrder.reduce(
       (obj, player) => ({
         ...obj,
-        [player]: ruleSet.current.hands.map((i) => new NamedTile(i.name, i)),
+        [player]: [...ruleSet.current.hands],
       }),
       {}
     );
     return {
       ruleSet,
-      board: new Board(),
-      hands: hands,
+      board: [],
+      hands,
     };
   },
   turn: {
     moveLimit: 1,
   },
   moves: {
-    clickCell: (G, ctx, cell?: TileCell, tile?: NamedTile) => {
+    clickCell: (G, ctx, x: number, y: number, tile: Tile) => {
       const myPlayerID = ctx.playerID;
-      if (myPlayerID === undefined) {
+      if (myPlayerID == null) {
         return INVALID_MOVE;
       }
-      if (!(cell && !cell.tile && tile)) {
+      const board = new TileBoard(G.board);
+      const cell = { x, y, tile };
+      if (board.has(cell)) {
         return INVALID_MOVE;
       }
-      G.board.put(cell, tile);
+      G.board = [...G.board, cell];
       const hands = G.hands[myPlayerID];
       G.hands[myPlayerID] = hands.filter((i) => i !== tile);
     },

@@ -1,10 +1,10 @@
-import { basicTiles } from "./tiles";
-import { NamedTile } from "./components";
+import { tileSet } from "./tiles";
+import { Tile } from "./components";
 
 export type Rule = {
   name: string;
   tileType: TileType;
-  hands: NamedTile[];
+  hands: Tile[];
 };
 
 export type TileType = "basic";
@@ -14,8 +14,8 @@ export interface RuleSet {
   rules: Rule[];
 }
 
-const increase = (tiles: NamedTile[], number: number): NamedTile[] => {
-  return new Array(number).fill(null).reduce((acc) => [...acc, ...tiles], []);
+const times = <T>(array: T[], n: number): T[] => {
+  return new Array(n).fill(null).reduce((acc) => [...acc, ...array], []);
 };
 
 export const buildRule = (
@@ -23,15 +23,15 @@ export const buildRule = (
   tileType: TileType,
   tileNumber: number
 ): Rule => {
-  const tiles = (): NamedTile[] => {
+  const tiles = (): Tile[] => {
     if (tileType === "basic") {
-      return basicTiles.map((i) => new NamedTile(i.name, i));
+      return tileSet.tiles.map((tile) => tile.lines);
     } else {
       const _exhaustiveCheck: never = tileType;
       return _exhaustiveCheck;
     }
   };
-  const hands = increase(tiles(), tileNumber);
+  const hands = times(tiles(), tileNumber);
   return {
     name,
     tileType,

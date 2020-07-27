@@ -1,90 +1,134 @@
-export interface Cell {
+interface Cell {
   x: number;
   y: number;
 }
 
-export interface Line {
-  slash: boolean;
-  backslash: boolean;
-}
+export type Tile = number;
 
-export class LineCell implements Line, Cell {
-  slash: boolean;
-  backslash: boolean;
-  x: number;
-  y: number;
-
-  constructor(x: number, y: number, line?: Line) {
-    this.x = x;
-    this.y = y;
-    this.slash = line?.slash || false;
-    this.backslash = line?.backslash || false;
-  }
-}
-
-export interface Tile {
-  upperLeft: Line;
-  upperRight: Line;
-  lowerLeft: Line;
-  lowerRight: Line;
-}
-
-const rotateTile = (tile: Tile, number: number): Tile => {
-  if (number % 4 === 0) {
-    return tile;
-  } else if (number % 4 > 0) {
-    return rotateTile(
-      {
-        upperLeft: tile.lowerLeft,
-        upperRight: tile.lowerRight,
-        lowerLeft: tile.upperRight,
-        lowerRight: tile.upperLeft,
-      },
-      (number % 4) - 1
-    );
-  } else {
-    return rotateTile(
-      {
-        upperLeft: tile.upperRight,
-        upperRight: tile.upperLeft,
-        lowerLeft: tile.lowerLeft,
-        lowerRight: tile.lowerRight,
-      },
-      (number % 4) + 1
-    );
-  }
+export type TileCell = Cell & {
+  tile: Tile;
 };
 
-export class NamedTile implements Tile {
-  readonly name: string;
-  readonly rotateCount: number;
-  readonly upperLeft: Line;
-  readonly upperRight: Line;
-  readonly lowerLeft: Line;
-  readonly lowerRight: Line;
+const isSame = (e1: Cell, e2: Cell): boolean => {
+  return e1.x === e2.x && e1.y === e2.y;
+};
 
-  constructor(name: string, tile: Tile, rotateCount: number = 0) {
-    this.name = name;
-    const rotatedTile = rotateTile(tile, rotateCount);
-    this.rotateCount = rotateCount % 4;
-    this.upperLeft = rotatedTile.upperLeft;
-    this.upperRight = rotatedTile.upperRight;
-    this.lowerLeft = rotatedTile.lowerLeft;
-    this.lowerRight = rotatedTile.lowerRight;
+class CellSet extends Set<Cell> {
+  has(value: Cell): boolean {
+    this.forEach((cell) => {
+      if (isSame(value, cell)) {
+        return true;
+      }
+    });
+    return false;
+  }
+
+  add(value: Cell): this {
+    return this.has(value) ? this : super.add(value);
+  }
+
+  delete(value: Cell): boolean {
+    this.forEach((cell) => {
+      if (isSame(value, cell)) {
+        return super.delete(cell);
+      }
+    });
+    return false;
   }
 }
 
-export class TileCell implements Cell {
-  x: number;
-  y: number;
-  tile?: NamedTile;
-
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+class InfiniteBoard<V> extends Map<Cell, V> {
+  get(key: Cell): V | undefined {
+    this.forEach((value, cell) => {
+      if (isSame(key, cell)) {
+        return value;
+      }
+    });
+    return undefined;
   }
 
-  static equals = (cell1: Cell, cell2: Cell): boolean => {
-    return cell1.x === cell2.x && cell1.y === cell2.y;
+  has(key: Cell): boolean {
+    this.forEach((_, cell) => {
+      if (isSame(key, cell)) {
+        return true;
+      }
+    });
+    return false;
+  }
+
+  set(key: Cell, value: V): this {
+    return this.has(key) ? this : super.set(key, value);
+  }
+
+  delete(key: Cell): boolean {
+    this.forEach((_, cell) => {
+      if (isSame(key, cell)) {
+        return super.delete(cell);
+      }
+    });
+    return false;
+  }
+}
+
+export type BoardRange = {
+  minX: number;
+  maxX: number;
+  minY: number;
+  maxY: number;
+};
+
+export class TileBoard extends InfiniteBoard<Tile> {
+  constructor(tileCells: TileCell[]) {
+    super(tileCells.map((i): [Cell, Tile] => [{ x: i.x, y: i.y }, i.tile]));
+  }
+
+  getTileCell(key: Cell): TileCell | undefined {
+    const tile = this.get(key);
+    if (tile === undefined) {
+      return undefined;
+    }
+    return { ...key, tile };
+  }
+
+  legalMoves(): Cell[] {
+    const legalCells = new CellSet();
+    const adjucentCells = (cell: Cell) => [
+      { x: cell.x, y: cell.y - 1 },
+      { x: cell.x - 1, y: cell.y },
+      { x: cell.x, y: cell.y + 1 },
+      { x: cell.x + 1, y: cell.y },
+    ];
+    const iterator = this.keys();
+    let result = iterator.next();
+    while (!result.done) {
+      adjucentCells(result.value).forEach((cell) => legalCells.add(cell));
+      result = iterator.next();
+    }
+    return Array.from(legalCells).filter((cell) => !this.has(cell));
+  }
+
+  range = (): BoardRange => {
+    const xArray = Array.from(this.keys()).map((cell) => cell.x);
+    const yArray = Array.from(this.keys()).map((cell) => cell.y);
+    xArray.sort((a, b) => a - b);
+    yArray.sort((a, b) => a - b);
+    return {
+      minX: xArray[0],
+      maxX: xArray[xArray.length - 1],
+      minY: yArray[0],
+      maxY: yArray[yArray.length - 1],
+    };
   };
+}
+
+export interface TileData {
+  name: string;
+  lines: number;
+  image: string;
+}
+
+export interface NamedTile {
+  name: string;
+  rotate: number;
+  image: string;
 }

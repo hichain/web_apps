@@ -124,11 +124,9 @@ export class TileBoard extends InfiniteBoard<Tile> {
 export interface TileData {
   name: string;
   lines: number;
-  image: string;
 }
 
 export interface NamedTile {
   name: string;
   rotate: number;
-  image: string;
 }

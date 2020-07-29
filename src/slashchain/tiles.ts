@@ -1,41 +1,29 @@
-import square from "./images/square.png";
-import arrow from "./images/arrow.png";
-import pin from "./images/pin.png";
-import cross from "./images/cross.png";
-import power from "./images/power.png";
-import parallel from "./images/parallel.png";
 import { TileData, Tile, NamedTile } from "./components";
 
 const tileData: TileData[] = [
   {
     name: "square",
     lines: 0x99,
-    image: square,
   },
   {
     name: "arrow",
     lines: 0x96,
-    image: arrow,
   },
   {
     name: "pin",
     lines: 0xa9,
-    image: pin,
   },
   {
     name: "cross",
     lines: 0x66,
-    image: cross,
   },
   {
     name: "power",
     lines: 0x56,
-    image: power,
   },
   {
     name: "parallel",
     lines: 0xaa,
-    image: parallel,
   },
 ];
 
@@ -73,7 +61,7 @@ class NamedTileSet {
           .fill(null)
           .map((_, i): [Tile, NamedTile] => [
             rotate(tile.lines, i),
-            { name: tile.name, rotate: i, image: tile.image },
+            { name: tile.name, rotate: i },
           ]),
       ];
     }, []);

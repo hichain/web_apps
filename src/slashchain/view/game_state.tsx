@@ -8,7 +8,7 @@ import { TileBoard } from "../components";
 export interface PlayerState {
   pickedTile?: {
     index: number;
-    rotate: number;
+    rotate?: number;
   };
 }
 
@@ -51,7 +51,8 @@ export class GameComponent extends React.Component<
           hands={myHands}
           isMyTurn={this.isMyTurn()}
           pickedTile={this.state.pickedTile}
-          updatePlayerState={this.updatePlayerState.bind(this)}
+          pick={this.pickTile.bind(this)}
+          rotate={this.rotateTile.bind(this)}
         />
       );
     }
@@ -71,15 +72,7 @@ export class GameComponent extends React.Component<
       <div>
         {otherHandsField}
         <BoardComponent
-          move={(x, y) => {
-            const pickedTile = this.state.pickedTile;
-            if (pickedTile != null) {
-              const tile = this.props.G.hands[this.props.playerID][
-                pickedTile.index
-              ];
-              this.props.moves.clickCell(x, y, rotate(tile, pickedTile.rotate));
-            }
-          }}
+          move={this.clickCell.bind(this)}
           board={new TileBoard(this.props.G.board)}
         />
         {myHandsField}
@@ -88,8 +81,29 @@ export class GameComponent extends React.Component<
     );
   }
 
-  updatePlayerState(state: PlayerState) {
-    this.setState(state);
+  clickCell(x: number, y: number) {
+    const pickedTile = this.state.pickedTile;
+    if (pickedTile != null) {
+      this.props.moves.clickCell(x, y, pickedTile.index);
+    }
+  }
+
+  pickTile(index: number) {
+    this.setState({
+      pickedTile: { index },
+    });
+  }
+
+  rotateTile(dir: number) {
+    if (this.state.pickedTile == null) {
+      return;
+    }
+    this.setState({
+      pickedTile: {
+        index: this.state.pickedTile.index,
+        rotate: dir,
+      },
+    });
   }
 
   winner() {

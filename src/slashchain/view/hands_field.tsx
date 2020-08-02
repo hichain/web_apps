@@ -4,14 +4,11 @@ import { TileComponent } from "./tile";
 import { PlayerState } from "./game_state";
 import { Tile } from "../components";
 
-export interface HandsFieldProps {
+export interface HandsFieldProps extends PlayerState {
   hands: Tile[];
   isMyTurn: boolean;
-  pickedTile?: {
-    index: number;
-    rotate: number;
-  };
-  updatePlayerState?: (state: PlayerState) => void;
+  pick?: (index: number) => void;
+  rotate?: (dir: number) => void;
 }
 
 export class HandsFieldComponent extends React.Component<HandsFieldProps> {
@@ -24,25 +21,16 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps> {
 
   onClick(index: number) {
     if (this.props.pickedTile?.index === index) {
-      this.pick(index, this.props.pickedTile.rotate + 1);
+      this.props.rotate?.((this.props.pickedTile.rotate ?? 0) + 1);
     } else {
-      this.pick(index, 0);
+      this.props.pick?.(index);
     }
-  }
-
-  pick(index: number, rotate: number) {
-    this.props.updatePlayerState?.({
-      pickedTile: {
-        index,
-        rotate,
-      },
-    });
   }
 
   render() {
     const handClasses = [style.tile];
     let clickHandler: (index: number) => void;
-    const isMyField = this.props.updatePlayerState != null;
+    const isMyField = this.props.pick != null;
     if (this.props.isMyTurn && isMyField) {
       clickHandler = (index) => this.onClick(index);
       handClasses.push(style.pickable);

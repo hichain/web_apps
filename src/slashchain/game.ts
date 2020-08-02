@@ -2,6 +2,7 @@ import { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { buildRule, RuleSet } from "./rules";
 import { TileBoard, TileCell, Tile } from "./components";
+import { tileParser } from "./tiles";
 
 export type GameState = {
   ruleSet: RuleSet;
@@ -11,6 +12,7 @@ export type GameState = {
 
 export type Moves = {
   clickCell: (x: number, y: number, tile: Tile) => void;
+  rotateTile: (index: number, dir: number) => void;
 };
 
 export const Slashchain: Game<GameState> = {
@@ -43,12 +45,16 @@ export const Slashchain: Game<GameState> = {
     moveLimit: 1,
   },
   moves: {
-    clickCell: (G, ctx, x: number, y: number, tile: Tile) => {
+    clickCell: (G, ctx, x: number, y: number, handsIndex: number) => {
       const myPlayerID = ctx.playerID;
       if (myPlayerID == null) {
         return INVALID_MOVE;
       }
       const board = new TileBoard(G.board);
+      const tile = G.hands[myPlayerID]?.[handsIndex];
+      if (tile == null) {
+        return INVALID_MOVE;
+      }
       const cell = { x, y, tile };
       if (board.has(cell)) {
         return INVALID_MOVE;
@@ -56,6 +62,17 @@ export const Slashchain: Game<GameState> = {
       G.board = [...G.board, cell];
       const hands = G.hands[myPlayerID];
       G.hands[myPlayerID] = hands.filter((i) => i !== tile);
+    },
+    rotateTile: (G, ctx, index: number, dir: number) => {
+      const myPlayerID = ctx.playerID;
+      if (myPlayerID == null) {
+        return INVALID_MOVE;
+      }
+      const tile = G.hands[myPlayerID][index];
+      if (tile == null) {
+        return INVALID_MOVE;
+      }
+      G.hands[myPlayerID][index] = tileParser.rotate(tile, dir);
     },
   },
   endIf: (G, ctx) => {

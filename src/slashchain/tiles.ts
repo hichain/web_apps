@@ -1,6 +1,6 @@
 import { TileData, Tile, NamedTile } from "./components";
 
-const tileData: TileData[] = [
+export const tileData: TileData[] = [
   {
     name: "square",
     lines: 0x99,
@@ -27,9 +27,8 @@ const tileData: TileData[] = [
   },
 ];
 
-class NamedTileSet {
-  tiles: TileData[];
-  private namedTiles: ReadonlyMap<Tile, NamedTile>;
+class TileParser {
+  private tiles: ReadonlyMap<Tile, NamedTile>;
 
   constructor(tiles: TileData[]) {
     const namedTiles = tiles.reduce((acc: [Tile, NamedTile][], tile) => {
@@ -43,12 +42,11 @@ class NamedTileSet {
           ]),
       ];
     }, []);
-    this.tiles = tiles;
-    this.namedTiles = new Map(namedTiles);
+    this.tiles = new Map(namedTiles);
   }
 
-  getNamedTile = (tile: Tile, dir?: number): NamedTile | undefined => {
-    return this.namedTiles.get(this.rotate(tile, dir ?? 0));
+  parse = (tile: Tile, dir?: number): NamedTile | undefined => {
+    return this.tiles.get(this.rotate(tile, dir ?? 0));
   };
 
   rotate = (tile: Tile, dir: number): Tile => {
@@ -74,4 +72,4 @@ class NamedTileSet {
   };
 }
 
-export const tileSet = new NamedTileSet(tileData);
+export const tileParser = new TileParser(tileData);

@@ -6,7 +6,7 @@ import cross from "../images/cross.png";
 import power from "../images/power.png";
 import parallel from "../images/parallel.png";
 import { NamedTile, Tile } from "../components";
-import { tileSet } from "../tiles";
+import { tileParser } from "../tiles";
 
 const tileImages: { [key: string]: string } = {
   square,
@@ -23,11 +23,14 @@ export interface TileProps {
 }
 
 export const TileComponent = (props: TileProps) => {
-  const tile = tileSet.getNamedTile(props.tile, props.dir);
+  const tile = tileParser.parse(props.tile);
   if (tile == null) {
     return <div>Unknown (${props.tile.toString(16)})</div>;
   }
-  return NamedTileComponent(tile);
+  return NamedTileComponent({
+    name: tile.name,
+    rotate: props.dir ?? tile.rotate,
+  });
 };
 
 const NamedTileComponent = (tile: NamedTile) => {

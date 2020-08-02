@@ -1,5 +1,5 @@
-import { tileSet } from "./tiles";
 import { Tile } from "./components";
+import { tileData } from "./tiles";
 
 export type Rule = {
   name: string;
@@ -25,7 +25,7 @@ export const buildRule = (
 ): Rule => {
   const tiles = (): Tile[] => {
     if (tileType === "basic") {
-      return tileSet.tiles.map((tile) => tile.lines);
+      return tileData.map((tile) => tile.lines);
     } else {
       const _exhaustiveCheck: never = tileType;
       return _exhaustiveCheck;

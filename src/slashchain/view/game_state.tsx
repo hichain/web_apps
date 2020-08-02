@@ -3,7 +3,6 @@ import BoardComponent from "./board";
 import { HandsFieldComponent } from "./hands_field";
 import { Ctx, PlayerID } from "boardgame.io";
 import { GameState, Moves } from "../game";
-import { rotate } from "../tiles";
 import { TileBoard } from "../components";
 
 export interface PlayerState {

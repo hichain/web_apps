@@ -5,7 +5,7 @@ import pin from "../images/pin.png";
 import cross from "../images/cross.png";
 import power from "../images/power.png";
 import parallel from "../images/parallel.png";
-import { Tile } from "../components";
+import { NamedTile, Tile } from "../components";
 import { tileSet } from "../tiles";
 
 const tileImages: { [key: string]: string } = {
@@ -19,19 +19,32 @@ const tileImages: { [key: string]: string } = {
 
 export interface TileProps {
   tile: Tile;
+  dir?: number;
 }
 
-export class TileComponent extends React.Component<TileProps> {
-  render() {
-    const tile = tileSet.namedTiles.get(this.props.tile);
-    if (tile == null) {
-      return <div>unknown tile ({this.props.tile})</div>;
-    } else {
-      const imageUrl = tileImages[tile.name];
-      const style: { [key: string]: string } = {
-        transform: `rotate(${90 * tile.rotate}deg)`,
-      };
-      return <img src={imageUrl} style={style} alt={tile.name} />;
-    }
+export const TileComponent = (props: TileProps) => {
+  const tile = tileSet.getNamedTile(props.tile, props.dir);
+  if (tile == null) {
+    return <div>Unknown (${props.tile.toString(16)})</div>;
   }
-}
+  return NamedTileComponent(tile);
+};
+
+const NamedTileComponent = (tile: NamedTile) => {
+  const imageUrl = tileImages[tile.name];
+  if (imageUrl == null) {
+    return (
+      <div>
+        Unknown (${tile.name}:${tile.rotate})
+      </div>
+    );
+  }
+  return TileImageComponent(tile, imageUrl);
+};
+
+const TileImageComponent = (tile: NamedTile, imageUrl: string) => {
+  const style: { [key: string]: string } = {
+    transform: `rotate(${90 * tile.rotate}deg)`,
+  };
+  return <img src={imageUrl} style={style} alt={tile.name} />;
+};

@@ -3,7 +3,6 @@ import style from "../styles/field.module.scss";
 import { TileComponent } from "./tile";
 import { PlayerState } from "./game_state";
 import { Tile } from "../components";
-import { rotate } from "../tiles";
 
 export interface HandsFieldProps {
   hands: Tile[];
@@ -59,7 +58,7 @@ export class HandsFieldComponent extends React.Component<HandsFieldProps> {
             key={key}
             onClick={() => clickHandler(i)}
           >
-            <TileComponent tile={rotate(tile, pickedTile.rotate)} />
+            <TileComponent tile={tile} dir={pickedTile.rotate} />
           </div>
         );
       } else {

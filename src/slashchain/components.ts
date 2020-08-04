@@ -35,6 +35,19 @@ class CellSet extends Set<Cell> {
     });
     return false;
   }
+
+  range(): BoardRange {
+    const xArray = Array.from(this).map((cell) => cell.x);
+    const yArray = Array.from(this).map((cell) => cell.y);
+    xArray.sort((a, b) => a - b);
+    yArray.sort((a, b) => a - b);
+    return {
+      minX: xArray[0],
+      maxX: xArray[xArray.length - 1],
+      minY: yArray[0],
+      maxY: yArray[yArray.length - 1],
+    };
+  }
 }
 
 class InfiniteBoard<V> extends Map<Cell, V> {
@@ -110,21 +123,11 @@ export class TileBoard extends InfiniteBoard<Tile> {
       legalCells.delete(result.value);
       result = iterator.next();
     }
+    if (legalCells.size === 0) {
+      legalCells.add({ x: 0, y: 0 });
+    }
     return legalCells;
   }
-
-  range = (): BoardRange => {
-    const xArray = Array.from(this.keys()).map((cell) => cell.x);
-    const yArray = Array.from(this.keys()).map((cell) => cell.y);
-    xArray.sort((a, b) => a - b);
-    yArray.sort((a, b) => a - b);
-    return {
-      minX: xArray[0],
-      maxX: xArray[xArray.length - 1],
-      minY: yArray[0],
-      maxY: yArray[yArray.length - 1],
-    };
-  };
 }
 
 export interface TileData {

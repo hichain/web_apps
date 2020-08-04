@@ -14,7 +14,7 @@ export interface BoardProps {
 
 const BoardComponent = (props: BoardProps) => {
   const legalCells = props.board.legalMoves();
-  const range = props.board.range();
+  const range = legalCells.range();
   const tbody = [];
   for (let x = range.minX; x <= range.maxX; x++) {
     let cells = [];

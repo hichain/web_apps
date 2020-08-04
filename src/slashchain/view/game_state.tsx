@@ -1,9 +1,9 @@
 import React from "react";
 import BoardComponent from "./board";
-import { HandsFieldComponent } from "./hands_field";
 import { Ctx, PlayerID } from "boardgame.io";
 import { GameState, Moves } from "../game";
 import { TileBoard } from "../components";
+import { PickableHandsComponent, HandsComponent } from "./hands_field";
 
 export interface PlayerState {
   pickedTile?: {
@@ -30,43 +30,46 @@ export class GameComponent extends React.Component<
     };
   }
 
-  hands(player: PlayerID | null | undefined) {
-    if (player == null) {
-      return null;
-    }
-    return this.props.G.hands[player];
-  }
-
   isMyTurn() {
     return this.props.ctx.currentPlayer === this.props.playerID;
   }
 
   render() {
     const playerID = this.props.playerID;
-    let myHandsField;
-    const myHands = this.hands(playerID);
-    if (myHands != null) {
-      myHandsField = (
-        <HandsFieldComponent
-          hands={myHands}
-          isMyTurn={this.isMyTurn()}
-          pickedTile={this.state.pickedTile}
-          pick={this.pickTile.bind(this)}
-          rotate={this.rotateTile.bind(this)}
-        />
-      );
-    }
-
     const otherPlayerID = this.props.ctx.playOrder.find(
       (player) => player !== playerID
     );
-    let otherHandsField;
-    const otherHands = this.hands(otherPlayerID);
-    if (otherHands != null) {
-      otherHandsField = (
-        <HandsFieldComponent hands={otherHands} isMyTurn={false} />
-      );
+    if (otherPlayerID == null) {
+      return <div />;
     }
+
+    const myHands = this.props.G.hands[playerID];
+    if (myHands == null) {
+      return <div />;
+    }
+    const myHandsField = () => {
+      if (this.isMyTurn()) {
+        return (
+          <PickableHandsComponent
+            hands={myHands}
+            playerID={playerID}
+            pickedTile={this.state.pickedTile}
+            pick={this.pickTile.bind(this)}
+            rotate={this.rotateTile.bind(this)}
+          />
+        );
+      } else {
+        return <HandsComponent hands={myHands} playerID={playerID} />;
+      }
+    };
+
+    const otherHands = this.props.G.hands[otherPlayerID];
+    if (otherHands == null) {
+      return <div />;
+    }
+    const otherHandsField = (
+      <HandsComponent hands={otherHands} playerID={otherPlayerID} />
+    );
 
     return (
       <div>
@@ -75,7 +78,7 @@ export class GameComponent extends React.Component<
           move={this.clickCell.bind(this)}
           board={new TileBoard(this.props.G.board)}
         />
-        {myHandsField}
+        {myHandsField()}
         <div id="winner">{this.winner()}</div>
       </div>
     );

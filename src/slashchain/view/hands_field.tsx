@@ -4,64 +4,55 @@ import { TileComponent } from "./tile";
 import { PlayerState } from "./game_state";
 import { Tile } from "../components";
 
-export interface HandsFieldProps extends PlayerState {
+export interface HandsProps extends PlayerState {
   hands: Tile[];
-  isMyTurn: boolean;
-  pick?: (index: number) => void;
-  rotate?: (dir: number) => void;
+  playerID: string;
 }
 
-export class HandsFieldComponent extends React.Component<HandsFieldProps> {
-  constructor(props: HandsFieldProps) {
-    super(props);
-    this.state = {
-      pickedTile: undefined,
-    };
-  }
+export interface PickableHandsProps extends HandsProps {
+  pick: (index: number) => void;
+  rotate: (dir: number) => void;
+}
 
-  onClick(index: number) {
-    if (this.props.pickedTile?.index === index) {
-      this.props.rotate?.((this.props.pickedTile.rotate ?? 0) + 1);
+const TileItem = (
+  classes: string[],
+  key: string,
+  tile: Tile,
+  onClick?: () => void
+) => {
+  return (
+    <div className={classes.join(" ")} key={key} onClick={onClick}>
+      <TileComponent tile={tile} />
+    </div>
+  );
+};
+
+export const HandsComponent = (props: HandsProps) => {
+  const tileItems = props.hands.map((tile, i) =>
+    TileItem([style.tile], `${props.playerID}:${i}`, tile)
+  );
+
+  return <div className={style.field}>{tileItems}</div>;
+};
+
+export const PickableHandsComponent = (props: PickableHandsProps) => {
+  const handClasses = [style.tile, style.pickable];
+  const tileItems = props.hands.map((tile, i) => {
+    if (props.pickedTile?.index === i) {
+      return (
+        <div
+          className={[...handClasses, style.picked].join(" ")}
+          key={`${props.playerID}:${i}`}
+          onClick={() => props.rotate((props.pickedTile?.rotate ?? 0) + 1)}
+        >
+          <TileComponent tile={tile} dir={props.pickedTile.rotate} />
+        </div>
+      );
     } else {
-      this.props.pick?.(index);
+      return TileItem(handClasses, `${props.playerID}:${i}`, tile, () =>
+        props.pick(i)
+      );
     }
-  }
-
-  render() {
-    const handClasses = [style.tile];
-    let clickHandler: (index: number) => void;
-    const isMyField = this.props.pick != null;
-    if (this.props.isMyTurn && isMyField) {
-      clickHandler = (index) => this.onClick(index);
-      handClasses.push(style.pickable);
-    }
-
-    const pickedTile = this.props.pickedTile;
-    const tileItems = this.props.hands.map((tile, i) => {
-      const key = `${isMyField ? "me" : "other"}:${i}`;
-      if (pickedTile?.index === i) {
-        return (
-          <div
-            className={[...handClasses, style.picked].join(" ")}
-            key={key}
-            onClick={() => clickHandler(i)}
-          >
-            <TileComponent tile={tile} dir={pickedTile.rotate} />
-          </div>
-        );
-      } else {
-        return (
-          <div
-            className={handClasses.join(" ")}
-            key={key}
-            onClick={() => clickHandler(i)}
-          >
-            <TileComponent tile={tile} />
-          </div>
-        );
-      }
-    });
-
-    return <div className={style.field}>{tileItems}</div>;
-  }
-}
+  });
+  return <div className={style.field}>{tileItems}</div>;
+};

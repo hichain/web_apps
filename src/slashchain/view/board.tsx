@@ -1,7 +1,11 @@
 import React from "react";
-import { TileCell, TileBoard } from "../components";
+import { TileBoard, Cell } from "../components";
 import style from "../styles/board.module.scss";
-import CellComponent from "./cell";
+import {
+  TileCellComponent,
+  LegalCellComponent,
+  EmptyCellComponent,
+} from "./cell";
 
 export interface BoardProps {
   move: (x: number, y: number) => void;
@@ -9,20 +13,13 @@ export interface BoardProps {
 }
 
 const BoardComponent = (props: BoardProps) => {
-  const onClick = (cell: TileCell) => props.move(cell.x, cell.y);
-
+  const legalCells = props.board.legalMoves();
   const range = props.board.range();
   const tbody = [];
   for (let x = range.minX; x <= range.maxX; x++) {
     let cells = [];
     for (let y = range.minY; y <= range.maxY; y++) {
-      cells.push(
-        <CellComponent
-          cellKey={`${x},${y}`}
-          cell={props.board.getTileCell({ x, y })}
-          onClick={onClick}
-        />
-      );
+      cells.push(cell(props.board, legalCells, x, y, () => props.move(x, y)));
     }
     tbody.push(<tr key={x}>{cells}</tr>);
   }
@@ -34,6 +31,25 @@ const BoardComponent = (props: BoardProps) => {
       </table>
     </div>
   );
+};
+
+const cell = (
+  board: TileBoard,
+  legalCells: Set<Cell>,
+  x: number,
+  y: number,
+  onClick: (cell: Cell) => void
+) => {
+  const cell = { x, y };
+  const tile = board.get(cell);
+  if (tile != null) {
+    return <TileCellComponent cell={cell} tile={tile} />;
+  }
+  const isLegalCell = legalCells.has(cell);
+  if (isLegalCell != null) {
+    return <LegalCellComponent cell={cell} onClick={onClick} />;
+  }
+  return <EmptyCellComponent cell={cell} />;
 };
 
 export default BoardComponent;

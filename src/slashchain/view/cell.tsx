@@ -1,35 +1,46 @@
 import React from "react";
-import { TileCell } from "../components";
+import { Cell, Tile } from "../components";
 import style from "../styles/board.module.scss";
 import { TileComponent } from "./tile";
 
-export interface CellProps {
-  cellKey: string;
-  cell?: TileCell;
-  onClick: (cell: TileCell) => void;
+interface CellProps {
+  cell: Cell;
 }
 
-const CellComponent = (props: CellProps) => {
-  const classes = [style.cell];
-  const cell = props.cell;
-  const key = props.cellKey;
-  if (cell == null) {
-    return <td className={classes.join(" ")} key={key} />;
-  }
-  classes.push(style.available);
-  let cellBody;
-  if (cell.tile != null) {
-    cellBody = <TileComponent tile={cell.tile} />;
-  }
+export interface LegalCellProps extends CellProps {
+  onClick: (cell: Cell) => void;
+}
+
+export interface TileCellProps extends CellProps {
+  cell: Cell;
+  tile: Tile;
+}
+
+const key = (cell: Cell) => `${cell.x},${cell.y}`;
+
+export const EmptyCellComponent = (props: CellProps) => {
+  return <td className={style.cell} key={key(props.cell)} />;
+};
+
+export const LegalCellComponent = (props: LegalCellProps) => {
   return (
     <td
-      className={classes.join(" ")}
-      key={key}
-      onClick={() => props.onClick(cell)}
-    >
-      <div className={style.tile}>{cellBody}</div>
-    </td>
+      className={[style.cell, style.available].join(" ")}
+      key={key(props.cell)}
+      onClick={() => props.onClick(props.cell)}
+    ></td>
   );
 };
 
-export default CellComponent
+export const TileCellComponent = (props: TileCellProps) => {
+  return (
+    <td
+      className={[style.cell, style.available].join(" ")}
+      key={key(props.cell)}
+    >
+      <div className={style.tile}>
+        <TileComponent tile={props.tile} />
+      </div>
+    </td>
+  );
+};

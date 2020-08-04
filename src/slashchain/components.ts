@@ -1,4 +1,4 @@
-interface Cell {
+export interface Cell {
   x: number;
   y: number;
 }
@@ -90,7 +90,7 @@ export class TileBoard extends InfiniteBoard<Tile> {
     return { ...key, tile };
   }
 
-  legalMoves(): Cell[] {
+  legalMoves(): CellSet {
     const legalCells = new CellSet();
     const adjucentCells = (cell: Cell) => [
       { x: cell.x, y: cell.y - 1 },
@@ -98,13 +98,19 @@ export class TileBoard extends InfiniteBoard<Tile> {
       { x: cell.x, y: cell.y + 1 },
       { x: cell.x + 1, y: cell.y },
     ];
-    const iterator = this.keys();
+    let iterator = this.keys();
     let result = iterator.next();
     while (!result.done) {
       adjucentCells(result.value).forEach((cell) => legalCells.add(cell));
       result = iterator.next();
     }
-    return Array.from(legalCells).filter((cell) => !this.has(cell));
+    iterator = this.keys();
+    result = iterator.next();
+    while (!result.done) {
+      legalCells.delete(result.value);
+      result = iterator.next();
+    }
+    return legalCells;
   }
 
   range = (): BoardRange => {

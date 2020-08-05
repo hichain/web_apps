@@ -13,14 +13,9 @@ const isSame = (e1: Cell, e2: Cell): boolean => {
   return e1.x === e2.x && e1.y === e2.y;
 };
 
-class CellSet extends Set<Cell> {
+export class CellSet extends Set<Cell> {
   has(value: Cell): boolean {
-    this.forEach((cell) => {
-      if (isSame(value, cell)) {
-        return true;
-      }
-    });
-    return false;
+    return this.keyArray().some((cell) => isSame(value, cell));
   }
 
   add(value: Cell): this {
@@ -28,12 +23,11 @@ class CellSet extends Set<Cell> {
   }
 
   delete(value: Cell): boolean {
-    this.forEach((cell) => {
-      if (isSame(value, cell)) {
-        return super.delete(cell);
-      }
-    });
-    return false;
+    const foundCell = this.keyArray().find((cell) => isSame(value, cell));
+    if (foundCell == null) {
+      return false;
+    }
+    return super.delete(foundCell);
   }
 
   range(): BoardRange {
@@ -47,6 +41,10 @@ class CellSet extends Set<Cell> {
       minY: yArray[0],
       maxY: yArray[yArray.length - 1],
     };
+  }
+
+  keyArray(): Cell[] {
+    return Array.from(this);
   }
 }
 

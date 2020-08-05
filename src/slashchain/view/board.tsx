@@ -46,7 +46,7 @@ const cell = (
     return <TileCellComponent cell={cell} tile={tile} />;
   }
   const isLegalCell = legalCells.has(cell);
-  if (isLegalCell != null) {
+  if (isLegalCell) {
     return <LegalCellComponent cell={cell} onClick={onClick} />;
   }
   return <EmptyCellComponent cell={cell} />;

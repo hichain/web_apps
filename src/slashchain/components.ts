@@ -52,21 +52,11 @@ class CellSet extends Set<Cell> {
 
 class InfiniteBoard<V> extends Map<Cell, V> {
   get(key: Cell): V | undefined {
-    this.forEach((value, cell) => {
-      if (isSame(key, cell)) {
-        return value;
-      }
-    });
-    return undefined;
+    return this.entriesArray().find((value) => isSame(key, value[0]))?.[1];
   }
 
   has(key: Cell): boolean {
-    this.forEach((_, cell) => {
-      if (isSame(key, cell)) {
-        return true;
-      }
-    });
-    return false;
+    return this.entriesArray().some((value) => isSame(key, value[0]));
   }
 
   set(key: Cell, value: V): this {
@@ -74,12 +64,17 @@ class InfiniteBoard<V> extends Map<Cell, V> {
   }
 
   delete(key: Cell): boolean {
-    this.forEach((_, cell) => {
-      if (isSame(key, cell)) {
-        return super.delete(cell);
-      }
-    });
-    return false;
+    const foundKey = this.entriesArray().find((value) =>
+      isSame(key, value[0])
+    )?.[0];
+    if (foundKey == null) {
+      return false;
+    }
+    return super.delete(foundKey);
+  }
+
+  entriesArray(): [Cell, V][] {
+    return Array.from(this.entries());
   }
 }
 

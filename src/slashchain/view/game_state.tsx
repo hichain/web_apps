@@ -4,6 +4,7 @@ import { Ctx, PlayerID } from "boardgame.io";
 import { GameState, Moves } from "../game";
 import { TileBoard } from "../components";
 import { PickableHandsComponent, HandsComponent } from "./hands_field";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 
 export interface PlayerState {
   pickedTile?: {
@@ -15,6 +16,7 @@ export interface PlayerState {
 export interface GameStateProps {
   playerID: PlayerID;
   moves: Moves;
+  events: EventsAPI
   G: GameState;
   ctx: Ctx;
 }
@@ -88,6 +90,7 @@ export class GameComponent extends React.Component<
     const pickedTile = this.state.pickedTile;
     if (pickedTile != null) {
       this.props.moves.clickCell(x, y, pickedTile.index);
+      this.props.events.endTurn?.()
     }
   }
 

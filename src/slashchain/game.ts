@@ -60,8 +60,7 @@ export const Slashchain: Game<GameState> = {
         return INVALID_MOVE;
       }
       G.board = [...G.board, cell];
-      const hands = G.hands[myPlayerID];
-      G.hands[myPlayerID] = hands.filter((i) => i !== tile);
+      G.hands[myPlayerID].splice(handsIndex, 1);
     },
     rotateTile: (G, ctx, index: number, dir: number) => {
       const myPlayerID = ctx.playerID;

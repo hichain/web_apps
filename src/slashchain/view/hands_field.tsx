@@ -43,7 +43,7 @@ export const PickableHandsComponent = (props: PickableHandsProps) => {
         <div
           className={[...handClasses, style.picked].join(" ")}
           key={`${props.playerID}:${i}`}
-          onClick={() => props.rotate((props.pickedTile?.rotate ?? 0) + 1)}
+          onClick={() => props.rotate(1)}
         >
           <TileComponent tile={tile} dir={props.pickedTile.rotate} />
         </div>

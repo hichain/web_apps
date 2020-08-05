@@ -16,7 +16,7 @@ export interface PlayerState {
 export interface GameStateProps {
   playerID: PlayerID;
   moves: Moves;
-  events: EventsAPI
+  events: EventsAPI;
   G: GameState;
   ctx: Ctx;
 }
@@ -90,7 +90,7 @@ export class GameComponent extends React.Component<
     const pickedTile = this.state.pickedTile;
     if (pickedTile != null) {
       this.props.moves.clickCell(x, y, pickedTile.index);
-      this.props.events.endTurn?.()
+      this.props.events.endTurn?.();
     }
   }
 
@@ -104,12 +104,12 @@ export class GameComponent extends React.Component<
     if (this.state.pickedTile == null) {
       return;
     }
-    this.setState({
-      pickedTile: {
-        index: this.state.pickedTile.index,
-        rotate: dir,
-      },
-    });
+    const pickedTile = {
+      index: this.state.pickedTile.index,
+      rotate: (this.state.pickedTile.rotate ?? 0) + dir,
+    };
+    this.setState({ pickedTile });
+    this.props.moves.rotateTile(pickedTile.index, dir);
   }
 
   winner() {

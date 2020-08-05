@@ -41,9 +41,6 @@ export const Slashchain: Game<GameState> = {
       hands,
     };
   },
-  turn: {
-    moveLimit: 1,
-  },
   moves: {
     clickCell: (G, ctx, x: number, y: number, handsIndex: number) => {
       const myPlayerID = ctx.playerID;

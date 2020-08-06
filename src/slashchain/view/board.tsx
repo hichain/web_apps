@@ -1,11 +1,12 @@
 import React from "react";
-import { TileBoard, Cell } from "../components";
+import { TileBoard } from "../components";
 import style from "../styles/board.module.scss";
 import {
   TileCellComponent,
   LegalCellComponent,
   EmptyCellComponent,
 } from "./cell";
+import { Cell } from "../infinite_board";
 
 export interface BoardProps {
   move: (x: number, y: number) => void;
@@ -13,7 +14,7 @@ export interface BoardProps {
 }
 
 const BoardComponent = (props: BoardProps) => {
-  const legalCells = props.board.legalMoves();
+  const legalCells = props.board.legalCells();
   const range = legalCells.range();
   const tbody = [];
   for (let x = range.minX; x <= range.maxX; x++) {

@@ -1,7 +1,8 @@
 import React from "react";
-import { Cell, Tile } from "../components";
+import { Tile } from "../components";
 import style from "../styles/board.module.scss";
 import { TileComponent } from "./tile";
+import { Cell } from "../infinite_board";
 
 interface CellProps {
   cell: Cell;

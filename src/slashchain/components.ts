@@ -88,14 +88,6 @@ export class TileBoard extends InfiniteBoard<Tile> {
     super(tileCells.map((i): [Cell, Tile] => [{ x: i.x, y: i.y }, i.tile]));
   }
 
-  getTileCell(key: Cell): TileCell | undefined {
-    const tile = this.get(key);
-    if (tile === undefined) {
-      return undefined;
-    }
-    return { ...key, tile };
-  }
-
   legalMoves(): CellSet {
     const legalCells = new CellSet();
     const adjucentCells = (cell: Cell) => [

@@ -22,7 +22,7 @@ export class TileBoard extends InfiniteBoard<Tile> {
 
 export interface TileData {
   name: string;
-  lines: number;
+  lines: Tile;
 }
 
 export interface NamedTile {

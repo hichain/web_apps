@@ -64,7 +64,7 @@ export const Slashchain: Game<GameState> = {
       if (myPlayerID == null) {
         return INVALID_MOVE;
       }
-      const tile = G.hands[myPlayerID][index];
+      const tile = G.hands[myPlayerID]?.[index];
       if (tile == null) {
         return INVALID_MOVE;
       }

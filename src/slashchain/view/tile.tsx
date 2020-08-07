@@ -25,7 +25,7 @@ export interface TileProps {
 export const TileComponent = (props: TileProps) => {
   const tile = tileParser.parse(props.tile);
   if (tile == null) {
-    return <div>Unknown (${props.tile.toString(16)})</div>;
+    return <div>Unknown ({props.tile.toString(16)})</div>;
   }
   return NamedTileComponent({
     name: tile.name,

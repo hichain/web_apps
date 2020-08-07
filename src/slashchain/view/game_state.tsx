@@ -21,6 +21,11 @@ export interface GameStateProps {
   ctx: Ctx;
 }
 
+interface Players {
+  me: PlayerID;
+  other: PlayerID;
+}
+
 export class GameComponent extends React.Component<
   GameStateProps,
   PlayerState
@@ -32,45 +37,32 @@ export class GameComponent extends React.Component<
     };
   }
 
-  isMyTurn() {
-    return this.props.ctx.currentPlayer === this.props.playerID;
-  }
-
   render() {
-    const playerID = this.props.playerID;
-    const otherPlayerID = this.props.ctx.playOrder.find(
-      (player) => player !== playerID
-    );
-    if (otherPlayerID == null) {
+    const playerIDs = this.playerIDs();
+    if (playerIDs == null) {
       return <div />;
     }
 
-    const myHands = this.props.G.hands[playerID];
-    if (myHands == null) {
-      return <div />;
-    }
+    const myHands = this.props.G.hands[playerIDs.me];
     const myHandsField = () => {
       if (this.isMyTurn()) {
         return (
           <PickableHandsComponent
             hands={myHands}
-            playerID={playerID}
+            playerID={playerIDs.me}
             pickedTile={this.state.pickedTile}
             pick={this.pickTile.bind(this)}
             rotate={this.rotateTile.bind(this)}
           />
         );
       } else {
-        return <HandsComponent hands={myHands} playerID={playerID} />;
+        return <HandsComponent hands={myHands} playerID={playerIDs.me} />;
       }
     };
 
-    const otherHands = this.props.G.hands[otherPlayerID];
-    if (otherHands == null) {
-      return <div />;
-    }
+    const otherHands = this.props.G.hands[playerIDs.other];
     const otherHandsField = (
-      <HandsComponent hands={otherHands} playerID={otherPlayerID} />
+      <HandsComponent hands={otherHands} playerID={playerIDs.other} />
     );
 
     return (
@@ -84,6 +76,19 @@ export class GameComponent extends React.Component<
         <div id="winner">{this.winner()}</div>
       </div>
     );
+  }
+
+  playerIDs(): Players | undefined {
+    const me = this.props.playerID;
+    const other = this.props.ctx.playOrder.find((player) => player !== me);
+    if (me == null || other == null) {
+      return undefined;
+    }
+    return { me, other };
+  }
+
+  isMyTurn() {
+    return this.props.ctx.currentPlayer === this.props.playerID;
   }
 
   clickCell(x: number, y: number) {

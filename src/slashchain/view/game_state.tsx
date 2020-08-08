@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import BoardComponent from "./board";
 import { Ctx, PlayerID } from "boardgame.io";
 import { GameState, Moves } from "../game";
 import { TileBoard } from "../components";
 import { PickableHandsComponent, HandsComponent } from "./hands_field";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
+import { Cell } from "../infinite_board";
 
-export interface PlayerState {
-  pickedTile?: {
-    index: number;
-    rotate?: number;
-  };
+export interface Hand {
+  index: number;
+  dir?: number;
 }
 
 export interface GameStateProps {
@@ -26,105 +25,77 @@ interface Players {
   other: PlayerID;
 }
 
-export class GameComponent extends React.Component<
-  GameStateProps,
-  PlayerState
-> {
-  constructor(props: GameStateProps) {
-    super(props);
-    this.state = {
-      pickedTile: undefined,
-    };
+const players = (props: GameStateProps): Players | undefined => {
+  const me = props.playerID;
+  const other = props.ctx.playOrder.find((player) => player !== me);
+  if (me == null || other == null) {
+    return undefined;
+  }
+  return { me, other };
+};
+
+const isMyTurn = (props: GameStateProps) => {
+  return props.ctx.currentPlayer === props.playerID;
+};
+
+const gameResult = (ctx: Ctx) => {
+  if (!ctx.gameover) {
+    return "";
+  }
+  if (ctx.gameover.winner !== undefined) {
+    return `Winner: ${ctx.gameover.winner}`;
+  } else {
+    return "Draw!";
+  }
+};
+
+export const GameComponent = (props: GameStateProps) => {
+  const [pickedTile, pick] = useState<Hand | undefined>(undefined);
+  const playerIDs = players(props);
+  if (playerIDs == null) {
+    return <div />;
   }
 
-  render() {
-    const playerIDs = this.playerIDs();
-    if (playerIDs == null) {
-      return <div />;
-    }
-
-    const myHands = this.props.G.hands[playerIDs.me];
-    const myHandsField = () => {
-      if (this.isMyTurn()) {
-        return (
-          <PickableHandsComponent
-            hands={myHands}
-            playerID={playerIDs.me}
-            pickedTile={this.state.pickedTile}
-            pick={this.pickTile.bind(this)}
-            rotate={this.rotateTile.bind(this)}
-          />
-        );
-      } else {
-        return <HandsComponent hands={myHands} playerID={playerIDs.me} />;
-      }
-    };
-
-    const otherHands = this.props.G.hands[playerIDs.other];
-    const otherHandsField = (
-      <HandsComponent hands={otherHands} playerID={playerIDs.other} />
-    );
-
-    return (
-      <div>
-        {otherHandsField}
-        <BoardComponent
-          move={this.clickCell.bind(this)}
-          board={new TileBoard(this.props.G.board)}
+  const myHands = props.G.hands[playerIDs.me];
+  const myHandsField = () => {
+    if (isMyTurn(props)) {
+      return (
+        <PickableHandsComponent
+          hands={myHands}
+          playerID={playerIDs.me}
+          pickedTile={pickedTile}
+          pick={(i) => pick({ index: i })}
+          rotate={(i, dir) => {
+            pick({ index: i, dir: (pickedTile?.dir ?? 0) + dir });
+            props.moves.rotateTile(i, dir);
+          }}
         />
-        {myHandsField()}
-        <div id="winner">{this.winner()}</div>
-      </div>
-    );
-  }
-
-  playerIDs(): Players | undefined {
-    const me = this.props.playerID;
-    const other = this.props.ctx.playOrder.find((player) => player !== me);
-    if (me == null || other == null) {
-      return undefined;
-    }
-    return { me, other };
-  }
-
-  isMyTurn() {
-    return this.props.ctx.currentPlayer === this.props.playerID;
-  }
-
-  clickCell(x: number, y: number) {
-    const pickedTile = this.state.pickedTile;
-    if (pickedTile != null) {
-      this.props.moves.clickCell(x, y, pickedTile.index);
-      this.props.events.endTurn?.();
-    }
-  }
-
-  pickTile(index: number) {
-    this.setState({
-      pickedTile: { index },
-    });
-  }
-
-  rotateTile(dir: number) {
-    if (this.state.pickedTile == null) {
-      return;
-    }
-    const pickedTile = {
-      index: this.state.pickedTile.index,
-      rotate: (this.state.pickedTile.rotate ?? 0) + dir,
-    };
-    this.setState({ pickedTile });
-    this.props.moves.rotateTile(pickedTile.index, dir);
-  }
-
-  winner() {
-    if (!this.props.ctx.gameover) {
-      return "";
-    }
-    if (this.props.ctx.gameover.winner !== undefined) {
-      return `Winner: ${this.props.ctx.gameover.winner}`;
+      );
     } else {
-      return "Draw!";
+      return <HandsComponent hands={myHands} playerID={playerIDs.me} />;
     }
-  }
-}
+  };
+
+  const otherHands = props.G.hands[playerIDs.other];
+  const otherHandsField = (
+    <HandsComponent hands={otherHands} playerID={playerIDs.other} />
+  );
+
+  const move = () => {
+    if (pickedTile != null) {
+      return (cell: Cell) => {
+        props.moves.clickCell(cell.x, cell.y, pickedTile.index);
+        props.events.endTurn?.();
+      };
+    }
+  };
+
+  return (
+    <div>
+      {otherHandsField}
+      <BoardComponent move={move()} board={new TileBoard(props.G.board)} />
+      {myHandsField()}
+      <div id="winner">{gameResult(props.ctx)}</div>
+    </div>
+  );
+};

@@ -9,7 +9,7 @@ interface CellProps {
 }
 
 export interface LegalCellProps extends CellProps {
-  onClick: (cell: Cell) => void;
+  onClick: () => void;
 }
 
 export interface TileCellProps extends CellProps {
@@ -28,7 +28,7 @@ export const LegalCellComponent = (props: LegalCellProps) => {
     <td
       className={[style.cell, style.available].join(" ")}
       key={key(props.cell)}
-      onClick={() => props.onClick(props.cell)}
+      onClick={() => props.onClick()}
     ></td>
   );
 };

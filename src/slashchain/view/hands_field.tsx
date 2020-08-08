@@ -1,17 +1,18 @@
 import React from "react";
 import style from "../styles/field.module.scss";
 import { TileComponent } from "./tile";
-import { PlayerState } from "./game_state";
 import { Tile } from "../components";
+import { Hand } from "./game_state";
 
-export interface HandsProps extends PlayerState {
+export interface HandsProps {
   hands: Tile[];
   playerID: string;
+  pickedTile?: Hand;
 }
 
 export interface PickableHandsProps extends HandsProps {
   pick: (index: number) => void;
-  rotate: (dir: number) => void;
+  rotate: (index: number, dir: number) => void;
 }
 
 const TileItem = (
@@ -43,9 +44,9 @@ export const PickableHandsComponent = (props: PickableHandsProps) => {
         <div
           className={[...handClasses, style.picked].join(" ")}
           key={`${props.playerID}:${i}`}
-          onClick={() => props.rotate(1)}
+          onClick={() => props.rotate(i, 1)}
         >
-          <TileComponent tile={tile} dir={props.pickedTile.rotate} />
+          <TileComponent tile={tile} dir={props.pickedTile.dir} />
         </div>
       );
     } else {

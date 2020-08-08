@@ -9,7 +9,7 @@ import {
 import { Cell } from "../infinite_board";
 
 export interface BoardProps {
-  move: (x: number, y: number) => void;
+  move?: (cell: Cell) => void;
   board: TileBoard;
 }
 
@@ -20,7 +20,7 @@ const BoardComponent = (props: BoardProps) => {
   for (let x = range.minX; x <= range.maxX; x++) {
     let cells = [];
     for (let y = range.minY; y <= range.maxY; y++) {
-      cells.push(cell(props.board, legalCells, x, y, () => props.move(x, y)));
+      cells.push(cell(props.board, legalCells, x, y, props.move));
     }
     tbody.push(<tr key={x}>{cells}</tr>);
   }
@@ -39,7 +39,7 @@ const cell = (
   legalCells: Set<Cell>,
   x: number,
   y: number,
-  onClick: (cell: Cell) => void
+  onClick?: (cell: Cell) => void
 ) => {
   const cell = { x, y };
   const tile = board.get(cell);
@@ -48,7 +48,12 @@ const cell = (
   }
   const isLegalCell = legalCells.has(cell);
   if (isLegalCell) {
-    return <LegalCellComponent cell={cell} onClick={onClick} />;
+    return (
+      <LegalCellComponent
+        cell={cell}
+        onClick={() => onClick?.(cell)}
+      />
+    );
   }
   return <EmptyCellComponent cell={cell} />;
 };

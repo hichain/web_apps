@@ -30,6 +30,7 @@
     "test:client": "react-scripts test",
     "eject:client": "react-scripts eject",
     "build:server": "npm run tsc -- --project ./src/server",
+    "test": "jest",
     "tsc": "tsc"
   },
   "browserslist": {

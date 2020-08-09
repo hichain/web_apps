@@ -2,7 +2,7 @@ import { Game } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { buildRule, RuleSet } from "./rules";
 import { TileBoard, TileCell, Tile } from "./components";
-import { tileParser } from "./tiles";
+import { rotate } from "./tiles";
 
 export type GameState = {
   ruleSet: RuleSet;
@@ -68,7 +68,7 @@ export const Slashchain: Game<GameState> = {
       if (tile == null) {
         return INVALID_MOVE;
       }
-      G.hands[myPlayerID][index] = tileParser.rotate(tile, dir);
+      G.hands[myPlayerID][index] = rotate(tile, dir);
     },
   },
   endIf: (G, ctx) => {

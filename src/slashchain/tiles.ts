@@ -27,6 +27,28 @@ export const tileData: TileData[] = [
   },
 ];
 
+export const rotate = (tile: Tile, dir: number): Tile => {
+  if (dir % 4 === 0) {
+    return tile;
+  } else if (dir > 0) {
+    return rotate(
+      ((tile & 0xa8) >>> 3) |
+        ((tile & 0x54) >>> 1) |
+        ((tile & 0x2) << 5) |
+        ((tile & 0x1) << 7),
+      dir - 1
+    );
+  } else {
+    return rotate(
+      ((tile & 0x2a) << 1) |
+        ((tile & 0x15) << 3) |
+        ((tile & 0x80) >>> 7) |
+        ((tile & 0x40) >>> 5),
+      dir + 1
+    );
+  }
+};
+
 class TileParser {
   private tiles: ReadonlyMap<Tile, NamedTile>;
 
@@ -37,7 +59,7 @@ class TileParser {
         ...new Array(4)
           .fill(null)
           .map((_, i): [Tile, NamedTile] => [
-            this.rotate(tile.lines, i),
+            rotate(tile.lines, i),
             { name: tile.name, rotate: i },
           ]),
       ];
@@ -46,29 +68,7 @@ class TileParser {
   }
 
   parse = (tile: Tile, dir?: number): NamedTile | undefined => {
-    return this.tiles.get(this.rotate(tile, dir ?? 0));
-  };
-
-  rotate = (tile: Tile, dir: number): Tile => {
-    if (dir % 4 === 0) {
-      return tile;
-    } else if (dir > 0) {
-      return this.rotate(
-        ((tile & 0xa8) >>> 3) |
-          ((tile & 0x54) >>> 1) |
-          ((tile & 0x2) << 5) |
-          ((tile & 0x1) << 7),
-        dir - 1
-      );
-    } else {
-      return this.rotate(
-        ((tile & 0x2a) << 1) |
-          ((tile & 0x15) << 3) |
-          ((tile & 0x80) >>> 7) |
-          ((tile & 0x40) >>> 5),
-        dir + 1
-      );
-    }
+    return this.tiles.get(rotate(tile, dir ?? 0));
   };
 }
 

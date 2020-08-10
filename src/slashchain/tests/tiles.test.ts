@@ -10,11 +10,11 @@ describe("rotate tile", () => {
     expect(tile).toBe(0x99);
   });
   test("pin (dir+2)", () => {
-    const tile = rotate(0xa9, 2);
+    const tile = rotate(0xa6, 2);
     expect(tile).toBe(0x6a);
   });
   test("power (dir-1)", () => {
-    const tile = rotate(0x56, -1);
+    const tile = rotate(0x59, -1);
     expect(tile).toBe(0x9a);
   });
   test("parallel (dir-6)", () => {

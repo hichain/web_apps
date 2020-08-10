@@ -11,7 +11,7 @@ export const tileData: TileData[] = [
   },
   {
     name: "pin",
-    lines: 0xa9,
+    lines: 0xa6,
   },
   {
     name: "cross",
@@ -19,7 +19,7 @@ export const tileData: TileData[] = [
   },
   {
     name: "power",
-    lines: 0x56,
+    lines: 0x59,
   },
   {
     name: "parallel",

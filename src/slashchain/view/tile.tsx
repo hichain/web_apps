@@ -29,7 +29,7 @@ export const TileComponent = (props: TileProps) => {
   }
   return NamedTileComponent({
     name: tile.name,
-    rotate: props.dir ?? tile.rotate,
+    dir: props.dir ?? tile.dir,
   });
 };
 
@@ -38,7 +38,7 @@ const NamedTileComponent = (tile: NamedTile) => {
   if (imageUrl == null) {
     return (
       <div>
-        Unknown (${tile.name}:${tile.rotate})
+        Unknown (${tile.name}:${tile.dir})
       </div>
     );
   }
@@ -47,7 +47,7 @@ const NamedTileComponent = (tile: NamedTile) => {
 
 const TileImageComponent = (tile: NamedTile, imageUrl: string) => {
   const style: { [key: string]: string } = {
-    transform: `rotate(${90 * tile.rotate}deg)`,
+    transform: `rotate(${90 * tile.dir}deg)`,
   };
   return <img src={imageUrl} style={style} alt={tile.name} />;
 };

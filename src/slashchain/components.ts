@@ -27,5 +27,5 @@ export interface TileData {
 
 export interface NamedTile {
   name: string;
-  rotate: number;
+  dir: number;
 }

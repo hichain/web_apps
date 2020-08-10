@@ -60,7 +60,7 @@ class TileParser {
           .fill(null)
           .map((_, i): [Tile, NamedTile] => [
             rotate(tile.lines, i),
-            { name: tile.name, rotate: i },
+            { name: tile.name, dir: i },
           ]),
       ];
     }, []);

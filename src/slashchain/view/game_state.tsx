@@ -6,13 +6,14 @@ import { TileBoard } from "../components";
 import { PickableHandsComponent, HandsComponent } from "./hands_field";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 import { Cell } from "../infinite_board";
+import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 
 export interface Hand {
   index: number;
   dir?: number;
 }
 
-export interface GameStateProps {
+export interface GameStateProps extends BoardProps {
   playerID: PlayerID;
   moves: Moves;
   events: EventsAPI;

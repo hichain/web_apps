@@ -47,7 +47,7 @@
   "devDependencies": {
     "@babel/register": "^7.10.3",
     "@types/jest": "^24.9.1",
-    "ts-jest": "^26.1.4",
+    "ts-jest": "^24.3.0",
     "ts-loader": "^7.0.5",
     "webpack-cli": "^3.3.12"
   },

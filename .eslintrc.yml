@@ -3,8 +3,14 @@ env:
   es2021: true
   node: true
 extends:
-  - 'plugin:react/recommended'
   - google
+  - eslint:recommended
+  - plugin:@typescript-eslint/eslint-recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:react/recommended
+  - plugin:jest/recommended
+  - prettier
+  - prettier/@typescript-eslint
 parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
@@ -14,6 +20,15 @@ parserOptions:
 plugins:
   - react
   - '@typescript-eslint'
-rules: {
-  prettier/prettier: error
-}
+  - jest
+rules:
+  require-jsdoc: 0
+overrides:
+  - 
+    files:
+      - "*.{ts,tsx}"
+    rules:
+      new-cap: 0
+settings:
+  react:
+    version: detect

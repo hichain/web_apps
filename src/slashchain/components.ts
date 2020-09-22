@@ -12,7 +12,7 @@ export class TileBoard extends InfiniteBoard<Tile> {
   }
 
   legalCells(): CellSet {
-    const legalCells = this.adjucentCells()
+    const legalCells = this.adjucentCells();
     if (legalCells.size === 0) {
       legalCells.add({ x: 0, y: 0 });
     }

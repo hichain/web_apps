@@ -22,18 +22,14 @@ export interface TileProps {
   dir?: number;
 }
 
-export const TileComponent = (props: TileProps) => {
-  const tile = tileParser.parse(props.tile);
-  if (tile == null) {
-    return <div>Unknown ({props.tile.toString(16)})</div>;
-  }
-  return NamedTileComponent({
-    name: tile.name,
-    dir: props.dir ?? tile.dir,
-  });
+const tileImageComponent = (tile: NamedTile, imageUrl: string): JSX.Element => {
+  const style: { [key: string]: string } = {
+    transform: `rotate(${90 * tile.dir}deg)`,
+  };
+  return <img src={imageUrl} style={style} alt={tile.name} />;
 };
 
-const NamedTileComponent = (tile: NamedTile) => {
+const namedTileComponent = (tile: NamedTile): JSX.Element => {
   const imageUrl = tileImages[tile.name];
   if (imageUrl == null) {
     return (
@@ -42,12 +38,16 @@ const NamedTileComponent = (tile: NamedTile) => {
       </div>
     );
   }
-  return TileImageComponent(tile, imageUrl);
+  return tileImageComponent(tile, imageUrl);
 };
 
-const TileImageComponent = (tile: NamedTile, imageUrl: string) => {
-  const style: { [key: string]: string } = {
-    transform: `rotate(${90 * tile.dir}deg)`,
-  };
-  return <img src={imageUrl} style={style} alt={tile.name} />;
+export const TileComponent = (props: TileProps): JSX.Element => {
+  const tile = tileParser.parse(props.tile);
+  if (tile == null) {
+    return <div>Unknown ({props.tile.toString(16)})</div>;
+  }
+  return namedTileComponent({
+    name: tile.name,
+    dir: props.dir ?? tile.dir,
+  });
 };

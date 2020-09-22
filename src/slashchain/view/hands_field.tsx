@@ -15,12 +15,12 @@ export interface PickableHandsProps extends HandsProps {
   rotate: (index: number, dir: number) => void;
 }
 
-const TileItem = (
+const tileItem = (
   classes: string[],
   key: string,
   tile: Tile,
   onClick?: () => void
-) => {
+): JSX.Element => {
   return (
     <div className={classes.join(" ")} key={key} onClick={onClick}>
       <TileComponent tile={tile} />
@@ -28,15 +28,17 @@ const TileItem = (
   );
 };
 
-export const HandsComponent = (props: HandsProps) => {
+export const HandsComponent = (props: HandsProps): JSX.Element => {
   const tileItems = props.hands.map((tile, i) =>
-    TileItem([style.tile], `${props.playerID}:${i}`, tile)
+    tileItem([style.tile], `${props.playerID}:${i}`, tile)
   );
 
   return <div className={style.field}>{tileItems}</div>;
 };
 
-export const PickableHandsComponent = (props: PickableHandsProps) => {
+export const PickableHandsComponent = (
+  props: PickableHandsProps
+): JSX.Element => {
   const handClasses = [style.tile, style.pickable];
   const tileItems = props.hands.map((tile, i) => {
     if (props.pickedTile?.index === i) {
@@ -44,13 +46,13 @@ export const PickableHandsComponent = (props: PickableHandsProps) => {
         <div
           className={[...handClasses, style.picked].join(" ")}
           key={`${props.playerID}:${i}`}
-          onClick={() => props.rotate(i, 1)}
+          onClick={(): void => props.rotate(i, 1)}
         >
           <TileComponent tile={tile} dir={props.pickedTile.dir} />
         </div>
       );
     } else {
-      return TileItem(handClasses, `${props.playerID}:${i}`, tile, () =>
+      return tileItem(handClasses, `${props.playerID}:${i}`, tile, () =>
         props.pick(i)
       );
     }

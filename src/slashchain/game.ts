@@ -1,4 +1,4 @@
-import { Game } from "boardgame.io";
+import { Game, Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { buildRule, RuleSet } from "./rules";
 import { TileBoard, TileCell, Tile } from "./components";
@@ -11,7 +11,7 @@ export type GameState = {
 };
 
 export type Moves = {
-  clickCell: (x: number, y: number, tile: Tile) => void;
+  clickCell: (x: number, y: number, handsIndex: number) => void;
   rotateTile: (index: number, dir: number) => void;
 };
 
@@ -42,7 +42,13 @@ export const Slashchain: Game<GameState> = {
     };
   },
   moves: {
-    clickCell: (G, ctx, x: number, y: number, handsIndex: number) => {
+    clickCell: (
+      G: GameState,
+      ctx: Ctx,
+      x: number,
+      y: number,
+      handsIndex: number
+    ): "INVALID_MOVE" | undefined => {
       const myPlayerID = ctx.playerID;
       if (myPlayerID == null) {
         return INVALID_MOVE;
@@ -59,7 +65,12 @@ export const Slashchain: Game<GameState> = {
       G.board = [...G.board, cell];
       G.hands[myPlayerID].splice(handsIndex, 1);
     },
-    rotateTile: (G, ctx, index: number, dir: number) => {
+    rotateTile: (
+      G: GameState,
+      ctx: Ctx,
+      index: number,
+      dir: number
+    ): "INVALID_MOVE" | undefined => {
       const myPlayerID = ctx.playerID;
       if (myPlayerID == null) {
         return INVALID_MOVE;

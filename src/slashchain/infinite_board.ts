@@ -73,7 +73,7 @@ export class InfiniteBoard<V> extends Map<Cell, V> {
   }
 
   adjucentCells(): CellSet {
-    const adjucent = (cell: Cell) => [
+    const adjucent = (cell: Cell): Cell[] => [
       { x: cell.x, y: cell.y - 1 },
       { x: cell.x - 1, y: cell.y },
       { x: cell.x, y: cell.y + 1 },

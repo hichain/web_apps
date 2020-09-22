@@ -67,7 +67,7 @@ class TileParser {
     this.tiles = new Map(namedTiles);
   }
 
-  parse = (tile: Tile, dir?: number): NamedTile | undefined => {
+  parse(tile: Tile, dir?: number): NamedTile | undefined {
     return this.tiles.get(rotate(tile, dir ?? 0));
   };
 }

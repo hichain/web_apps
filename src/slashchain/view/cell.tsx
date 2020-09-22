@@ -17,23 +17,23 @@ export interface TileCellProps extends CellProps {
   tile: Tile;
 }
 
-const key = (cell: Cell) => `${cell.x},${cell.y}`;
+const key = (cell: Cell): string => `${cell.x},${cell.y}`;
 
-export const EmptyCellComponent = (props: CellProps) => {
+export const EmptyCellComponent = (props: CellProps): JSX.Element => {
   return <td className={style.cell} key={key(props.cell)} />;
 };
 
-export const LegalCellComponent = (props: LegalCellProps) => {
+export const LegalCellComponent = (props: LegalCellProps): JSX.Element => {
   return (
     <td
       className={[style.cell, style.available].join(" ")}
       key={key(props.cell)}
-      onClick={() => props.onClick()}
+      onClick={(): void => props.onClick()}
     ></td>
   );
 };
 
-export const TileCellComponent = (props: TileCellProps) => {
+export const TileCellComponent = (props: TileCellProps): JSX.Element => {
   return (
     <td
       className={[style.cell, style.available].join(" ")}

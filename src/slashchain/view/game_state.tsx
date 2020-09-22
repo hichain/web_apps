@@ -35,11 +35,11 @@ const players = (props: GameStateProps): Players | undefined => {
   return { me, other };
 };
 
-const isMyTurn = (props: GameStateProps) => {
+const isMyTurn = (props: GameStateProps): boolean => {
   return props.ctx.currentPlayer === props.playerID;
 };
 
-const gameResult = (ctx: Ctx) => {
+const gameResult = (ctx: Ctx): string => {
   if (!ctx.gameover) {
     return "";
   }
@@ -50,7 +50,7 @@ const gameResult = (ctx: Ctx) => {
   }
 };
 
-export const GameComponent = (props: GameStateProps) => {
+export const GameComponent = (props: GameStateProps): JSX.Element => {
   const [pickedTile, pick] = useState<Hand | undefined>(undefined);
   const playerIDs = players(props);
   if (playerIDs == null) {
@@ -58,15 +58,15 @@ export const GameComponent = (props: GameStateProps) => {
   }
 
   const myHands = props.G.hands[playerIDs.me];
-  const myHandsField = () => {
+  const myHandsField = (): JSX.Element => {
     if (isMyTurn(props)) {
       return (
         <PickableHandsComponent
           hands={myHands}
           playerID={playerIDs.me}
           pickedTile={pickedTile}
-          pick={(i) => pick({ index: i })}
-          rotate={(i, dir) => {
+          pick={(i): void => pick({ index: i })}
+          rotate={(i, dir): void => {
             pick({ index: i, dir: (pickedTile?.dir ?? 0) + dir });
             props.moves.rotateTile(i, dir);
           }}
@@ -82,9 +82,9 @@ export const GameComponent = (props: GameStateProps) => {
     <HandsComponent hands={otherHands} playerID={playerIDs.other} />
   );
 
-  const move = () => {
+  const move: (cell: Cell) => void = () => {
     if (pickedTile != null) {
-      return (cell: Cell) => {
+      return (cell: Cell): void => {
         props.moves.clickCell(cell.x, cell.y, pickedTile.index);
         props.events.endTurn?.();
       };
@@ -94,7 +94,7 @@ export const GameComponent = (props: GameStateProps) => {
   return (
     <div>
       {otherHandsField}
-      <BoardComponent move={move()} board={new TileBoard(props.G.board)} />
+      <BoardComponent move={move} board={new TileBoard(props.G.board)} />
       {myHandsField()}
       <div id="winner">{gameResult(props.ctx)}</div>
     </div>

@@ -17,31 +17,21 @@ export interface TileCellProps extends CellProps {
   tile: Tile;
 }
 
-const key = (cell: Cell): string => `${cell.x},${cell.y}`;
+export const EmptyCellComponent: React.FC = () => <td className={style.cell} />;
 
-export const EmptyCellComponent = (props: CellProps): JSX.Element => {
-  return <td className={style.cell} key={key(props.cell)} />;
-};
+export const LegalCellComponent: React.FC<LegalCellProps> = (
+  props: LegalCellProps
+) => (
+  <td
+    className={[style.cell, style.available].join(" ")}
+    onClick={(): void => props.onClick()}
+  ></td>
+);
 
-export const LegalCellComponent = (props: LegalCellProps): JSX.Element => {
-  return (
-    <td
-      className={[style.cell, style.available].join(" ")}
-      key={key(props.cell)}
-      onClick={(): void => props.onClick()}
-    ></td>
-  );
-};
-
-export const TileCellComponent = (props: TileCellProps): JSX.Element => {
-  return (
-    <td
-      className={[style.cell, style.available].join(" ")}
-      key={key(props.cell)}
-    >
-      <div className={style.tile}>
-        <TileComponent tile={props.tile} />
-      </div>
-    </td>
-  );
-};
+export const TileCellComponent: React.FC<TileCellProps> = (props) => (
+  <td className={[style.cell, style.available].join(" ")}>
+    <div className={style.tile}>
+      <TileComponent tile={props.tile} />
+    </div>
+  </td>
+);

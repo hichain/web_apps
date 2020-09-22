@@ -13,35 +13,43 @@ export interface BoardProps {
   board: TileBoard;
 }
 
-const cell = (
-  board: TileBoard,
-  legalCells: Set<Cell>,
-  x: number,
-  y: number,
-  onClick?: (cell: Cell) => void
-): JSX.Element => {
-  const cell = { x, y };
-  const tile = board.get(cell);
+interface CellProps {
+  board: TileBoard;
+  legalCells: Set<Cell>;
+  x: number;
+  y: number;
+  onClick?: (cell: Cell) => void;
+}
+
+const cell: React.FC<CellProps> = (props) => {
+  const cell = { x: props.x, y: props.y };
+  const tile = props.board.get(cell);
   if (tile != null) {
-    return <TileCellComponent cell={cell} tile={tile} />;
+    return <TileCellComponent cell={cell} key={cell.y} tile={tile} />;
   }
-  const isLegalCell = legalCells.has(cell);
+  const isLegalCell = props.legalCells.has(cell);
   if (isLegalCell) {
     return (
-      <LegalCellComponent cell={cell} onClick={(): void => onClick?.(cell)} />
+      <LegalCellComponent
+        cell={cell}
+        key={cell.y}
+        onClick={(): void => props.onClick?.(cell)}
+      />
     );
   }
-  return <EmptyCellComponent cell={cell} />;
+  return <EmptyCellComponent key={cell.y} />;
 };
 
-const BoardComponent = (props: BoardProps): JSX.Element => {
+const BoardComponent: React.FC<BoardProps> = (props) => {
   const legalCells = props.board.legalCells();
   const range = legalCells.range();
   const tbody = [];
   for (let x = range.minX; x <= range.maxX; x++) {
     const cells = [];
     for (let y = range.minY; y <= range.maxY; y++) {
-      cells.push(cell(props.board, legalCells, x, y, props.move));
+      cells.push(
+        cell({ board: props.board, legalCells, x, y, onClick: props.move })
+      );
     }
     tbody.push(<tr key={x}>{cells}</tr>);
   }

@@ -82,12 +82,13 @@ export const GameComponent = (props: GameStateProps): JSX.Element => {
     <HandsComponent hands={otherHands} playerID={playerIDs.other} />
   );
 
-  const move: (cell: Cell) => void = () => {
+  const move = (cell: Cell): void => {
     if (pickedTile != null) {
-      return (cell: Cell): void => {
-        props.moves.clickCell(cell.x, cell.y, pickedTile.index);
-        props.events.endTurn?.();
-      };
+      props.moves.clickCell(cell.x, cell.y, pickedTile.index);
+      const endTurn = props.events.endTurn;
+      if (endTurn != null) {
+        endTurn();
+      }
     }
   };
 

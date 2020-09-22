@@ -1,6 +1,7 @@
 env:
   browser: true
-  es2021: true
+  es2020: true
+  es6: true
   node: true
 extends:
   - google
@@ -15,7 +16,7 @@ parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
     jsx: true
-  ecmaVersion: 12
+  ecmaVersion: 2020
   sourceType: module
 plugins:
   - react
@@ -29,6 +30,7 @@ overrides:
       - "*.{ts,tsx}"
     rules:
       new-cap: 0
+      react/prop-types: 0
 settings:
   react:
     version: detect

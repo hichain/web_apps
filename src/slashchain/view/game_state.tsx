@@ -58,7 +58,7 @@ export const GameComponent: React.FC<GameStateProps> = (props) => {
   }
 
   const myHands = props.G.hands[playerIDs.me];
-  const myHandsField: React.FC<GameStateProps> = (props) => {
+  const MyHandsField: React.FC<GameStateProps> = (props) => {
     if (isMyTurn(props)) {
       return (
         <PickableHandsComponent
@@ -96,7 +96,7 @@ export const GameComponent: React.FC<GameStateProps> = (props) => {
     <div>
       {otherHandsField}
       <BoardComponent move={move} board={new TileBoard(props.G.board)} />
-      {myHandsField(props)}
+      {MyHandsField(props)}
       <div id="winner">{gameResult(props.ctx)}</div>
     </div>
   );

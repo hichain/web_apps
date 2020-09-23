@@ -22,7 +22,7 @@ export interface TileProps {
   dir?: number;
 }
 
-const tileImageComponent: React.FC<{ tile: NamedTile; imageUrl: string }> = ({
+const TileImageComponent: React.FC<{ tile: NamedTile; imageUrl: string }> = ({
   tile,
   imageUrl,
 }) => {
@@ -32,7 +32,7 @@ const tileImageComponent: React.FC<{ tile: NamedTile; imageUrl: string }> = ({
   return <img src={imageUrl} style={style} alt={tile.name} />;
 };
 
-const namedTileComponent: React.FC<{ tile: NamedTile }> = ({ tile }) => {
+const NamedTileComponent: React.FC<{ tile: NamedTile }> = ({ tile }) => {
   const imageUrl = tileImages[tile.name];
   if (imageUrl == null) {
     return (
@@ -41,7 +41,7 @@ const namedTileComponent: React.FC<{ tile: NamedTile }> = ({ tile }) => {
       </div>
     );
   }
-  return tileImageComponent({ tile, imageUrl });
+  return TileImageComponent({ tile, imageUrl });
 };
 
 export const TileComponent: React.FC<TileProps> = (props) => {
@@ -49,7 +49,7 @@ export const TileComponent: React.FC<TileProps> = (props) => {
   if (tile == null) {
     return <div>Unknown ({props.tile.toString(16)})</div>;
   }
-  return namedTileComponent({
+  return NamedTileComponent({
     tile: {
       name: tile.name,
       dir: props.dir ?? tile.dir,

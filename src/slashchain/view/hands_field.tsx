@@ -15,7 +15,7 @@ export interface PickableHandsProps extends HandsProps {
   rotate: (index: number, dir: number) => void;
 }
 
-const tileItem: React.FC<{
+const TileItem: React.FC<{
   classes: string[];
   key: string;
   tile: Tile;
@@ -30,7 +30,7 @@ const tileItem: React.FC<{
 
 export const HandsComponent: React.FC<HandsProps> = ({ hands, playerID }) => {
   const tileItems = hands.map((tile, i) =>
-    tileItem({ classes: [style.tile], key: `${playerID}:${i}`, tile })
+    TileItem({ classes: [style.tile], key: `${playerID}:${i}`, tile })
   );
 
   return <div className={style.field}>{tileItems}</div>;
@@ -56,7 +56,7 @@ export const PickableHandsComponent: React.FC<PickableHandsProps> = ({
         </div>
       );
     } else {
-      return tileItem({
+      return TileItem({
         classes: handClasses,
         key: `${playerID}:${i}`,
         tile,

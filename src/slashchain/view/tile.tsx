@@ -22,14 +22,17 @@ export interface TileProps {
   dir?: number;
 }
 
-const tileImageComponent = (tile: NamedTile, imageUrl: string): JSX.Element => {
+const tileImageComponent: React.FC<{ tile: NamedTile; imageUrl: string }> = ({
+  tile,
+  imageUrl,
+}) => {
   const style: { [key: string]: string } = {
     transform: `rotate(${90 * tile.dir}deg)`,
   };
   return <img src={imageUrl} style={style} alt={tile.name} />;
 };
 
-const namedTileComponent = (tile: NamedTile): JSX.Element => {
+const namedTileComponent: React.FC<{ tile: NamedTile }> = ({ tile }) => {
   const imageUrl = tileImages[tile.name];
   if (imageUrl == null) {
     return (
@@ -38,16 +41,18 @@ const namedTileComponent = (tile: NamedTile): JSX.Element => {
       </div>
     );
   }
-  return tileImageComponent(tile, imageUrl);
+  return tileImageComponent({ tile, imageUrl });
 };
 
-export const TileComponent = (props: TileProps): JSX.Element => {
+export const TileComponent: React.FC<TileProps> = (props) => {
   const tile = tileParser.parse(props.tile);
   if (tile == null) {
     return <div>Unknown ({props.tile.toString(16)})</div>;
   }
   return namedTileComponent({
-    name: tile.name,
-    dir: props.dir ?? tile.dir,
+    tile: {
+      name: tile.name,
+      dir: props.dir ?? tile.dir,
+    },
   });
 };

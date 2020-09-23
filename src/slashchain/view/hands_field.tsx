@@ -15,12 +15,12 @@ export interface PickableHandsProps extends HandsProps {
   rotate: (index: number, dir: number) => void;
 }
 
-const tileItem = (
-  classes: string[],
-  key: string,
-  tile: Tile,
-  onClick?: () => void
-): JSX.Element => {
+const tileItem: React.FC<{
+  classes: string[];
+  key: string;
+  tile: Tile;
+  onClick?: () => void;
+}> = ({ classes, key, tile, onClick }) => {
   return (
     <div className={classes.join(" ")} key={key} onClick={onClick}>
       <TileComponent tile={tile} />
@@ -28,33 +28,40 @@ const tileItem = (
   );
 };
 
-export const HandsComponent = (props: HandsProps): JSX.Element => {
-  const tileItems = props.hands.map((tile, i) =>
-    tileItem([style.tile], `${props.playerID}:${i}`, tile)
+export const HandsComponent: React.FC<HandsProps> = ({ hands, playerID }) => {
+  const tileItems = hands.map((tile, i) =>
+    tileItem({ classes: [style.tile], key: `${playerID}:${i}`, tile })
   );
 
   return <div className={style.field}>{tileItems}</div>;
 };
 
-export const PickableHandsComponent = (
-  props: PickableHandsProps
-): JSX.Element => {
+export const PickableHandsComponent: React.FC<PickableHandsProps> = ({
+  hands,
+  playerID,
+  pickedTile,
+  rotate,
+  pick,
+}) => {
   const handClasses = [style.tile, style.pickable];
-  const tileItems = props.hands.map((tile, i) => {
-    if (props.pickedTile?.index === i) {
+  const tileItems = hands.map((tile, i) => {
+    if (pickedTile?.index === i) {
       return (
         <div
           className={[...handClasses, style.picked].join(" ")}
-          key={`${props.playerID}:${i}`}
-          onClick={(): void => props.rotate(i, 1)}
+          key={`${playerID}:${i}`}
+          onClick={(): void => rotate(i, 1)}
         >
-          <TileComponent tile={tile} dir={props.pickedTile.dir} />
+          <TileComponent tile={tile} dir={pickedTile.dir} />
         </div>
       );
     } else {
-      return tileItem(handClasses, `${props.playerID}:${i}`, tile, () =>
-        props.pick(i)
-      );
+      return tileItem({
+        classes: handClasses,
+        key: `${playerID}:${i}`,
+        tile,
+        onClick: () => pick(i),
+      });
     }
   });
   return <div className={style.field}>{tileItems}</div>;

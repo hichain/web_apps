@@ -50,7 +50,7 @@ const gameResult = (ctx: Ctx): string => {
   }
 };
 
-export const GameComponent = (props: GameStateProps): JSX.Element => {
+export const GameComponent: React.FC<GameStateProps> = (props) => {
   const [pickedTile, pick] = useState<Hand | undefined>(undefined);
   const playerIDs = players(props);
   if (playerIDs == null) {
@@ -58,7 +58,7 @@ export const GameComponent = (props: GameStateProps): JSX.Element => {
   }
 
   const myHands = props.G.hands[playerIDs.me];
-  const myHandsField = (): JSX.Element => {
+  const myHandsField: React.FC<GameStateProps> = (props) => {
     if (isMyTurn(props)) {
       return (
         <PickableHandsComponent
@@ -96,7 +96,7 @@ export const GameComponent = (props: GameStateProps): JSX.Element => {
     <div>
       {otherHandsField}
       <BoardComponent move={move} board={new TileBoard(props.G.board)} />
-      {myHandsField()}
+      {myHandsField(props)}
       <div id="winner">{gameResult(props.ctx)}</div>
     </div>
   );

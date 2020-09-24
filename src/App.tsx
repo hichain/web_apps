@@ -1,15 +1,16 @@
 import { Client } from "boardgame.io/react";
-import { TicTacToe } from "./Game";
-import { TicTacToeBoard } from "./Board";
 import { SocketIO } from "boardgame.io/multiplayer";
 import "./App.css";
+import { Slashchain } from "./slashchain/game";
+import { GameComponent } from "./slashchain/view/game_state";
 
 const serverUri = process.env.REACT_APP_DOMAIN;
 
 const App = Client({
-  game: TicTacToe,
-  board: TicTacToeBoard,
-  multiplayer: SocketIO({ server: serverUri })
+  game: Slashchain,
+  numPlayers: 2,
+  board: GameComponent,
+  multiplayer: SocketIO({ server: serverUri }),
 });
 
 export default App;

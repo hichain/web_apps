@@ -1,0 +1,37 @@
+env:
+  browser: true
+  es2020: true
+  es6: true
+  node: true
+extends:
+  - google
+  - eslint:recommended
+  - react-app
+  - plugin:@typescript-eslint/eslint-recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:react/recommended
+  - plugin:jest/recommended
+  - prettier
+  - prettier/@typescript-eslint
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 2020
+  sourceType: module
+plugins:
+  - react
+  - '@typescript-eslint'
+  - jest
+rules:
+  require-jsdoc: 0
+overrides:
+  - 
+    files:
+      - "*.{ts,tsx}"
+    rules:
+      new-cap: 0
+      react/prop-types: 0
+settings:
+  react:
+    version: detect

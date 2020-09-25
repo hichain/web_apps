@@ -29,6 +29,9 @@
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "browserslist": {
     "production": [
       ">0.2%",

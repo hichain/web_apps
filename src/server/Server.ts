@@ -1,7 +1,11 @@
 import { Server } from "boardgame.io/server";
 import { Slashchain } from "../slashchain/game";
+import dotenv from "dotenv";
 
 const server = Server({ games: [Slashchain] });
-export const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8000;
+dotenv.config();
 
-server.run(PORT);
+const port = process.env.REACT_APP_SERVER_PORT;
+if (port != null) {
+  server.run(parseInt(port));
+}

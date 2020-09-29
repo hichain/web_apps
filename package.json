@@ -22,6 +22,7 @@
     "start:client": "react-scripts start",
     "build": "npm-run-all -p build:*",
     "build:client": "react-scripts build",
+    "serve": "node ./dist/server/http_server.js",
     "test:client": "react-scripts test",
     "eject:client": "react-scripts eject",
     "build:server": "npm run tsc -- --project ./src/server",

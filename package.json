@@ -18,7 +18,7 @@
     "typescript": "^3.9.5"
   },
   "scripts": {
-    "start:server": "node ./dist/server/Server.js",
+    "start:server": "node ./dist/server/websocket_server.js",
     "start:client": "react-scripts start",
     "build": "npm-run-all -p build:*",
     "build:client": "react-scripts build",

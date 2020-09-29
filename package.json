@@ -9,6 +9,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/socket.io": "^2.1.11",
     "boardgame.io": "0.39.16",
+    "dotenv": "^8.2.0",
     "node-sass": "^4.14.1",
     "npm-run-all": "^4.1.5",
     "react": "^16.13.1",
@@ -17,10 +18,11 @@
     "typescript": "^3.9.5"
   },
   "scripts": {
-    "start:server": "node ./dist/server/Server.js",
+    "start:server": "node ./dist/server/websocket_server.js",
     "start:client": "react-scripts start",
     "build": "npm-run-all -p build:*",
     "build:client": "react-scripts build",
+    "serve": "node ./dist/server/http_server.js",
     "test:client": "react-scripts test",
     "eject:client": "react-scripts eject",
     "build:server": "npm run tsc -- --project ./src/server",
@@ -28,6 +30,9 @@
     "tsc": "tsc",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
+  },
+  "engines": {
+    "node": "12.x"
   },
   "browserslist": {
     "production": [

@@ -4,13 +4,13 @@ import "./App.css";
 import { Slashchain } from "./slashchain/game";
 import { GameComponent } from "./slashchain/view/game_state";
 
-const serverUri = process.env.REACT_APP_DOMAIN;
-
 const App = Client({
   game: Slashchain,
   numPlayers: 2,
   board: GameComponent,
-  multiplayer: SocketIO({ server: serverUri }),
+  multiplayer: SocketIO({
+    server: `localhost:${process.env.REACT_APP_SERVER_PORT}`,
+  }),
 });
 
 export default App;

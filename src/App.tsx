@@ -9,7 +9,7 @@ const App = Client({
   numPlayers: 2,
   board: GameComponent,
   multiplayer: SocketIO({
-    server: `localhost:${process.env.REACT_APP_SERVER_PORT}`,
+    server: `${process.env.REACT_APP_MASTER_URL}:${process.env.REACT_APP_MASTER_PORT}`,
   }),
 });
 

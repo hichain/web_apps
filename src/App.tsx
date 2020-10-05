@@ -4,7 +4,7 @@ import "./App.css";
 import { Slashchain } from "./slashchain/game";
 import { GameComponent } from "./slashchain/view/game_state";
 
-const port = process.env.PORT || process.env.REACT_APP_MASTER_DEFAULT_PORT;
+const port = process.env.REACT_APP_MASTER_PORT;
 const App = Client({
   game: Slashchain,
   numPlayers: 2,

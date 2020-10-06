@@ -1,2 +1,1 @@
-master: npm run start:server
-web: npm run serve
+web: npm run serve:koa

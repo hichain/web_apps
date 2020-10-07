@@ -3,5 +3,9 @@ import { Slashchain } from "../slashchain/game";
 
 const server = Server({ games: [Slashchain] });
 
-const PORT = process.env.PORT || "8000";
-server.run(parseInt(PORT));
+const PORT = process.env.PORT;
+if (PORT == null) {
+  console.log("Port is undefined");
+} else {
+  server.run(parseInt(PORT));
+}

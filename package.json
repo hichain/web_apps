@@ -19,16 +19,14 @@
     "typescript": "^3.9.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_MASTER_URL=localhost:8000 react-scripts start",
     "build": "npm-run-all -p build:*",
     "build:client": "react-scripts build",
-    "build:server": "npm run tsc -- --project ./src/server",
-    "serve:websocket": "node ./dist/server/websocket_server.js",
+    "build:server": "tsc --project ./src/server",
+    "serve:websocket": "PORT=8000 node ./dist/server/websocket_server.js",
     "serve:koa": "node ./dist/server/koa_server.js",
-    "test:client": "react-scripts test",
     "eject:client": "react-scripts eject",
     "test": "jest",
-    "tsc": "tsc",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
   },

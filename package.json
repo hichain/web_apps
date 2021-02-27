@@ -29,6 +29,8 @@
     "eject:client": "react-scripts eject",
     "test": "jest",
     "lint": "eslint './src/**/*.{ts,tsx}'",
+    "stylelint": "stylelint ./src/**/*.{css,scss}",
+    "stylelint:fix": "stylelint --fix ./src/**/*.{css,scss}",
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
   },
   "engines": {
@@ -63,7 +65,9 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "stylelint": "^13.11.0",
+    "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.19.0",
     "ts-jest": "^26.5.2"
   },
   "jest": {
@@ -89,6 +93,7 @@
     }
   },
   "lint-staged": {
-    "*.{js, ts, jsx, tsx}": "lint:fix"
+    "*.{js, ts, jsx, tsx}": "lint:fix",
+    "*.{css, scss}": "stylelint:fix"
   }
 }

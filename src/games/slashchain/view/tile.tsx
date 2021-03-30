@@ -1,10 +1,10 @@
 import React from "react";
-import square from "../images/square.png";
-import arrow from "../images/arrow.png";
-import pin from "../images/pin.png";
-import cross from "../images/cross.png";
-import power from "../images/power.png";
-import parallel from "../images/parallel.png";
+import square from "@images/slashchain/square.png";
+import arrow from "@images/slashchain/arrow.png";
+import pin from "@images/slashchain/pin.png";
+import cross from "@images/slashchain/cross.png";
+import power from "@images/slashchain/power.png";
+import parallel from "@images/slashchain/parallel.png";
 import { NamedTile, Tile } from "../components";
 import { tileParser } from "../tiles";
 

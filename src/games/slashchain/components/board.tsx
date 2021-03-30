@@ -1,12 +1,12 @@
 import React from "react";
-import { TileBoard } from "../tile";
+import { TileBoard } from "@slashchain/tile";
 import style from "../styles/board.module.scss";
 import {
   TileCellComponent,
   LegalCellComponent,
   EmptyCellComponent,
 } from "./cell";
-import { Cell } from "../../common/infinite_board";
+import { Cell } from "@common/infinite_board";
 
 export interface BoardProps {
   move?: (cell: Cell) => void;

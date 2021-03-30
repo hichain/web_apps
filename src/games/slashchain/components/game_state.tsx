@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import BoardComponent from "./board";
 import { Ctx, PlayerID } from "boardgame.io";
-import { GameState, Moves } from "../game";
-import { TileBoard } from "../tile";
+import { GameState, Moves } from "@slashchain/game";
+import { TileBoard } from "@slashchain/tile";
 import { PickableHandsComponent, HandsComponent } from "./hands_field";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
-import { Cell } from "../../common/infinite_board";
+import { Cell } from "@common/infinite_board";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 
 export interface Hand {

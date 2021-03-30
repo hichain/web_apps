@@ -4,7 +4,9 @@
 		"paths": {
 			"@/*" : ["./src/*"],
 			"@strings/*": ["./src/assets/strings/*"],
-			"@images/*": ["./src/assets/images/*"]
+			"@images/*": ["./src/assets/images/*"],
+			"@common/*": ["./src/games/common/*"],
+			"@slashchain/*": ["./src/games/slashchain/*"],
 		},
 	}
 }

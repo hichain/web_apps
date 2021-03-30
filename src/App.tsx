@@ -1,7 +1,7 @@
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
-import { Slashchain } from "./games/slashchain/game";
-import { GameComponent } from "./games/slashchain/components/game_state";
+import { Slashchain } from "@slashchain/game";
+import { GameComponent } from "@slashchain/components/game_state";
 
 const App = Client({
   game: Slashchain,

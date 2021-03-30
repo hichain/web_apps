@@ -1,4 +1,4 @@
-import { Tile } from "./components";
+import { Tile } from "./tile";
 import { tileData } from "./tiles";
 
 export type Rule = {

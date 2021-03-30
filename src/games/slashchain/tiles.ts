@@ -1,4 +1,4 @@
-import { TileData, Tile, NamedTile } from "./components";
+import { TileData, Tile, NamedTile } from "./tile";
 
 export const tileData: TileData[] = [
   {

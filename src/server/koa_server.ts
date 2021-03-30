@@ -2,7 +2,7 @@ import { Game } from "boardgame.io";
 import { Server } from "boardgame.io/server";
 import serve from "koa-static";
 import path from "path";
-import { Slashchain } from "../slashchain/game";
+import { Slashchain } from "../games/slashchain/game";
 
 const PORT = process.env.PORT;
 

@@ -1,6 +1,5 @@
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
-import "./App.css";
 import { Slashchain } from "./games/slashchain/game";
 import { GameComponent } from "./games/slashchain/components/game_state";
 

@@ -1,7 +1,7 @@
 import { Game, Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { buildRule, RuleSet } from "./rules";
-import { TileBoard, TileCell, Tile } from "./components";
+import { TileBoard, TileCell, Tile } from "./tile";
 import { rotate } from "./tiles";
 
 export type GameState = {

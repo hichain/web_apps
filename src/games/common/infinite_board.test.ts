@@ -1,4 +1,4 @@
-import { CellSet, InfiniteBoard } from "../infinite_board";
+import { CellSet, InfiniteBoard } from "./infinite_board";
 
 describe("CellSet", () => {
   test("has", () => {

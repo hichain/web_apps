@@ -1,4 +1,4 @@
-import { Cell, CellSet, InfiniteBoard } from "./infinite_board";
+import { Cell, CellSet, InfiniteBoard } from "../common/infinite_board";
 
 export type Tile = number;
 

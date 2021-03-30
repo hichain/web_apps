@@ -1,7 +1,7 @@
 import React from "react";
 import style from "../styles/field.module.scss";
 import { TileComponent } from "./tile";
-import { Tile } from "../components";
+import { Tile } from "@slashchain/tile";
 import { Hand } from "./game_state";
 
 export interface HandsProps {

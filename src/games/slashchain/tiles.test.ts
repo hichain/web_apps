@@ -1,4 +1,4 @@
-import { rotate, tileParser } from "../tiles";
+import { rotate, tileParser } from "./tiles";
 
 describe("rotate tile", () => {
   test("square (dir+1)", () => {

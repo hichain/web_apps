@@ -3,7 +3,7 @@ import { BoardComponent } from "./board";
 import { Ctx, PlayerID } from "boardgame.io";
 import { GameState, Moves } from "@slashchain/game";
 import { TileBoard } from "@slashchain/tile";
-import { HandsComponent } from "./hands_field";
+import { HandsComponent } from "./hands";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 import { Cell } from "@common/infinite_board";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BoardComponent from "./board";
+import { BoardComponent } from "./board";
 import { Ctx, PlayerID } from "boardgame.io";
 import { GameState, Moves } from "@slashchain/game";
 import { TileBoard } from "@slashchain/tile";

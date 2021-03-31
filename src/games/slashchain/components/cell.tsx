@@ -1,37 +1,41 @@
-import React from "react";
+import React, { FC } from "react";
 import { Tile } from "@slashchain/tile";
-import style from "../styles/board.module.scss";
 import { TileComponent } from "./tile";
-import { Cell } from "@common/infinite_board";
+import styled from "styled-components";
 
-interface CellProps {
-  cell: Cell;
-}
+type ContainerProps = {
+  className?: string;
+  children?: never;
+  isLegal: boolean;
+  tile?: Tile;
+  onClick?: () => void;
+};
 
-export interface LegalCellProps extends CellProps {
-  onClick: () => void;
-}
+const StyledCell = styled.td`
+  width: 80px;
+  height: 80px;
+  padding: 0;
+  line-height: 0;
 
-export interface TileCellProps extends CellProps {
-  cell: Cell;
-  tile: Tile;
-}
+  &.available {
+    border: 1px solid #555;
+  }
+`;
 
-export const EmptyCellComponent: React.FC = () => <td className={style.cell} />;
-
-export const LegalCellComponent: React.FC<LegalCellProps> = (
-  props: LegalCellProps
-) => (
-  <td
-    className={[style.cell, style.available].join(" ")}
-    onClick={(): void => props.onClick()}
-  ></td>
-);
-
-export const TileCellComponent: React.FC<TileCellProps> = (props) => (
-  <td className={[style.cell, style.available].join(" ")}>
-    <div className={style.tile}>
-      <TileComponent tile={props.tile} />
-    </div>
-  </td>
-);
+export const CellComponent: FC<ContainerProps> = ({
+  tile,
+  isLegal,
+  onClick,
+}) => {
+  if (tile != null) {
+    return (
+      <StyledCell className="available">
+        <TileComponent tile={tile} />
+      </StyledCell>
+    );
+  }
+  if (isLegal) {
+    return <StyledCell className="available" onClick={onClick}></StyledCell>;
+  }
+  return <StyledCell />;
+};

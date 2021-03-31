@@ -1,66 +1,71 @@
-import React from "react";
+import React, { FC } from "react";
 import { TileBoard } from "@slashchain/tile";
-import style from "../styles/board.module.scss";
-import {
-  TileCellComponent,
-  LegalCellComponent,
-  EmptyCellComponent,
-} from "./cell";
-import { Cell } from "@common/infinite_board";
+import { CellComponent } from "./cell";
+import { Cell, CellSet } from "@common/infinite_board";
+import styled from "styled-components";
 
-export interface BoardProps {
-  move?: (cell: Cell) => void;
+type ContainerProps = {
+  className?: string;
+  children?: never;
+  move: (cell: Cell) => void;
   board: TileBoard;
-}
-
-interface CellProps {
-  board: TileBoard;
-  legalCells: Set<Cell>;
-  x: number;
-  y: number;
-  onClick?: (cell: Cell) => void;
-}
-
-const cell: React.FC<CellProps> = (props) => {
-  const cell = { x: props.x, y: props.y };
-  const tile = props.board.get(cell);
-  if (tile != null) {
-    return <TileCellComponent cell={cell} key={cell.y} tile={tile} />;
-  }
-  const isLegalCell = props.legalCells.has(cell);
-  if (isLegalCell) {
-    return (
-      <LegalCellComponent
-        cell={cell}
-        key={cell.y}
-        onClick={(): void => props.onClick?.(cell)}
-      />
-    );
-  }
-  return <EmptyCellComponent key={cell.y} />;
 };
 
-const BoardComponent: React.FC<BoardProps> = (props) => {
+type PresenterProps = {
+  legalCells: CellSet;
+  cells: Cell[][];
+};
+
+type Props = ContainerProps & PresenterProps;
+
+const DomComponent: FC<Props> = ({
+  className,
+  board,
+  cells,
+  legalCells,
+  move,
+}) => (
+  <div className={className}>
+    <table className="board">
+      <tbody>
+        {cells.map((cellRow) => (
+          <tr key={cellRow[0].x}>
+            {cellRow.map((cell) => (
+              <CellComponent
+                key={cell.y}
+                {...{
+                  isLegal: legalCells.has(cell),
+                  tile: board.get(cell),
+                  onClick: () => move?.(cell),
+                }}
+              />
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+const StyledComponent = styled(DomComponent)`
+  .board {
+    margin: auto;
+    table-layout: fixed;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+`;
+
+export const BoardComponent: React.FC<ContainerProps> = (props) => {
   const legalCells = props.board.legalCells();
   const range = legalCells.range();
-  const tbody = [];
+  const cells: Cell[][] = [];
   for (let x = range.minX; x <= range.maxX; x++) {
-    const cells = [];
+    const cellRow: Cell[] = [];
     for (let y = range.minY; y <= range.maxY; y++) {
-      cells.push(
-        cell({ board: props.board, legalCells, x, y, onClick: props.move })
-      );
+      cellRow.push({ x, y });
     }
-    tbody.push(<tr key={x}>{cells}</tr>);
+    cells.push(cellRow);
   }
-
-  return (
-    <div>
-      <table className={style.board}>
-        <tbody>{tbody}</tbody>
-      </table>
-    </div>
-  );
+  return <StyledComponent legalCells={legalCells} cells={cells} {...props} />;
 };
-
-export default BoardComponent;

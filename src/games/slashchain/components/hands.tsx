@@ -1,8 +1,12 @@
 import React, { FC } from "react";
 import { TileComponent } from "./tile";
 import { Tile } from "@slashchain/tile";
-import { Hand } from "./game_state";
 import styled from "styled-components";
+
+export type Hand = {
+  index: number;
+  dir?: number;
+};
 
 type ContainerProps = {
   className?: string;

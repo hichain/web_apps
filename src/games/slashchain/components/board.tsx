@@ -7,7 +7,7 @@ import styled from "styled-components";
 type ContainerProps = {
   className?: string;
   children?: never;
-  move?: (cell: Cell) => void;
+  move: (cell: Cell) => void;
   board: TileBoard;
 };
 

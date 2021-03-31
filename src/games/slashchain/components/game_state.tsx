@@ -1,99 +1,106 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { BoardComponent } from "./board";
 import { Ctx, PlayerID } from "boardgame.io";
 import { GameState, Moves } from "@slashchain/game";
-import { TileBoard } from "@slashchain/tile";
-import { HandsComponent } from "./hands";
+import { Tile, TileBoard } from "@slashchain/tile";
+import { Hand, HandsComponent } from "./hands";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 import { Cell } from "@common/infinite_board";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 
-export interface Hand {
-  index: number;
-  dir?: number;
-}
+type Players = {
+  me: PlayerID;
+  other: PlayerID;
+};
 
-export interface GameStateProps extends BoardProps {
+type ContainerProps = BoardProps & {
   playerID: PlayerID;
   moves: Moves;
   events: EventsAPI;
   G: GameState;
   ctx: Ctx;
-}
+};
 
-interface Players {
-  me: PlayerID;
-  other: PlayerID;
-}
+type PresenterProps = {
+  players: Players;
+  board: TileBoard;
+  hands: {
+    me: Tile[];
+    other: Tile[];
+  };
+  isMyTurn: boolean;
+  pickedTile?: Hand;
+  moves: {
+    pickTile: (index: number) => void;
+    rotateTile: Moves["rotateTile"];
+    putTile: (cell: Cell) => void;
+  };
+  gameResult: string;
+};
 
-const players = (props: GameStateProps): Players | undefined => {
+const DomComponent: FC<PresenterProps> = ({
+  players,
+  board,
+  hands,
+  isMyTurn,
+  pickedTile,
+  moves,
+  gameResult,
+}) => (
+  <div>
+    <HandsComponent
+      hands={hands.other}
+      playerID={players.other}
+      pickable={false}
+    />
+    <BoardComponent move={moves.putTile} board={board} />
+    <HandsComponent
+      hands={hands.me}
+      playerID={players.me}
+      {...(isMyTurn
+        ? {
+            pickable: true,
+            pickedTile,
+            pick: moves.pickTile,
+            rotate: moves.rotateTile,
+          }
+        : {
+            pickable: false,
+          })}
+    />
+    <div id="winner">{gameResult}</div>
+  </div>
+);
+
+export const GameComponent: React.FC<ContainerProps> = (props) => {
+  const [pickedTile, pick] = useState<Hand | undefined>(undefined);
+
   const me = props.playerID;
   const other = props.ctx.playOrder.find((player) => player !== me);
   if (me == null || other == null) {
-    return undefined;
-  }
-  return { me, other };
-};
-
-const isMyTurn = (props: GameStateProps): boolean => {
-  return props.ctx.currentPlayer === props.playerID;
-};
-
-const gameResult = (ctx: Ctx): string => {
-  if (!ctx.gameover) {
-    return "";
-  }
-  if (ctx.gameover.winner !== undefined) {
-    return `Winner: ${ctx.gameover.winner}`;
-  } else {
-    return "Draw!";
-  }
-};
-
-export const GameComponent: React.FC<GameStateProps> = (props) => {
-  const [pickedTile, pick] = useState<Hand | undefined>(undefined);
-  const playerIDs = players(props);
-  if (playerIDs == null) {
     return <div />;
   }
 
-  const myHands = props.G.hands[playerIDs.me];
-  const MyHandsField: React.FC<GameStateProps> = (props) => {
-    if (isMyTurn(props)) {
-      return (
-        <HandsComponent
-          hands={myHands}
-          playerID={playerIDs.me}
-          pickable
-          pickedTile={pickedTile}
-          pick={(i): void => pick({ index: i })}
-          rotate={(i, dir): void => {
-            pick({ index: i, dir: (pickedTile?.dir ?? 0) + dir });
-            props.moves.rotateTile(i, dir);
-          }}
-        />
-      );
+  const players = { me, other };
+  const isMyTurn = props.ctx.currentPlayer === props.playerID;
+
+  const gameResult = (ctx: Ctx): string => {
+    if (!ctx.gameover) {
+      return "";
+    }
+    if (ctx.gameover.winner !== undefined) {
+      return `Winner: ${ctx.gameover.winner}`;
     } else {
-      return (
-        <HandsComponent
-          hands={myHands}
-          playerID={playerIDs.me}
-          pickable={false}
-        />
-      );
+      return "Draw!";
     }
   };
 
-  const otherHands = props.G.hands[playerIDs.other];
-  const otherHandsField = (
-    <HandsComponent
-      hands={otherHands}
-      playerID={playerIDs.other}
-      pickable={false}
-    />
-  );
+  const hands = {
+    me: props.G.hands[players.me],
+    other: props.G.hands[players.other],
+  };
 
-  const move = (cell: Cell): void => {
+  const putTile = (cell: Cell): void => {
     if (pickedTile != null) {
       props.moves.clickCell(cell.x, cell.y, pickedTile.index);
       const endTurn = props.events.endTurn;
@@ -103,12 +110,30 @@ export const GameComponent: React.FC<GameStateProps> = (props) => {
     }
   };
 
+  const pickTile = (index: number): void => {
+    pick({ index })
+  }
+
+  const rotateTile = (index: number, dir: number): void => {
+    pick({ index, dir: (pickedTile?.dir ?? 0) + dir });
+    props.moves.rotateTile(index, dir);
+  };
+
   return (
-    <div>
-      {otherHandsField}
-      <BoardComponent move={move} board={new TileBoard(props.G.board)} />
-      {MyHandsField(props)}
-      <div id="winner">{gameResult(props.ctx)}</div>
-    </div>
+    <DomComponent
+      {...{
+        players,
+        board: new TileBoard(props.G.board),
+        hands,
+        pickedTile,
+        isMyTurn,
+        moves: {
+          putTile,
+          pickTile,
+          rotateTile,
+        },
+        gameResult: gameResult(props.ctx),
+      }}
+    />
   );
 };

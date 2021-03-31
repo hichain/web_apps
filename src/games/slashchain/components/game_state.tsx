@@ -3,7 +3,7 @@ import { BoardComponent } from "./board";
 import { Ctx, PlayerID } from "boardgame.io";
 import { GameState, Moves } from "@slashchain/game";
 import { TileBoard } from "@slashchain/tile";
-import { PickableHandsComponent, HandsComponent } from "./hands_field";
+import { HandsComponent } from "./hands_field";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 import { Cell } from "@common/infinite_board";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
@@ -61,9 +61,10 @@ export const GameComponent: React.FC<GameStateProps> = (props) => {
   const MyHandsField: React.FC<GameStateProps> = (props) => {
     if (isMyTurn(props)) {
       return (
-        <PickableHandsComponent
+        <HandsComponent
           hands={myHands}
           playerID={playerIDs.me}
+          pickable
           pickedTile={pickedTile}
           pick={(i): void => pick({ index: i })}
           rotate={(i, dir): void => {
@@ -73,13 +74,23 @@ export const GameComponent: React.FC<GameStateProps> = (props) => {
         />
       );
     } else {
-      return <HandsComponent hands={myHands} playerID={playerIDs.me} />;
+      return (
+        <HandsComponent
+          hands={myHands}
+          playerID={playerIDs.me}
+          pickable={false}
+        />
+      );
     }
   };
 
   const otherHands = props.G.hands[playerIDs.other];
   const otherHandsField = (
-    <HandsComponent hands={otherHands} playerID={playerIDs.other} />
+    <HandsComponent
+      hands={otherHands}
+      playerID={playerIDs.other}
+      pickable={false}
+    />
   );
 
   const move = (cell: Cell): void => {

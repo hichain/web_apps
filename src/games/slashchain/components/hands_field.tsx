@@ -1,68 +1,106 @@
-import React from "react";
-import style from "../styles/field.module.scss";
+import React, { FC } from "react";
 import { TileComponent } from "./tile";
 import { Tile } from "@slashchain/tile";
 import { Hand } from "./game_state";
+import styled from "styled-components";
 
-export interface HandsProps {
+type ContainerProps = {
+  className?: string;
+  children?: never;
   hands: Tile[];
   playerID: string;
-  pickedTile?: Hand;
-}
+} & (
+  | {
+      pickable: false;
+    }
+  | {
+      pickable: true;
+      pickedTile?: Hand;
+      pick: (index: number) => void;
+      rotate: (index: number, dir: number) => void;
+    }
+);
 
-export interface PickableHandsProps extends HandsProps {
-  pick: (index: number) => void;
-  rotate: (index: number, dir: number) => void;
-}
+type PresenterProps = Record<string, unknown>;
 
-const TileItem: React.FC<{
-  classes: string[];
-  key: string;
-  tile: Tile;
-  onClick?: () => void;
-}> = ({ classes, key, tile, onClick }) => {
+type Props = ContainerProps & PresenterProps;
+
+const DomComponent: FC<Props> = ({ className, hands, playerID, ...props }) => {
   return (
-    <div className={classes.join(" ")} key={key} onClick={onClick}>
-      <TileComponent tile={tile} />
+    <div className={className}>
+      {hands.map((tile, i) => {
+        if (props.pickable) {
+          return props.pickedTile?.index === i ? (
+            <div
+              className="tile picked"
+              key={`${playerID}:${i}`}
+              onClick={() => props.rotate(i, 1)}
+            >
+              <TileComponent tile={tile} dir={props.pickedTile.dir} />
+            </div>
+          ) : (
+            <div
+              className="tile pickable"
+              key={`${playerID}:${i}`}
+              onClick={() => props.pick(i)}
+            >
+              <TileComponent tile={tile} />
+            </div>
+          );
+        } else {
+          return (
+            <div className="tile" key={`${playerID}:${i}`}>
+              <TileComponent tile={tile} />
+            </div>
+          );
+        }
+      })}
     </div>
   );
 };
 
-export const HandsComponent: React.FC<HandsProps> = ({ hands, playerID }) => {
-  const tileItems = hands.map((tile, i) =>
-    TileItem({ classes: [style.tile], key: `${playerID}:${i}`, tile })
-  );
+const StyledComponent = styled(DomComponent)`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  margin: 3em auto;
 
-  return <div className={style.field}>{tileItems}</div>;
-};
+  .tile {
+    width: 60px;
+    height: 60px;
+    margin: 0.6em;
+    object-fit: contain;
 
-export const PickableHandsComponent: React.FC<PickableHandsProps> = ({
-  hands,
-  playerID,
-  pickedTile,
-  rotate,
-  pick,
-}) => {
-  const handClasses = [style.tile, style.pickable];
-  const tileItems = hands.map((tile, i) => {
-    if (pickedTile?.index === i) {
-      return (
-        <div
-          className={[...handClasses, style.picked].join(" ")}
-          key={`${playerID}:${i}`}
-          onClick={(): void => rotate(i, 1)}
-        >
-          <TileComponent tile={tile} dir={pickedTile.dir} />
-        </div>
-      );
-    } else {
-      return TileItem({
-        classes: handClasses,
-        key: `${playerID}:${i}`,
-        tile,
-        onClick: () => pick(i),
-      });
+    img {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #555;
+      transition: transform 0.12s;
     }
-  });
-  return <div className={style.field}>{tileItems}</div>;
-};
+
+    &.pickable {
+      transition: 0.08s;
+      transition-timing-function: ease-in-out;
+
+      &:hover {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    &.picked {
+      width: 80px;
+      height: 80px;
+
+      img {
+        border-width: 2.2px;
+      }
+    }
+  }
+`;
+
+export const HandsComponent: FC<ContainerProps> = (props) => (
+  <StyledComponent {...props} />
+);

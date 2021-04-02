@@ -1,5 +1,5 @@
 import { Server } from "boardgame.io/server";
-import { Slashchain } from "../games/slashchain/game";
+import { Slashchain } from "../client/games/slashchain/game";
 
 const server = Server({ games: [Slashchain] });
 

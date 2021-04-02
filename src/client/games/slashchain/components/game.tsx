@@ -1,11 +1,11 @@
 import React, { FC, useState } from "react";
 import { BoardComponent } from "./board";
 import { Ctx, PlayerID } from "boardgame.io";
-import { GameState, Moves } from "@slashchain/game";
-import { Tile, TileBoard } from "@slashchain/tile";
+import { GameState, Moves } from "@/client/games/slashchain/game";
+import { Tile, TileBoard } from "@/client/games/slashchain/tile";
 import { Hand, HandsComponent } from "./hands";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
-import { Cell } from "@common/infinite_board";
+import { Cell } from "@/client/common/infinite_board";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 
 type Players = {

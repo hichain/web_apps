@@ -36,7 +36,7 @@
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
   },
   "engines": {
-    "node": "12.x"
+    "node": "15.x"
   },
   "browserslist": {
     "production": [

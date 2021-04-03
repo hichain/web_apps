@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"baseUrl": "src",
+		"paths": {
+			"@/*" : ["*"],
+			"@strings/*": ["assets/strings/*"],
+			"@images/*": ["assets/images/*"],
+			"@common/*": ["common/*"],
+			"@slashchain/*": ["games/slashchain/*"],
+		},
+	}
+}

@@ -24,6 +24,8 @@ plugins:
   - jest
 rules:
   require-jsdoc: 0
+ignorePatterns:
+  - "**/*.js"
 overrides:
   - 
     files:

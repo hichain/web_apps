@@ -1,0 +1,17 @@
+{
+  "name": "hichain_web_app_server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start:websocket": "PORT=8000 node ./dist/websocket_server.js",
+    "start:koa": "node ./dist/koa_server.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/koa-router": "^7.4.1",
+    "@types/koa-static": "^4.0.1",
+    "@types/socket.io": "^2.1.13",
+    "koa-static": "^5.0.0"
+  },
+  "devDependencies": {}
+}

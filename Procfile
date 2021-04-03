@@ -1,1 +1,1 @@
-web: npm run serve:koa
+web: npm run serve

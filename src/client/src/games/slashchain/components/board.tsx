@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { TileBoard } from "@/client/games/slashchain/tile";
+import { TileBoard } from "@slashchain/tile";
 import { CellComponent } from "./cell";
-import { Cell, CellSet } from "@/client/common/infinite_board";
+import { Cell, CellSet } from "@common/infinite_board";
 import styled from "styled-components";
 
 type ContainerProps = {

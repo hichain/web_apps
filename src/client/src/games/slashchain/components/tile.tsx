@@ -5,8 +5,8 @@ import pin from "@images/slashchain/pin.png";
 import cross from "@images/slashchain/cross.png";
 import power from "@images/slashchain/power.png";
 import parallel from "@images/slashchain/parallel.png";
-import { NamedTile, Tile } from "@/client/games/slashchain/tile";
-import { tileParser } from "@/client/games/slashchain/tiles";
+import { NamedTile, Tile } from "@slashchain/tile";
+import { tileParser } from "@slashchain/tiles";
 import styled from "styled-components";
 
 const tileImages: { [key: string]: string } = {

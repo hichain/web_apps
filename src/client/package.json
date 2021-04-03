@@ -6,7 +6,7 @@
     "start": "REACT_APP_MASTER_URL=localhost:8000 react-app-rewired start",
     "build": "react-app-rewired build",
     "eject": "react-scripts eject",
-    "test": "react-app-rewired test"
+    "test": "jest --passWithNoTests"
   },
   "browserslist": {
     "production": [

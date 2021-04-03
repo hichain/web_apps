@@ -10,7 +10,6 @@ module.exports = (config, env) => {
         "@": path.resolve(__dirname, "src"),
         "@strings": path.resolve(__dirname, "src/assets/strings"),
         "@images": path.resolve(__dirname, "src/assets/images"),
-        "@common": path.resolve(__dirname, "src/common"),
         "@slashchain": path.resolve(__dirname, "src/games/slashchain"),
       },
     },

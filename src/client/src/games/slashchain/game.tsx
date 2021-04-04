@@ -1,11 +1,9 @@
 import React, { FC, useState } from "react";
 import { BoardComponent } from "./board";
 import { Ctx, PlayerID } from "boardgame.io";
-import { GameState, Moves } from "@slashchain/game";
-import { Tile, TileBoard } from "@slashchain/tile";
+import { GameState, Moves, Tile, TileBoard, Cell } from "@games";
 import { Hand, HandsComponent } from "./hands";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
-import { Cell } from "@common/infinite_board";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 
 type Players = {
@@ -111,8 +109,8 @@ export const GameComponent: React.FC<ContainerProps> = (props) => {
   };
 
   const pickTile = (index: number): void => {
-    pick({ index })
-  }
+    pick({ index });
+  };
 
   const rotateTile = (index: number, dir: number): void => {
     pick({ index, dir: (pickedTile?.dir ?? 0) + dir });

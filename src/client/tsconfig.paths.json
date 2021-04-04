@@ -5,7 +5,8 @@
 			"@/*" : ["*"],
 			"@strings/*": ["assets/strings/*"],
 			"@images/*": ["assets/images/*"],
-			"@slashchain/*": ["games/slashchain/*"],
+			"@games": ["../../../node_modules/hichain_web_app_games/dist/index"],
+			"@games/*": ["../../../node_modules/hichain_web_app_games/dist/*"]
 		},
 	}
 }

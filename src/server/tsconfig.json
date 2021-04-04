@@ -8,5 +8,9 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "moduleResolution": "node"
-  }
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": ["*.test.ts"]
 }

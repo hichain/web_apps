@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Tile } from "@slashchain/tile";
+import { Tile } from "@games";
 import { TileComponent } from "./tile";
 import styled from "styled-components";
 

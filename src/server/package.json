@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start:websocket": "PORT=8000 node ./dist/websocket_server.js",
+    "start:master": "node ./dist/master_server.js",
     "start:koa": "node ./dist/koa_server.js",
     "build": "tsc",
     "test": "jest --passWithNoTests"
@@ -14,7 +14,6 @@
     "@types/socket.io": "^2.1.13",
     "koa-static": "^5.0.0"
   },
-  "devDependencies": {},
   "jest": {
     "moduleFileExtensions": [
       "ts",

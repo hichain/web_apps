@@ -1,14 +1,14 @@
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
-import { Slashchain } from "@slashchain/game";
-import { GameComponent } from "@slashchain/components/game";
+import { Slashchain, settings } from "@games";
+import { GameComponent } from "./game";
 
 const App = Client({
   game: Slashchain,
   numPlayers: 2,
   board: GameComponent,
   multiplayer: SocketIO({
-    server: process.env.REACT_APP_MASTER_URL,
+    server: settings.gameMaster?.url,
   }),
 });
 

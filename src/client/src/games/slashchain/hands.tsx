@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { TileComponent } from "./tile";
-import { Tile } from "@slashchain/tile";
+import { Tile } from "@games";
 import styled from "styled-components";
 
 export type Hand = {

@@ -27,8 +27,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@types/node": "^14.14.31",
     "boardgame.io": "0.43.3",
-    "hichain_web_app_games": "file:src/games",
-    "node-sass": "^5.0.0",
+    "hichain_web_app_games": "./src/games",
     "npm-run-all": "^4.1.5",
     "typescript": "~4.1"
   },

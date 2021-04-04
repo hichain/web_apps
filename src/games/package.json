@@ -7,7 +7,6 @@
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests"
   },
-  "dependencies": {},
   "devDependencies": {},
   "jest": {
     "moduleFileExtensions": [

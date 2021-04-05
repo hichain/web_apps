@@ -18,7 +18,9 @@
     "stylelint": "stylelint ./src/**/*.{css,scss}",
     "stylelint:fix": "stylelint --fix ./src/**/*.{css,scss}",
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'",
-    "test": "npm run test --workspaces"
+    "test": "npm run test --workspaces",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "engines": {
     "node": "15.x"
@@ -67,13 +69,8 @@
       "**/*.test.ts"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.{js, ts, jsx, tsx}": "lint:fix",
-    "*.{css, scss}": "stylelint:fix"
+    "*.{js, ts, jsx, tsx}": "eslint --fix",
+    "*.{css, scss}": "stylelint --fix"
   }
 }

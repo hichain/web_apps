@@ -1,4 +1,4 @@
 import { Server } from "boardgame.io/server";
-import { settings } from "hichain_web_app_games/dist";
+import { settings } from "../../settings";
 
 export const server = Server({ games: settings.games });

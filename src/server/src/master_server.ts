@@ -1,5 +1,5 @@
 import { exit } from "process";
-import { settings } from "hichain_web_app_games/dist";
+import { settings } from "../../settings";
 import { server } from "./index";
 
 const masterPort = settings.gameMaster?.port;

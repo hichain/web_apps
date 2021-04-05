@@ -1,6 +1,6 @@
-import { Slashchain } from "./slashchain/game";
+import { Slashchain } from "./games/src/slashchain/game";
 import { Game } from "boardgame.io";
-import { envs } from "./envs/index";
+import { envs } from "./envs";
 
 export const settings: {
   games: Game[];

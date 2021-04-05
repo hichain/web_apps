@@ -3,7 +3,7 @@ import { SocketIO } from "boardgame.io/multiplayer";
 import { Slashchain, settings } from "@games";
 import { GameComponent } from "./game";
 
-const App = Client({
+export const App = Client({
   game: Slashchain,
   numPlayers: 2,
   board: GameComponent,
@@ -11,5 +11,3 @@ const App = Client({
     server: settings.gameMaster?.url,
   }),
 });
-
-export default App;

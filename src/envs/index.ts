@@ -1,4 +1,4 @@
-import { localEnv } from "./local";
+import { developmentEnv } from "./development";
 import { productionEnv } from "./production";
 
 export type Env = {
@@ -10,9 +10,8 @@ export type Env = {
 
 export const envs = (() => {
   switch (process.env.NODE_ENV) {
-    case "local":
     case "development":
-      return localEnv;
+      return developmentEnv;
     case "production":
       return productionEnv;
     default:

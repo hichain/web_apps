@@ -3,10 +3,10 @@
 		"baseUrl": "src",
 		"paths": {
 			"@/*" : ["*"],
-			"@strings/*": ["client/src/assets/strings/*"],
-			"@images/*": ["client/src/assets/images/*"],
+			"@strings/*": ["client/assets/strings/*"],
+			"@images/*": ["client/assets/images/*"],
 			"@games": ["games/index"],
-			"@games/*": ["games/src/*"]
+			"@games/*": ["games/*"]
 		},
 	}
 }

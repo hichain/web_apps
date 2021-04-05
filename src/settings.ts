@@ -1,4 +1,4 @@
-import { Slashchain } from "./games/src/slashchain/game";
+import { Slashchain } from "./games/slashchain/game";
 import { Game } from "boardgame.io";
 import { Env, envs } from "./envs";
 

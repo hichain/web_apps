@@ -8,8 +8,8 @@ module.exports = (config, env) => {
       alias: {
         ...config.resolve.alias,
         "@": path.resolve(__dirname, "src"),
-        "@strings": path.resolve(__dirname, "src/client/src/assets/strings"),
-        "@images": path.resolve(__dirname, "src/client/src/assets/images"),
+        "@strings": path.resolve(__dirname, "src/client/assets/strings"),
+        "@images": path.resolve(__dirname, "src/client/assets/images"),
         "@games": path.resolve(__dirname, "src/games"),
       },
     },

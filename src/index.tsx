@@ -9,16 +9,13 @@ ReactDOM.render(
     <BrowserRouter>
       <Route
         path="/slashchain/0"
+        exact
         render={(): JSX.Element => <SlashchainApp playerID={"0"} />}
-      ></Route>
+      />
       <Route
         path="/slashchain/1"
-        render={(): JSX.Element => <SlashchainApp playerID={"1"} />}
-      ></Route>
-      <Route
-        path="/"
         exact
-        render={() => `NODE_ENV = ${process.env.NODE_ENV}`}
+        render={(): JSX.Element => <SlashchainApp playerID={"1"} />}
       />
     </BrowserRouter>
   </React.StrictMode>,

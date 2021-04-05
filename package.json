@@ -9,10 +9,9 @@
     "build:client": "react-app-rewired build",
     "build:server": "tsc --project ./src/server",
     "eject": "react-scripts eject",
-    "lint": "eslint './src/**/*.{ts,tsx}'",
-    "stylelint": "stylelint ./src/**/*.{css,scss}",
-    "stylelint:fix": "stylelint --fix ./src/**/*.{css,scss}",
-    "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'",
+    "lint": "npm-run-all -p lint:*",
+    "lint:eslint": "eslint './src/**/*.{ts,tsx}'",
+    "lint:style": "stylelint './src/**/*.{css,scss}'",
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "lint-staged": "lint-staged"

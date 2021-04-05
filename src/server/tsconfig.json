@@ -9,8 +9,5 @@
     "resolveJsonModule": true,
     "moduleResolution": "node"
   },
-  "include": [
-    "src"
-  ],
-  "exclude": ["*.test.ts"]
+  "files": ["./index.ts"]
 }

@@ -1,10 +1,11 @@
+import { Server } from "boardgame.io/server";
 import { exit } from "process";
-import { settings } from "../../settings";
-import { server } from "./index";
+import { settings } from "../settings";
 
 const masterPort = settings.gameMaster?.port;
 
 if (masterPort) {
+  const server = Server({ games: settings.games });
   server.run({
     port: masterPort,
   });

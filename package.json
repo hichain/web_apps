@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start:client": "react-app-rewired start",
-    "start:server": "NODE_ENV=development node ./dist/server/index.js",
+    "start:server": "node ./dist/server/index.js",
     "build": "npm-run-all -p build:*",
     "build:client": "react-app-rewired build",
     "build:server": "tsc --project ./src/server",

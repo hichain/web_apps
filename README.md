@@ -30,10 +30,10 @@ $ yarn
 $ yarn run start:client
 ```
 
-### Running Game Server
+### Running Game Server (local)
 
 ```
-$ yarn run serve:server
+$ NODE_ENV=development yarn run start:server
 ```
 
 ### Running Tests

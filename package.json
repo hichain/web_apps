@@ -9,9 +9,7 @@
     "build:client": "react-app-rewired build",
     "build:server": "tsc --project ./src/server",
     "eject": "react-scripts eject",
-    "lint": "npm-run-all -p lint:*",
-    "lint:eslint": "eslint './src/**/*.{ts,tsx}'",
-    "lint:style": "stylelint './src/**/*.{css,scss}'",
+    "lint": "eslint './src/**/*.{ts,tsx}'",
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
@@ -54,12 +52,6 @@
     "react-app-rewired": "^2.1.8",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "stylelint": "^13.11.0",
-    "stylelint-config-prettier": "^8.0.2",
-    "stylelint-config-recess-order": "^2.3.0",
-    "stylelint-config-recommended-scss": "^4.2.0",
-    "stylelint-config-standard": "^20.0.0",
-    "stylelint-scss": "^3.19.0",
     "ts-jest": "^26.5.2"
   },
   "browserslist": {
@@ -92,7 +84,6 @@
     ]
   },
   "lint-staged": {
-    "*.{js, ts, jsx, tsx}": "eslint --fix",
-    "*.{css, scss}": "stylelint --fix"
+    "*.{js, ts, jsx, tsx}": "eslint --fix"
   }
 }

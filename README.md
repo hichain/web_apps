@@ -21,31 +21,31 @@ Hichain Projectが制作したボードゲームを遊べるWebアプリ
 ### Installation
 
 ```
-$ npm install
+$ yarn
 ```
 
 ### Running Game Client
 
 ```
-$ npm start
+$ yarn run start:client
 ```
 
 ### Running Game Server
 
 ```
-$ npm run serve:websocket
+$ yarn run serve:server
 ```
 
 ### Running Tests
 
 ```
-$ npm test
+$ yarn test
 ```
 
 ### Running Linter
 
 ```
-$ npm lint
+$ yarn lint
 ```
 
 ## Changelog

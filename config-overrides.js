@@ -7,11 +7,10 @@ module.exports = (config, env) => {
       ...config.resolve,
       alias: {
         ...config.resolve.alias,
-        "@": path.resolve(__dirname, "./src"),
-        "@strings": path.resolve(__dirname, "./src/assets/strings"),
-        "@images": path.resolve(__dirname, "./src/assets/images"),
-        "@common": path.resolve(__dirname, "./src/games/common"),
-        "@slashchain": path.resolve(__dirname, "./src/games/slashchain"),
+        "@": path.resolve(__dirname, "src"),
+        "@strings": path.resolve(__dirname, "src/client/assets/strings"),
+        "@images": path.resolve(__dirname, "src/client/assets/images"),
+        "@games": path.resolve(__dirname, "src/games"),
       },
     },
   };

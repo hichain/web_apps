@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2019",
     "module": "commonjs",
     "allowJs": false,
     "outDir": "../../dist",
@@ -8,5 +8,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "moduleResolution": "node"
-  }
+  },
+  "files": ["./index.ts"]
 }

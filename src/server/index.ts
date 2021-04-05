@@ -2,7 +2,7 @@ import { Server } from "boardgame.io/server";
 import { exit } from "process";
 import { settings } from "../settings";
 
-const masterPort = settings.gameMaster?.port;
+const masterPort = settings.envs?.ports.master;
 
 if (masterPort) {
   const server = Server({ games: settings.games });

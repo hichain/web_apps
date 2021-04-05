@@ -1,7 +1,8 @@
-import { defaultEnv } from "./default";
 import { Env } from "./index";
 
 export const developmentEnv: Env = {
-  ...defaultEnv,
-  appUrl: "localhost",
+  apiUrl: "localhost:8000",
+  ports: {
+    master: 8000,
+  },
 };

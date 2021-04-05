@@ -1,7 +1,10 @@
-import { defaultEnv } from "./default";
 import { Env } from "./index";
 
+const port = Number(process.env.PORT);
+
 export const productionEnv: Env = {
-  ...defaultEnv,
-  appUrl: "https://hichain.herokuapp.com",
+  apiUrl: "https://hichain-master.herokuapp.com/",
+  ports: {
+    master: isNaN(port) ? undefined : port,
+  },
 };

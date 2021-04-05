@@ -8,6 +8,6 @@ export const App = Client({
   numPlayers: 2,
   board: GameComponent,
   multiplayer: SocketIO({
-    server: settings.gameMaster?.url,
+    server: settings.envs?.apiUrl,
   }),
 });

@@ -1,13 +1,20 @@
 import { Server } from "boardgame.io/server";
 import { exit } from "process";
-import { settings } from "../settings";
+import { games } from "../games";
+import { envs } from "../envs";
 
-const masterPort = settings.envs?.ports.master;
+const masterPort = envs?.master?.port;
+const lobbyPort = envs?.lobby?.port;
 
 if (masterPort) {
-  const server = Server({ games: settings.games });
+  const server = Server({ games });
   server.run({
     port: masterPort,
+    lobbyConfig:
+      (lobbyPort && {
+        apiPort: lobbyPort,
+      }) ||
+      undefined,
   });
 } else {
   console.log("Master Port is undefined");

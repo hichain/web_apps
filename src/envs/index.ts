@@ -2,9 +2,13 @@ import { developmentEnv } from "./development";
 import { productionEnv } from "./production";
 
 export type Env = {
-  apiUrl: string;
-  ports: {
-    master?: number;
+  master?: {
+    url: string;
+    port: number;
+  };
+  lobby?: {
+    url: string;
+    port: number;
   };
 };
 

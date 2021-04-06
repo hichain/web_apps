@@ -1,4 +1,4 @@
-# HICHAIN Web Apps
+# HICHAIN Web App
 
 <p align="center">
   <img src="https://img.shields.io/github/workflow/status/hichain/web_apps/Node.js%20CI?style=flat-square" alt="Build Status"/>

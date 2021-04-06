@@ -1,1 +1,1 @@
-export * from "./games/slashchain";
+export * from "./debug";

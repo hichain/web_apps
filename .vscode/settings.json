@@ -1,48 +1,17 @@
 {
+  "editor.renderControlCharacters": true,
+  "eslint.packageManager": "yarn",
   "editor.formatOnSave": false,
   "editor.tabSize": 2,
-  "css.validate": false,
-  "scss.validate": false,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-  	"source.fixAll.eslint": true,
-  },
-  "[typescriptreact]": {
-    "editor.tabSize": 2,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[javascriptreact]": {
-    "editor.tabSize": 2,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[javascript]": {
-    "editor.tabSize": 2,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[typescript]": {
-    "editor.tabSize": 2,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "source.organizeImports": false,
+    "source.fixAll": true
   },
   "typescript.preferences.importModuleSpecifierEnding": "index",
-  "[css]": {
-    "editor.formatOnSave": true
-  },
-  "[scss]": {
-    "editor.formatOnSave": true
-  },
-  "[sass]": {
-    "editor.formatOnSave": true
-  },
   "[json]": {
     "editor.quickSuggestions": {
       "strings": true
     },
     "editor.suggest.insertMode": "replace",
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
   },
 }

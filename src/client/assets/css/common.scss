@@ -21,9 +21,9 @@ html {
 }
 
 body {
-  color: $font_base_color;
-  font-size: 1.6rem;
   font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-size: 1.6rem;
+  color: $font_base_color;
 }
 
 input {

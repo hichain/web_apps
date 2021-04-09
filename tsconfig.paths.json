@@ -5,6 +5,7 @@
 			"@/*" : ["*"],
 			"@strings/*": ["client/assets/strings/*"],
 			"@images/*": ["client/assets/images/*"],
+			"@css/*": ["client/assets/css/*"],
 			"@games": ["games/index"],
 			"@games/*": ["games/*"]
 		},

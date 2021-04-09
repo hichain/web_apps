@@ -10,7 +10,10 @@
     "build:client": "react-app-rewired build",
     "build:server": "tsc --project ./src/server",
     "eject": "react-scripts eject",
-    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "lint": "npm-run-all -p lint:*",
+    "lint:ts": "eslint './src/**/*.{ts,tsx}'",
+    "lint:css": "stylelint './src/**/*.{css,scss}'",
+    "lint:css-in-js": "stylelint './src/**/*.tsx'",
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
@@ -25,6 +28,7 @@
     "@types/react-dom": "^17.0.1",
     "@types/styled-components": "^5.1.9",
     "boardgame.io": "0.43.3",
+    "node-sass": "^5.0.0",
     "npm-run-all": "^4.1.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -54,6 +58,11 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "serve": "^11.3.2",
+    "stylelint": "^13.12.0",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-recess-order": "^2.3.0",
+    "stylelint-config-standard": "^21.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
     "ts-jest": "^26.5.2"
   },
   "browserslist": {
@@ -86,6 +95,7 @@
     ]
   },
   "lint-staged": {
-    "*.{js, ts, jsx, tsx}": "eslint --fix"
+    "*.{js,ts,jsx,tsx}": "eslint --fix",
+    "*.{css,scss,tsx}": "stylelint --fix"
   }
 }

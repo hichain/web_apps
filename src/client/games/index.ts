@@ -1,17 +1,15 @@
 import { Slashchain } from "@/games/index";
-import { GameComponent } from "boardgame.io/dist/types/src/lobby/connection";
-import { App as SlashchainApp } from "./slashchain/app";
+import { Client as SlashchainClient } from "./slashchain/app";
 import { GameTopComponent as SlashchainTop } from "./slashchain";
+import { GameMatchComponent as SlashchainMatch } from "./slashchain/match";
 
-export { SlashchainApp };
+export { SlashchainClient };
 
-export const gameComponents: GameComponent[] = [
-  {
+export const gameComponents = {
+  slashchain: {
     game: Slashchain,
-    board: SlashchainApp,
+    board: SlashchainClient,
+    top: SlashchainTop,
+    match: SlashchainMatch,
   },
-];
-
-export const gameTopComponents = {
-  slashchain: SlashchainTop,
 };

@@ -15,7 +15,7 @@ export type Moves = {
   rotateTile: (index: number, dir: number) => void;
 };
 
-export const Slashchain: Game<GameState> = {
+export const Slashchain: Game<GameState> & { name: string } = {
   name: "slashchain",
   setup: (ctx): GameState => {
     const rules = new Array(3)

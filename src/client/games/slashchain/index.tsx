@@ -1,5 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useCallback, useEffect } from "react";
 import styled from "styled-components";
+import { LobbyClient } from "boardgame.io/client";
+import { envs } from "@/envs";
+import { Slashchain } from "@/games";
+import { useHistory } from "react-router";
 
 export { App as SlashchainApp } from "./app";
 
@@ -16,5 +20,21 @@ const StyledComponent = styled.div`
 `;
 
 export const GameTopComponent: FC<ContainerProps> = () => {
+  const history = useHistory();
+
+  const createMatch = useCallback(async () => {
+    const lobbyClient = new LobbyClient({ server: envs?.lobby?.url });
+    const { matchID } = await lobbyClient.createMatch(Slashchain.name, {
+      numPlayers: 2,
+    });
+    return matchID;
+  }, []);
+
+  useEffect(() => {
+    createMatch().then((matchID) =>
+      history.push(`/games/slashchain/${matchID}`)
+    );
+  });
+
   return <StyledComponent>Joining...</StyledComponent>;
 };

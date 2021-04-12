@@ -33,7 +33,7 @@ export const GameTopComponent: FC<ContainerProps> = () => {
     createMatch().then((matchID) =>
       history.push(`/games/slashchain/${matchID}`)
     );
-  });
+  }, [createMatch, history, setPlayer]);
 
   return <StyledComponent>Creating a match...</StyledComponent>;
 };

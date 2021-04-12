@@ -1,5 +1,5 @@
 import { Slashchain } from "@/games/index";
-import { Client as SlashchainClient } from "./slashchain/app";
+import { Client as SlashchainClient } from "./slashchain/client";
 import { GameTopComponent as SlashchainTop } from "./slashchain";
 import { GameMatchComponent as SlashchainMatch } from "./slashchain/match";
 

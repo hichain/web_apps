@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { Slashchain } from "@/games";
-import { Client } from "./app";
+import { Client } from "./client";
 import { lobbyClient } from "@/client/lobby/client";
 import { useHistory } from "react-router";
 import { Player, usePlayer } from "@/client/hooks/usePlayer";

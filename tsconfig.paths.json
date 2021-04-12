@@ -3,7 +3,7 @@
 		"baseUrl": "src",
 		"paths": {
 			"@/*" : ["*"],
-			"@strings/*": ["client/assets/strings/*"],
+			"@strings": ["client/assets/strings/index"],
 			"@images/*": ["client/assets/images/*"],
 			"@css/*": ["client/assets/css/*"],
 			"@games": ["games/index"],

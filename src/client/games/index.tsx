@@ -7,6 +7,7 @@ import { lobbyClient } from "@/client/lobby/client";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { LobbyAPI } from "boardgame.io";
+import { strings } from "@strings";
 
 type ContainerProps = {
   children?: never;
@@ -26,11 +27,11 @@ const DomComponent: FC<Props> = ({ className, games, matches }) => (
 
     {games.map((game, i) => (
       <div className="game_info" key={i}>
-        <h2>{game}</h2>
+        <h2>{strings.games[game]}</h2>
         <ul>
           <li>All Macthes: {matches[game]?.length ?? "?"}</li>
         </ul>
-        <button>
+        <button className="create_match_button">
           <Link to={`/games/${game}`}>Create a match</Link>
         </button>
       </div>
@@ -50,6 +51,9 @@ const StyledComponent = styled(DomComponent)`
   }
   .game_info {
     margin-left: 8rem;
+  }
+  .create_match_button {
+    margin-left: 2rem;
   }
 `;
 

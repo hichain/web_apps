@@ -5,11 +5,12 @@ import { BrowserRouter } from "react-router-dom";
 import { DebugComponent } from "./client";
 import "@css/reboot.css";
 import "@css/common.scss";
-import { gameComponents } from "./client/games";
+import { gameComponents, GameListComponent } from "./client/games";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      <Route path="/games/" exact component={GameListComponent} />
       <Route
         path="/games/slashchain"
         exact

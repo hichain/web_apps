@@ -1,13 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { Slashchain } from "@/games";
 import { Client } from "./app";
 import { lobbyClient } from "@/client/lobby/client";
 import { useHistory } from "react-router";
-
-type Player = {
-  id: string;
-  credentials: string;
-};
+import { Player, usePlayer } from "@/client/hooks/usePlayer";
 
 type ContainerProps = {
   children?: never;
@@ -34,7 +30,7 @@ const DomComponent: FC<Props> = ({ className, matchID, player }) => (
 export const GameMatchComponent: FC<ContainerProps> = (props) => {
   const { matchID } = props;
   const history = useHistory();
-  const [player, setPlayer] = useState<Player | undefined>();
+  const [player, setPlayer] = usePlayer();
 
   useEffect(() => {
     if (player) {
@@ -46,11 +42,6 @@ export const GameMatchComponent: FC<ContainerProps> = (props) => {
       .then(({ gameName, players }) => {
         const numPlayers = players.filter((player) => player.name != null)
           .length;
-        if (numPlayers >= Slashchain.maxPlayers) {
-          history.push("/games/slashchain");
-          return;
-        }
-
         const playerID = `${numPlayers}`;
         lobbyClient
           .joinMatch(gameName, matchID, {
@@ -59,9 +50,14 @@ export const GameMatchComponent: FC<ContainerProps> = (props) => {
           })
           .then(({ playerCredentials }) => {
             setPlayer({ id: playerID, credentials: playerCredentials });
+          })
+          .catch(() => {
+            history.push("/");
           });
+      })
+      .catch(() => {
+        history.push("/");
       });
-  }, [matchID, player, history]);
-
+  }, [matchID, history, player, setPlayer]);
   return <DomComponent {...props} player={player} />;
 };

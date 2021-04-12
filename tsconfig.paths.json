@@ -7,7 +7,8 @@
 			"@images/*": ["client/assets/images/*"],
 			"@css/*": ["client/assets/css/*"],
 			"@games": ["games/index"],
-			"@games/*": ["games/*"]
+			"@games/*": ["games/*"],
+			"@hooks/*": ["client/hooks/*"]
 		},
 	}
 }

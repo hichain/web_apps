@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Slashchain } from "@/games";
 import { useHistory } from "react-router";
 import { lobbyClient } from "@/client/lobby/client";
-import { usePlayer } from "@/client/hooks/usePlayer";
 
 type ContainerProps = {
   children?: never;
@@ -19,7 +18,6 @@ const StyledComponent = styled.div`
 
 export const GameTopComponent: FC<ContainerProps> = () => {
   const history = useHistory();
-  const [, setPlayer] = usePlayer();
 
   const createMatch = useCallback(async () => {
     const { matchID } = await lobbyClient.createMatch(Slashchain.name, {
@@ -29,11 +27,10 @@ export const GameTopComponent: FC<ContainerProps> = () => {
   }, []);
 
   useEffect(() => {
-    setPlayer(undefined);
     createMatch().then((matchID) =>
       history.replace(`/games/slashchain/${matchID}`)
     );
-  }, [createMatch, history, setPlayer]);
+  }, [createMatch, history]);
 
   return <StyledComponent>Creating a match...</StyledComponent>;
 };

@@ -3,7 +3,7 @@ import { Slashchain } from "@/games";
 import { Client } from "./client";
 import { lobbyClient } from "@/client/lobby/client";
 import { useHistory } from "react-router";
-import { Player, usePlayer } from "@/client/hooks/usePlayer";
+import { Player, useMatchHistory } from "@/client/hooks/useMatchHistory";
 
 type ContainerProps = {
   children?: never;
@@ -30,10 +30,11 @@ const DomComponent: FC<Props> = ({ className, matchID, player }) => (
 export const GameMatchComponent: FC<ContainerProps> = (props) => {
   const { matchID } = props;
   const history = useHistory();
-  const [player, setPlayer] = usePlayer();
+  const [matchHistory, dispatch] = useMatchHistory();
 
   useEffect(() => {
-    if (player) {
+    const match = matchHistory[matchID];
+    if (match) {
       return;
     }
 
@@ -49,7 +50,16 @@ export const GameMatchComponent: FC<ContainerProps> = (props) => {
             playerName: playerID,
           })
           .then(({ playerCredentials }) => {
-            setPlayer({ id: playerID, credentials: playerCredentials });
+            dispatch({
+              type: "add_match",
+              payload: {
+                matchID,
+                player: {
+                  id: playerID,
+                  credentials: playerCredentials,
+                },
+              },
+            });
           })
           .catch(() => {
             history.replace("/");
@@ -58,6 +68,6 @@ export const GameMatchComponent: FC<ContainerProps> = (props) => {
       .catch(() => {
         history.replace("/");
       });
-  }, [matchID, history, player, setPlayer]);
-  return <DomComponent {...props} player={player} />;
+  }, [matchID, history, matchHistory, dispatch]);
+  return <DomComponent {...props} player={matchHistory[matchID]} />;
 };

@@ -93,7 +93,7 @@ export const GameListComponent: FC<ContainerProps> = (props) => {
           setMatches(Object.fromEntries(matches));
         });
       })
-      .catch(() => history.push("/"));
+      .catch(() => history.replace("/"));
   }, [getGames, getMatches, history]);
 
   return <StyledComponent {...props} games={games} matches={allMatches} />;

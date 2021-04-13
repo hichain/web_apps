@@ -52,11 +52,11 @@ export const GameMatchComponent: FC<ContainerProps> = (props) => {
             setPlayer({ id: playerID, credentials: playerCredentials });
           })
           .catch(() => {
-            history.push("/");
+            history.replace("/");
           });
       })
       .catch(() => {
-        history.push("/");
+        history.replace("/");
       });
   }, [matchID, history, player, setPlayer]);
   return <DomComponent {...props} player={player} />;

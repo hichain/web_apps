@@ -13,7 +13,7 @@
     "lint": "npm-run-all -p lint:*",
     "lint:ts": "eslint './src/**/*.{ts,tsx}'",
     "lint:css": "stylelint './src/**/*.{css,scss}'",
-    "lint:css-in-js": "stylelint './src/**/*.tsx'",
+    "lint:css-in-js": "stylelint --syntax 'css-in-js' './src/**/*.tsx'",
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
@@ -96,6 +96,6 @@
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": "eslint --fix",
-    "*.{css,scss,tsx}": "stylelint --fix"
+    "*.{css,scss,tsx}": "stylelint --fix --syntax 'css-in-js'"
   }
 }

@@ -7,11 +7,12 @@
     "source.organizeImports": false,
     "source.fixAll": true
   },
-  "typescript.preferences.importModuleSpecifierEnding": "index",
   "[json]": {
     "editor.quickSuggestions": {
       "strings": true
     },
     "editor.suggest.insertMode": "replace",
   },
+  "javascript.format.semicolons": "insert",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
 }

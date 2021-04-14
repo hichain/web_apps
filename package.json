@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start:client": "react-app-rewired start",
-    "serve:server": "node ./dist/server/index.js",
-    "serve:client": "serve -s ./build",
+    "serve:master": "node ./dist/server/master.js",
+    "serve:web": "node ./dist/server/web.js",
     "build": "npm-run-all -p build:*",
     "build:client": "react-app-rewired build",
     "build:server": "tsc --project ./src/server",
@@ -37,6 +37,7 @@
     "typescript": "~4.1"
   },
   "devDependencies": {
+    "@types/http-proxy-middleware": "^1.0.0",
     "@types/jest": "^26.0.20",
     "@types/koa-router": "^7.4.1",
     "@types/koa-static": "^4.0.1",

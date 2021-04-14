@@ -1,18 +1,16 @@
-import express from "express";
 import { Server } from "boardgame.io/server";
 import path from "path";
 import { envs } from "../envs";
 import { games } from "../games";
-
-const app = express();
+import serve from "koa-static";
 
 const frontEndAppBuildPath = path.resolve("./build");
 const masterPort = envs?.master.port;
 const lobbyPort = envs?.lobby.port;
 
-app.use(express.static(frontEndAppBuildPath));
-
 const server = Server({ games });
+server.app.use(serve(frontEndAppBuildPath));
+
 server.run(
   {
     port: masterPort,
@@ -23,8 +21,12 @@ server.run(
       undefined,
   },
   () => {
-    app.listen(envs?.web.port, () => {
-      console.log(`INFO: Web App serving on ${envs?.web.port}...`);
-    });
+    server.app.use(
+      async (ctx, next) =>
+        await serve(frontEndAppBuildPath)(
+          Object.assign(ctx, { path: "index.html" }),
+          next
+        )
+    );
   }
 );

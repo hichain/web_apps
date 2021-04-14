@@ -6,6 +6,7 @@ import { DebugComponent } from "./client";
 import "@css/reboot.css";
 import "@css/common.scss";
 import { gameComponents, GameListComponent } from "./client/games";
+import { TopComponent } from "./top";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,6 +25,7 @@ ReactDOM.render(
         )}
       />
       <Route path="/debug" exact component={DebugComponent} />
+      <Route path="/" component={TopComponent} />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

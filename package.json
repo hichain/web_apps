@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start:client": "react-app-rewired start",
+    "start:master": "NODE_ENV=development ts-node --project src/server/tsconfig.json src/server/master.ts",
     "serve:master": "node ./dist/server/master.js",
     "serve:web": "node ./dist/server/web.js",
     "build": "npm-run-all -p build:*",

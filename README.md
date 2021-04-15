@@ -9,12 +9,12 @@
   https://hichain.herokuapp.com/
 </p>
 
-Hichain Projectが制作したボードゲームを遊べるWebアプリ
+Hichain Projectが制作したボードゲームを遊べるWebアプリ  
+Multiplayer online games published Hichain Project
 
-## 対応ゲーム
+## Available Games
 
-- slashchain (制作中)
-- HICHAIN (予定)
+- slashchain (Comming Soon)
 
 ## Usage
 
@@ -27,13 +27,13 @@ $ yarn
 ### Running Game Client
 
 ```
-$ yarn run start:client
+$ yarn start:client
 ```
 
 ### Running Game Master Server (local)
 
 ```
-$ NODE_ENV=development yarn run serve:master
+$ yarn start:master
 ```
 
 ### Running Tests

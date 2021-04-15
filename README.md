@@ -1,4 +1,4 @@
-# HICHAIN Web App
+# HICHAIN Web Apps
 
 <p align="center">
   <img src="https://img.shields.io/github/workflow/status/hichain/web_apps/Node.js%20CI?style=flat-square" alt="Build Status"/>
@@ -6,11 +6,11 @@
 </p>
 
 <p align="center">
-  https://hichain.herokuapp.com/
+  https://apps.hichain.jp
 </p>
 
 Hichain Projectが制作したボードゲームを遊べるWebアプリ  
-Multiplayer online games published Hichain Project
+Multiplayer online games published by Hichain Project
 
 ## Available Games
 

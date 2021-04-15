@@ -1,6 +1,6 @@
 const path = require("path");
 
-module.exports = (config, env) => {
+module.exports = (config, _) => {
   return {
     ...config,
     resolve: {

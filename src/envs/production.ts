@@ -10,5 +10,5 @@ export const productionEnv: Env = {
   master: {
     url,
     port,
-  }
+  },
 };

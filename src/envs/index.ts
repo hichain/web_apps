@@ -18,6 +18,7 @@ export const envs = (() => {
     case "production":
       return productionEnv;
     default:
+      console.error("NODE_ENV is undefined.");
       return undefined;
   }
 })();

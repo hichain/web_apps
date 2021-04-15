@@ -27,9 +27,11 @@ export const GameTopComponent: FC<ContainerProps> = () => {
   }, []);
 
   useEffect(() => {
-    createMatch().then((matchID) =>
-      history.replace(`/games/slashchain/${matchID}`)
-    );
+    createMatch()
+      .then((matchID) => history.replace(`/games/slashchain/${matchID}`))
+      .catch(() => {
+        history.replace("/");
+      });
   }, [createMatch, history]);
 
   return <StyledComponent>Creating a match...</StyledComponent>;

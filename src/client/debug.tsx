@@ -39,7 +39,7 @@ export const DebugComponent: React.FC<ContainerProps> = (props) => {
       {...props}
       gameComponents={Object.values(gameComponents)}
       gameServer={envs?.master.url}
-      lobbyServer={envs?.lobby.url}
+      lobbyServer={envs?.master.url}
     />
   );
 };

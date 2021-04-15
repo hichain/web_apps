@@ -1,32 +1,24 @@
-import { Server } from "boardgame.io/server";
+import express from "express";
 import path from "path";
+import { exit } from "process";
 import { envs } from "../envs";
-import { games } from "../games";
-import serve from "koa-static";
+import cors from "cors";
+
+if (!envs) {
+  exit(1);
+}
+
+const app = express();
 
 const frontEndAppBuildPath = path.resolve("./build");
-const masterPort = envs?.master.port;
-const lobbyPort = envs?.lobby.port;
+const port = envs.web.port;
+const url = envs.master.url;
 
-const server = Server({ games });
-server.app.use(serve(frontEndAppBuildPath));
+const corsOptions = {
+  origin: url,
+  optionsSuccessStatus: 200,
+};
 
-server.run(
-  {
-    port: masterPort,
-    lobbyConfig:
-      (lobbyPort && {
-        apiPort: lobbyPort,
-      }) ||
-      undefined,
-  },
-  () => {
-    server.app.use(
-      async (ctx, next) =>
-        await serve(frontEndAppBuildPath)(
-          Object.assign(ctx, { path: "index.html" }),
-          next
-        )
-    );
-  }
-);
+app.use(cors(corsOptions));
+app.use(express.static(frontEndAppBuildPath));
+app.listen(port);

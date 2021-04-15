@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start:client": "react-app-rewired start",
-    "serve:server": "node ./dist/server/index.js",
+    "serve:master": "node ./dist/server/master.js",
     "serve:client": "serve -s ./build",
     "build": "npm-run-all -p build:*",
     "build:client": "react-app-rewired build",

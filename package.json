@@ -5,7 +5,7 @@
   "scripts": {
     "start:client": "react-app-rewired start",
     "serve:master": "node ./dist/server/master.js",
-    "serve:client": "serve -s ./build",
+    "serve:web": "node ./dist/server/web.js",
     "build": "npm-run-all -p build:*",
     "build:client": "react-app-rewired build",
     "build:server": "tsc --project ./src/server",

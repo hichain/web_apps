@@ -9,5 +9,5 @@
     "resolveJsonModule": true,
     "moduleResolution": "node"
   },
-  "files": ["master.ts"]
+  "files": ["master.ts", "web.ts"]
 }

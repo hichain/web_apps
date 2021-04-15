@@ -16,6 +16,10 @@ Multiplayer online games published by Hichain Project
 
 - slashchain (Comming Soon)
 
+## Requirements
+
+- Node.js v15.12.0
+
 ## Usage
 
 ### Installation
@@ -47,6 +51,34 @@ $ yarn test
 ```
 $ yarn lint
 ```
+
+## Technology stacks
+
+### Frontend
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [React](https://reactjs.org/)
+- [React Router](https://reacttraining.com/react-router/)
+- [boardgame.io](https://github.com/boardgameio/boardgame.io)
+- [styled-component](https://styled-components.com/)
+- [Sass](https://sass-lang.com/)
+- [Reboot.css](https://github.com/twbs/bootstrap/releases/tag/v4.6.0)
+- [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/)
+- [stylelint](https://stylelint.io/)
+- [Jest](https://jestjs.io/)
+- [yarn](https://yarnpkg.com)
+- [webpack](https://webpack.js.org/)
+- [husky](https://github.com/typicode/husky) + [lint-staged](https://github.com/okonet/lint-staged)
+
+### Backend
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [boardgame.io](https://github.com/boardgameio/boardgame.io)
+- [express](https://expressjs.com/ja/)
+
+### Editor
+
+- [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Changelog
 

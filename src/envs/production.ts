@@ -1,18 +1,14 @@
 import { Env } from "./index";
 
-const port = Number(process.env.PORT);
+const url = "https://hichain-master.herokuapp.com/";
+const port = Number(process.env.PORT ?? 3000);
 
 export const productionEnv: Env = {
-  master:
-    (isNaN(port) && {
-      url: "https://hichain-master.herokuapp.com/",
-      port: port,
-    }) ||
-    undefined,
-  lobby:
-    (isNaN(port) && {
-      url: "https://hichain-master.herokuapp.com/",
-      port: 8080,
-    }) ||
-    undefined,
+  web: {
+    port,
+  },
+  master: {
+    url,
+    port,
+  }
 };

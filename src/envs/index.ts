@@ -2,11 +2,11 @@ import { developmentEnv } from "./development";
 import { productionEnv } from "./production";
 
 export type Env = {
-  master: {
+  master?: {
     url: string;
     port: number;
   };
-  lobby: {
+  lobby?: {
     url: string;
     port: number;
   };
@@ -19,7 +19,6 @@ export const envs = (() => {
     case "production":
       return productionEnv;
     default:
-      console.log("NODE_ENV is undefined.");
       return undefined;
   }
 })();

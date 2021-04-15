@@ -9,6 +9,6 @@ export const Client = BoardGameClient({
   numPlayers: 2,
   board: GameComponent,
   multiplayer: SocketIO({
-    server: envs?.master.url,
+    server: envs?.master?.url,
   }),
 });

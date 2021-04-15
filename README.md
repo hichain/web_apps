@@ -33,7 +33,7 @@ $ yarn run start:client
 ### Running Game Server (local)
 
 ```
-$ NODE_ENV=development yarn run serve:master
+$ NODE_ENV=development yarn run serve:server
 ```
 
 ### Running Tests

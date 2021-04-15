@@ -38,8 +38,8 @@ export const DebugComponent: React.FC<ContainerProps> = (props) => {
     <StyledComponent
       {...props}
       gameComponents={Object.values(gameComponents)}
-      gameServer={envs?.master.url}
-      lobbyServer={envs?.lobby.url}
+      gameServer={envs?.master?.url}
+      lobbyServer={envs?.lobby?.url}
     />
   );
 };

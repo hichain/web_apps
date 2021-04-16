@@ -1,31 +1,45 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Route, Switch } from "react-router";
-import { BrowserRouter } from "react-router-dom";
-import { DebugComponent } from "./client";
 import "@css/reboot.css";
 import "@css/common.scss";
+import React from "react";
+import ReactDOM from "react-dom";
+import { Switch } from "react-router";
+import { BrowserRouter } from "react-router-dom";
+import { DebugComponent } from "./client";
 import { gameComponents, GameListComponent } from "./client/games";
 import { TopComponent } from "./top";
+import { pages, routes } from "./client/assets/routes";
+import { PageRoute } from "./page";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Switch>
-        <Route path="/games/" exact component={GameListComponent} />
-        <Route
-          path="/games/slashchain"
+        <PageRoute
+          title={pages.gameList}
+          path={routes.gameList}
+          exact
+          component={GameListComponent}
+        />
+        <PageRoute
+          title={pages.slashchain}
+          path={routes.slashchain.index}
           exact
           component={gameComponents.slashchain.top}
         />
-        <Route
-          path="/games/slashchain/:matchID"
+        <PageRoute
+          title={pages.slashchain}
+          path={routes.slashchain.match}
           render={({ match }) => (
             <gameComponents.slashchain.match matchID={match.params.matchID} />
           )}
         />
-        <Route path="/debug" exact component={DebugComponent} />
-        <Route component={TopComponent} />
+        <PageRoute
+          title={pages.debugger}
+          path={routes.debugger}
+          exact
+          component={DebugComponent}
+        />
+        <PageRoute component={TopComponent} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

@@ -70,7 +70,7 @@ const DomComponent: FC<PresenterProps> = ({
   </div>
 );
 
-export const GameComponent: React.FC<ContainerProps> = (props) => {
+export const TabletopComponent: React.FC<ContainerProps> = (props) => {
   const [pickedTile, pick] = useState<Hand | undefined>(undefined);
 
   const me = props.playerID;

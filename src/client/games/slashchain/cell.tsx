@@ -1,41 +1,12 @@
-import React, { FC } from "react";
-import { Tile } from "@games";
-import { TileComponent } from "./tile";
 import styled from "styled-components";
 
-type ContainerProps = {
-  className?: string;
-  children?: never;
-  isLegal: boolean;
-  tile?: Tile;
-  onClick?: () => void;
-};
-
-const StyledCell = styled.td`
-  width: 80px;
-  height: 80px;
+export const StyledCell = styled.div`
+  width: 5vw;
+  min-width: 4rem;
+  max-width: 6rem;
+  height: 5vw;
+  min-height: 4rem;
+  max-height: 6rem;
   padding: 0;
   line-height: 0;
-
-  &.available {
-    border: 1px solid #555;
-  }
 `;
-
-export const CellComponent: FC<ContainerProps> = ({
-  tile,
-  isLegal,
-  onClick,
-}) => {
-  if (tile != null) {
-    return (
-      <StyledCell className="available">
-        <TileComponent tile={tile} />
-      </StyledCell>
-    );
-  }
-  if (isLegal) {
-    return <StyledCell className="available" onClick={onClick}></StyledCell>;
-  }
-  return <StyledCell />;
-};

@@ -1,7 +1,8 @@
 import React, { FC } from "react";
 import { TileBoard, Cell, CellSet } from "@games";
-import { CellComponent } from "./cell";
 import styled from "styled-components";
+import { StyledCell } from "./cell";
+import { TileComponent } from "./tile";
 
 type ContainerProps = {
   className?: string;
@@ -30,14 +31,18 @@ const DomComponent: FC<Props> = ({
         {cells.map((cellRow) => (
           <tr key={cellRow[0].x}>
             {cellRow.map((cell) => (
-              <CellComponent
-                key={cell.y}
-                {...{
-                  isLegal: legalCells.has(cell),
-                  tile: board.get(cell),
-                  onClick: () => move?.(cell),
-                }}
-              />
+              <td key={cell.y}>
+                <StyledCell
+                  className={legalCells.has(cell) ? "available cell" : "cell"}
+                  key={cell.y}
+                  onClick={() => move?.(cell)}
+                >
+                  {() => {
+                    const tile = board.get(cell);
+                    return tile && <TileComponent tile={tile} />;
+                  }}
+                </StyledCell>
+              </td>
             ))}
           </tr>
         ))}
@@ -47,11 +52,20 @@ const DomComponent: FC<Props> = ({
 );
 
 const StyledComponent = styled(DomComponent)`
+  display: flex;
+  align-items: center;
+
   .board {
     margin: auto;
     table-layout: fixed;
     border-spacing: 0;
     border-collapse: collapse;
+
+    .cell {
+      &.available {
+        border: 1px solid #555;
+      }
+    }
   }
 `;
 

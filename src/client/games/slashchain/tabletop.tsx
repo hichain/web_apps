@@ -5,6 +5,7 @@ import { GameState, Moves, Tile, TileBoard, Cell } from "@games";
 import { Hand, HandsComponent } from "./hands";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
+import styled from "styled-components";
 
 type Players = {
   me: PlayerID;
@@ -12,6 +13,7 @@ type Players = {
 };
 
 type ContainerProps = BoardProps & {
+  children?: never;
   playerID: PlayerID;
   moves: Moves;
   events: EventsAPI;
@@ -20,6 +22,7 @@ type ContainerProps = BoardProps & {
 };
 
 type PresenterProps = {
+  className?: string;
   players: Players;
   board: TileBoard;
   hands: {
@@ -37,6 +40,7 @@ type PresenterProps = {
 };
 
 const DomComponent: FC<PresenterProps> = ({
+  className,
   players,
   board,
   hands,
@@ -45,14 +49,16 @@ const DomComponent: FC<PresenterProps> = ({
   moves,
   gameResult,
 }) => (
-  <div>
+  <div className={className}>
     <HandsComponent
+      className="hands other"
       hands={hands.other}
       playerID={players.other}
       pickable={false}
     />
-    <BoardComponent move={moves.putTile} board={board} />
+    <BoardComponent className="board" move={moves.putTile} board={board} />
     <HandsComponent
+      className="hands me"
       hands={hands.me}
       playerID={players.me}
       {...(isMyTurn
@@ -69,6 +75,23 @@ const DomComponent: FC<PresenterProps> = ({
     <div id="winner">{gameResult}</div>
   </div>
 );
+
+const StyledComponent = styled(DomComponent)`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 90%;
+  min-height: 100vh;
+  padding: 4rem 0;
+  margin-right: auto;
+  margin-left: auto;
+
+  & > .board {
+    flex: 1;
+  }
+`;
 
 export const TabletopComponent: React.FC<ContainerProps> = (props) => {
   const [pickedTile, pick] = useState<Hand | undefined>(undefined);
@@ -118,7 +141,7 @@ export const TabletopComponent: React.FC<ContainerProps> = (props) => {
   };
 
   return (
-    <DomComponent
+    <StyledComponent
       {...{
         players,
         board: new TileBoard(props.G.board),

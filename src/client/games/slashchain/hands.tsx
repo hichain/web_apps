@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { TileComponent } from "./tile";
 import { Tile } from "@games";
 import styled from "styled-components";
+import { StyledCell } from "./cell";
 
 export type Hand = {
   index: number;
@@ -40,7 +41,9 @@ const DomComponent: FC<Props> = ({ className, hands, playerID, ...props }) => {
               key={`${playerID}:${i}`}
               onClick={() => props.rotate(i, 1)}
             >
-              <TileComponent tile={tile} dir={props.pickedTile.dir} />
+              <StyledCell>
+                <TileComponent tile={tile} dir={props.pickedTile.dir} />
+              </StyledCell>
             </div>
           ) : (
             <div
@@ -48,13 +51,17 @@ const DomComponent: FC<Props> = ({ className, hands, playerID, ...props }) => {
               key={`${playerID}:${i}`}
               onClick={() => props.pick(i)}
             >
-              <TileComponent tile={tile} />
+              <StyledCell>
+                <TileComponent tile={tile} />
+              </StyledCell>
             </div>
           );
         } else {
           return (
             <div className="tile" key={`${playerID}:${i}`}>
-              <TileComponent tile={tile} />
+              <StyledCell>
+                <TileComponent tile={tile} />
+              </StyledCell>
             </div>
           );
         }
@@ -66,21 +73,17 @@ const DomComponent: FC<Props> = ({ className, hands, playerID, ...props }) => {
 const StyledComponent = styled(DomComponent)`
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: center;
-  width: 60%;
-  margin: 3em auto;
 
   .tile {
-    width: 60px;
-    height: 60px;
-    margin: 0.6em;
+    margin: 0.6rem;
+    background-color: #fff;
+    border: 0 solid #222222ba;
+    box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+    transition: transform 0.12s;
     object-fit: contain;
 
     img {
-      width: 100%;
-      height: 100%;
-      border: 1px solid #555;
       transition: transform 0.12s;
     }
 
@@ -89,18 +92,13 @@ const StyledComponent = styled(DomComponent)`
       transition-timing-function: ease-in-out;
 
       &:hover {
-        width: 80px;
-        height: 80px;
+        box-shadow: 0 2px 8px 1px rgb(64 60 67 / 48%);
       }
     }
 
     &.picked {
-      width: 80px;
-      height: 80px;
-
-      img {
-        border-width: 2.2px;
-      }
+      border-width: 0.1rem;
+      box-shadow: 0 2px 8px 1px rgb(64 60 67 / 48%);
     }
   }
 `;

@@ -37,7 +37,11 @@ const DomComponent: FC<Props> = ({
           }))
           .map((cell) => (
             <StyledCell
-              className={cell.isLegal ? "available cell" : "cell"}
+              className={[
+                cell.isLegal ? "available" : "",
+                cell.tile != null ? "tile" : "",
+                "cell",
+              ].join(" ")}
               key={`${cell.x},${cell.y}`}
               data-x={cell.x}
               data-y={cell.y}
@@ -66,10 +70,19 @@ const StyledComponent = styled(DomComponent)`
     & > .cell {
       box-sizing: content-box;
       background-color: #fff;
-      border: 0.1rem solid #444;
+      border: 0.1rem dashed #aaa;
+      border-right: 0;
+      border-bottom: 0;
+
+      &:nth-child(n + 1):nth-child(-n + ${({ columns }) => columns}) {
+        border-top: 0;
+      }
+      &:nth-child(${({ columns }) => columns}n + 1) {
+        border-left: 0;
+      }
 
       &.available {
-        background-color: #e2e2e2;
+        background-color: #ccc;
       }
     }
   }
@@ -77,7 +90,15 @@ const StyledComponent = styled(DomComponent)`
 
 export const BoardComponent: React.FC<ContainerProps> = (props) => {
   const legalCells = useMemo(() => props.board.legalCells(), [props.board]);
-  const range = useMemo(() => legalCells.range(), [legalCells]);
+  const range = useMemo(() => {
+    const range = legalCells.range();
+    return {
+      minX: range.minX - 1,
+      maxX: range.maxX + 1,
+      minY: range.minY - 1,
+      maxY: range.maxY + 1,
+    };
+  }, [legalCells]);
   const cells = useMemo(() => {
     const cells: Cell[][] = [];
     for (let y = range.minY; y <= range.maxY; y++) {

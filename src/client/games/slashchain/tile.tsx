@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import square from "@images/slashchain/square.png";
-import arrow from "@images/slashchain/arrow.png";
-import pin from "@images/slashchain/pin.png";
-import cross from "@images/slashchain/cross.png";
-import power from "@images/slashchain/power.png";
-import parallel from "@images/slashchain/parallel.png";
+import square from "@images/slashchain/square.svg";
+import arrow from "@images/slashchain/arrow.svg";
+import pin from "@images/slashchain/pin.svg";
+import cross from "@images/slashchain/cross.svg";
+import power from "@images/slashchain/power.svg";
+import parallel from "@images/slashchain/parallel.svg";
 import { NamedTile, Tile, tileParser } from "@games";
 import styled from "styled-components";
 

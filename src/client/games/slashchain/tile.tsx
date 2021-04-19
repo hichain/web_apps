@@ -26,13 +26,13 @@ type ContainerProps = {
 
 type PresenterProps = {
   namedTile: NamedTile;
+  imageUrl?: string;
   dir: number;
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, dir, namedTile }) => {
-  const imageUrl = tileImages[namedTile.name];
+const DomComponent: FC<Props> = ({ className, imageUrl, dir, namedTile }) => {
   if (imageUrl == null) {
     return (
       <span className={className}>
@@ -51,6 +51,7 @@ const StyledComponent = styled(DomComponent)`
   img {
     width: 100%;
     transform: rotate(${({ dir }) => 90 * dir}deg);
+    transform-origin: center;
   }
 `;
 
@@ -63,6 +64,7 @@ export const TileComponent: FC<ContainerProps> = (props) => {
     <StyledComponent
       {...props}
       namedTile={namedTile}
+      imageUrl={tileImages[namedTile.name]}
       dir={props.dir ?? namedTile.dir}
     />
   );

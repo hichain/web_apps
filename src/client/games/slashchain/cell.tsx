@@ -7,6 +7,4 @@ export const StyledCell = styled.div`
   height: 5vw;
   min-height: 4rem;
   max-height: 6rem;
-  padding: 0;
-  line-height: 0;
 `;

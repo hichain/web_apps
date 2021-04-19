@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { TileBoard, Cell, CellSet } from "@games";
 import styled from "styled-components";
 import { StyledCell } from "./cell";
@@ -13,6 +13,7 @@ type ContainerProps = {
 
 type PresenterProps = {
   legalCells: CellSet;
+  columns: number;
   cells: Cell[][];
 };
 
@@ -26,59 +27,74 @@ const DomComponent: FC<Props> = ({
   move,
 }) => (
   <div className={className}>
-    <table className="board">
-      <tbody>
-        {cells.map((cellRow) => (
-          <tr key={cellRow[0].x}>
-            {cellRow.map((cell) => (
-              <td key={cell.y}>
-                <StyledCell
-                  className={legalCells.has(cell) ? "available cell" : "cell"}
-                  key={cell.y}
-                  onClick={() => move?.(cell)}
-                >
-                  {() => {
-                    const tile = board.get(cell);
-                    return tile && <TileComponent tile={tile} />;
-                  }}
-                </StyledCell>
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="board-grid">
+      {cells.map((rows) =>
+        rows
+          .map((cell) => ({
+            ...cell,
+            isLegal: legalCells.has(cell),
+            tile: board.get(cell),
+          }))
+          .map((cell) => (
+            <StyledCell
+              className={cell.isLegal ? "available cell" : "cell"}
+              key={`${cell.x},${cell.y}`}
+              data-x={cell.x}
+              data-y={cell.y}
+              onClick={cell.isLegal ? () => move(cell) : undefined}
+            >
+              {cell.tile != null && (
+                <TileComponent className="tile" tile={cell.tile} />
+              )}
+            </StyledCell>
+          ))
+      )}
+    </div>
   </div>
 );
 
 const StyledComponent = styled(DomComponent)`
   display: flex;
   align-items: center;
+  justify-items: center;
 
-  .board {
-    margin: auto;
-    table-layout: fixed;
-    border-spacing: 0;
-    border-collapse: collapse;
+  & > .board-grid {
+    display: grid;
+    grid-template-columns: repeat(${(props) => props.columns}, 1fr);
+    grid-gap: 0;
 
-    .cell {
+    & > .cell {
+      background-color: #fff;
+      outline: 0.2rem solid #444;
+
       &.available {
-        border: 1px solid #555;
+        background-color: #e2e2e2;
       }
     }
   }
 `;
 
 export const BoardComponent: React.FC<ContainerProps> = (props) => {
-  const legalCells = props.board.legalCells();
-  const range = legalCells.range();
-  const cells: Cell[][] = [];
-  for (let x = range.minX; x <= range.maxX; x++) {
-    const cellRow: Cell[] = [];
+  const legalCells = useMemo(() => props.board.legalCells(), [props.board]);
+  const range = useMemo(() => legalCells.range(), [legalCells]);
+  const cells = useMemo(() => {
+    const cells: Cell[][] = [];
     for (let y = range.minY; y <= range.maxY; y++) {
-      cellRow.push({ x, y });
+      const rows: Cell[] = [];
+      for (let x = range.minX; x <= range.maxX; x++) {
+        rows.push({ x, y });
+      }
+      cells.push(rows);
     }
-    cells.push(cellRow);
-  }
-  return <StyledComponent legalCells={legalCells} cells={cells} {...props} />;
+    return cells;
+  }, [range]);
+
+  return (
+    <StyledComponent
+      legalCells={legalCells}
+      columns={range.maxX - range.minX + 1}
+      cells={cells}
+      {...props}
+    />
+  );
 };

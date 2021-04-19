@@ -36,33 +36,27 @@ const DomComponent: FC<Props> = ({ className, hands, playerID, ...props }) => {
       {hands.map((tile, i) => {
         if (props.pickable) {
           return props.pickedTile?.index === i ? (
-            <div
+            <StyledCell
               className="tile picked"
               key={`${playerID}:${i}`}
               onClick={() => props.rotate(i, 1)}
             >
-              <StyledCell>
-                <TileComponent tile={tile} dir={props.pickedTile.dir} />
-              </StyledCell>
-            </div>
+              <TileComponent tile={tile} dir={props.pickedTile.dir} />
+            </StyledCell>
           ) : (
-            <div
+            <StyledCell
               className="tile pickable"
               key={`${playerID}:${i}`}
               onClick={() => props.pick(i)}
             >
-              <StyledCell>
-                <TileComponent tile={tile} />
-              </StyledCell>
-            </div>
+              <TileComponent tile={tile} />
+            </StyledCell>
           );
         } else {
           return (
-            <div className="tile" key={`${playerID}:${i}`}>
-              <StyledCell>
-                <TileComponent tile={tile} />
-              </StyledCell>
-            </div>
+            <StyledCell className="tile" key={`${playerID}:${i}`}>
+              <TileComponent tile={tile} />
+            </StyledCell>
           );
         }
       })}

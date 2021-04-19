@@ -67,12 +67,14 @@ const DomComponent: FC<Props> = ({ className, hands, playerID, ...props }) => {
 const StyledComponent = styled(DomComponent)`
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
 
   .tile {
+    box-sizing: content-box;
     margin: 0.6rem;
     background-color: #fff;
-    border: 0 solid #222222ba;
+    border: 0.2rem solid transparent;
     box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
     transition: transform 0.12s;
     object-fit: contain;
@@ -91,7 +93,7 @@ const StyledComponent = styled(DomComponent)`
     }
 
     &.picked {
-      border-width: 0.1rem;
+      border-color: #8a8a8a;
       box-shadow: 0 2px 8px 1px rgb(64 60 67 / 48%);
     }
   }

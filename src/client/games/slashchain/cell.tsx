@@ -1,10 +1,24 @@
+import { breakpoints } from "@css/variables";
 import styled from "styled-components";
 
 export const StyledCell = styled.div`
-  width: 5vw;
-  min-width: 4rem;
-  max-width: 6rem;
-  height: 5vw;
-  min-height: 4rem;
-  max-height: 6rem;
+  width: 32px;
+  height: 32px;
+
+  @media ${breakpoints.sm} {
+    width: 39px;
+    height: 39px;
+  }
+  @media ${breakpoints.md} {
+    width: 46px;
+    height: 46px;
+  }
+  @media ${breakpoints.lg} {
+    width: 53px;
+    height: 53px;
+  }
+  @media ${breakpoints.xl} {
+    width: 60px;
+    height: 60px;
+  }
 `;

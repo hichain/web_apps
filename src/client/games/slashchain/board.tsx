@@ -64,8 +64,9 @@ const StyledComponent = styled(DomComponent)`
     grid-gap: 0;
 
     & > .cell {
+      box-sizing: content-box;
       background-color: #fff;
-      outline: 0.2rem solid #444;
+      border: 0.1rem solid #444;
 
       &.available {
         background-color: #e2e2e2;

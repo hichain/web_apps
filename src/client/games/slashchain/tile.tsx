@@ -1,21 +1,9 @@
 import React, { FC } from "react";
-import square from "@images/slashchain/square.svg";
-import arrow from "@images/slashchain/arrow.svg";
-import pin from "@images/slashchain/pin.svg";
-import cross from "@images/slashchain/cross.svg";
-import power from "@images/slashchain/power.svg";
-import parallel from "@images/slashchain/parallel.svg";
-import { NamedTile, Tile, tileParser } from "@games";
 import styled from "styled-components";
+import { rotate, RotatedTile, Tile, toRotatedTile } from "@/games/slashchain";
+import { images } from "@images";
 
-const tileImages: { [key: string]: string } = {
-  square,
-  arrow,
-  pin,
-  cross,
-  power,
-  parallel,
-};
+const tileImages = images.slashchain.tiles;
 
 type ContainerProps = {
   className?: string;
@@ -25,24 +13,21 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  namedTile: NamedTile;
-  imageUrl?: string;
+  rotatedTile: RotatedTile;
   dir: number;
+  imageUrl?: string;
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, imageUrl, dir, namedTile }) => {
+const DomComponent: FC<Props> = ({ className, rotatedTile, imageUrl, dir }) => {
+  const name = `${rotatedTile}:${dir}`;
   if (imageUrl == null) {
-    return (
-      <span className={className}>
-        Unknown (${namedTile.name}:${dir})
-      </span>
-    );
+    return <span className={className}>{`No Image (${name}`}</span>;
   }
   return (
     <span className={className}>
-      <img src={imageUrl} alt={namedTile.name} />
+      <img src={imageUrl} alt={name} />
     </span>
   );
 };
@@ -56,16 +41,16 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const TileComponent: FC<ContainerProps> = (props) => {
-  const namedTile = tileParser.parse(props.tile);
-  if (namedTile == null) {
-    return <div>Unknown ({props.tile.toString(16)})</div>;
-  }
+  const dir = props.dir ?? 0;
+  const rotatedTile = toRotatedTile(rotate(props.tile, dir * -1));
+  const imageUrl = tileImages[rotatedTile];
+
   return (
     <StyledComponent
       {...props}
-      namedTile={namedTile}
-      imageUrl={tileImages[namedTile.name]}
-      dir={props.dir ?? namedTile.dir}
+      rotatedTile={rotatedTile}
+      imageUrl={imageUrl}
+      dir={dir}
     />
   );
 };

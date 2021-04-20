@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { TileComponent } from "./tile";
-import { Tile } from "@games";
 import styled from "styled-components";
 import { StyledCell } from "./cell";
+import { Tile } from "@/games/slashchain/";
 
 export type Hand = {
   index: number;
@@ -79,14 +79,7 @@ const StyledComponent = styled(DomComponent)`
     transition: transform 0.12s;
     object-fit: contain;
 
-    img {
-      transition: transform 0.12s;
-    }
-
     &.pickable {
-      transition: 0.08s;
-      transition-timing-function: ease-in-out;
-
       &:hover {
         box-shadow: 0 2px 8px 1px rgb(64 60 67 / 48%);
       }
@@ -95,6 +88,11 @@ const StyledComponent = styled(DomComponent)`
     &.picked {
       border-color: #8a8a8a;
       box-shadow: 0 2px 8px 1px rgb(64 60 67 / 48%);
+
+      img {
+        transition: transform 0.12s;
+        transition-timing-function: ease-in-out;
+      }
     }
   }
 `;

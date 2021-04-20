@@ -4,7 +4,7 @@
 		"paths": {
 			"@/*" : ["*"],
 			"@strings": ["client/assets/strings/index"],
-			"@images/*": ["client/assets/images/*"],
+			"@images": ["client/assets/images/index"],
 			"@css/*": ["client/assets/css/*"],
 			"@games": ["games/index"],
 			"@games/*": ["games/*"],

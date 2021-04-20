@@ -1,15 +1,15 @@
 import React, { FC, useState } from "react";
 import { BoardComponent } from "./board";
 import { Ctx, PlayerID } from "boardgame.io";
-import { GameState, Moves, Tile, TileBoard, Cell } from "@games";
+import { GameState, Moves, Tile, TileBoard, Cell, NamedPlayer } from "@games";
 import { Hand, HandsComponent } from "./hands";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 import styled from "styled-components";
 
 type Players = {
-  me: PlayerID;
-  other: PlayerID;
+  me: NamedPlayer;
+  other: NamedPlayer;
 };
 
 type ContainerProps = BoardProps & {
@@ -96,8 +96,8 @@ const StyledComponent = styled(DomComponent)`
 export const TabletopComponent: React.FC<ContainerProps> = (props) => {
   const [pickedTile, pick] = useState<Hand | undefined>(undefined);
 
-  const me = props.playerID;
-  const other = props.ctx.playOrder.find((player) => player !== me);
+  const me: NamedPlayer = props.playerID === "0" ? "slash" : "backslash";
+  const other: NamedPlayer = me === "slash" ? "backslash" : "slash";
   if (me == null || other == null) {
     return <div />;
   }

@@ -1,6 +1,6 @@
-import React, { FC, useMemo } from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
-import { rotate, RotatedTile, Tile, toRotatedTile } from "@/games/slashchain";
+import { RotatedTile, Tile, toRotatedTile } from "@/games/slashchain";
 import { images } from "@images";
 
 const tileImages = images.slashchain.tiles;
@@ -9,44 +9,53 @@ type ContainerProps = {
   className?: string;
   children?: never;
   tile: Tile;
-  dir?: number;
+  angle: number;
 };
 
 type PresenterProps = {
   rotatedTile: RotatedTile;
-  dir: number;
   imageUrl?: string;
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, rotatedTile, imageUrl, dir }) => {
-  const name = `${rotatedTile}:${dir}`;
+const DomComponent: FC<Props> = ({
+  className,
+  rotatedTile,
+  imageUrl,
+  angle,
+}) => {
+  const name = `${rotatedTile}:${angle}`;
   if (imageUrl == null) {
-    return <span className={className}>{`No Image (${name}`}</span>;
+    return <div className={className}>{`No Image (${name})`}</div>;
   }
   return (
-    <span className={className}>
+    <div className={className}>
       <img src={imageUrl} alt={name} />
-    </span>
+    </div>
   );
 };
 
 const StyledComponent = styled(DomComponent)`
+  font-size: 1.2rem;
+  word-break: break-all;
+
   img {
     width: 100%;
-    transform: rotate(${({ dir }) => 90 * dir}deg);
+    transform: rotate(${({ angle }) => 90 * angle}deg);
     transform-origin: center;
   }
 `;
 
 export const TileComponent: FC<ContainerProps> = (props) => {
-  const presenterProps: PresenterProps = useMemo(() => {
-    const dir = props.dir ?? 0;
-    const rotatedTile = toRotatedTile(rotate(props.tile, dir * -1));
-    const imageUrl = tileImages[rotatedTile];
-    return { dir, rotatedTile, imageUrl };
-  }, [props.dir, props.tile]);
+  const rotatedTile = toRotatedTile(props.tile);
+  const imageUrl = tileImages[rotatedTile];
 
-  return <StyledComponent {...props} {...presenterProps} />;
+  return (
+    <StyledComponent
+      {...props}
+      rotatedTile={rotatedTile}
+      imageUrl={imageUrl}
+    />
+  );
 };

@@ -13,16 +13,21 @@ export type GameState = {
 };
 
 export type Moves = {
-  clickCell: (x: number, y: number, handsIndex: number) => void;
-  rotateTile: (index: number, dir: number) => void;
+  clickCell: (x: number, y: number, handsIndex: number, angle: number) => void;
 };
 
 type InvalidMove = typeof INVALID_MOVE;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type GameMoves<T extends Record<string, (...args: any) => void>> = {
+  [F in keyof T]: (G: GameState, ctx: Ctx, ...args: Parameters<T[F]>) => InvalidMove | void;
+};
 
 export const Slashchain: Game<GameState> & {
   name: string;
   minPlayers: number;
   maxPlayers: number;
+  moves: GameMoves<Moves>;
 } = {
   name: "slashchain",
   minPlayers: 2,
@@ -35,44 +40,23 @@ export const Slashchain: Game<GameState> & {
     };
   },
   moves: {
-    clickCell: (
-      G: GameState,
-      ctx: Ctx,
-      x: number,
-      y: number,
-      handsIndex: number
-    ): InvalidMove | undefined => {
+    clickCell: (G, ctx, x, y, handsIndex, angle) => {
       const player = playOrder[ctx.playOrderPos];
       if (player == null) {
         return INVALID_MOVE;
       }
       const board = new TileBoard(G.board);
-      const tile = G.hands[player][handsIndex];
-      if (tile == null) {
-        return INVALID_MOVE;
-      }
       const cell = { x, y };
       if (board.has(cell)) {
         return INVALID_MOVE;
       }
-      G.board = [...G.board, { ...cell, tile }];
-      G.hands[player].splice(handsIndex, 1);
-    },
-    rotateTile: (
-      G: GameState,
-      ctx: Ctx,
-      index: number,
-      dir: number
-    ): InvalidMove | undefined => {
-      const player = playOrder[ctx.playOrderPos];
-      if (player == null) {
-        return INVALID_MOVE;
-      }
-      const tile = G.hands[player][index];
+      const tile = G.hands[player][handsIndex];
       if (tile == null) {
         return INVALID_MOVE;
       }
-      G.hands[player][index] = rotate(tile, dir);
+      const rotatedTile = rotate(tile, angle);
+      G.board = [...G.board, { ...cell, tile: rotatedTile }];
+      G.hands[player].splice(handsIndex, 1);
     },
   },
   endIf: (G, _) => {

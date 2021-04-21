@@ -1,20 +1,19 @@
 import React, { FC, useMemo } from "react";
 import { TileBoard, Cell, CellSet } from "@games";
 import styled from "styled-components";
-import { StyledCell } from "./cell";
-import { TileComponent } from "./tile";
+import { BoardTileComponent } from "./board_tile";
 
 type ContainerProps = {
   className?: string;
   children?: never;
-  move?: (cell: Cell) => void;
+  selectCell?: (cell: Cell) => void;
   board: TileBoard;
 };
 
 type PresenterProps = {
+  cells: Cell[];
   legalCells: CellSet;
   columns: number;
-  cells: Cell[];
 };
 
 type Props = ContainerProps & PresenterProps;
@@ -24,33 +23,20 @@ const DomComponent: FC<Props> = ({
   board,
   cells,
   legalCells,
-  move,
+  columns,
+  selectCell,
 }) => (
   <div className={className}>
     <div className="board-grid">
-      {cells
-        .map((cell) => ({
-          ...cell,
-          isLegal: legalCells.has(cell),
-          tile: board.get(cell),
-        }))
-        .map((cell) => (
-          <StyledCell
-            className={[
-              cell.isLegal ? "available" : "",
-              cell.tile != null ? "tile" : "",
-              "cell",
-            ].join(" ")}
-            key={`${cell.x},${cell.y}`}
-            data-x={cell.x}
-            data-y={cell.y}
-            onClick={cell.isLegal ? () => move?.(cell) : undefined}
-          >
-            {cell.tile != null && (
-              <TileComponent className="tile" tile={cell.tile} />
-            )}
-          </StyledCell>
-        ))}
+      {cells.map((cell) => (
+        <BoardTileComponent
+          key={`${cell.x},${cell.y}`}
+          columns={columns}
+          cell={cell}
+          tile={board.get(cell)}
+          onClick={legalCells.has(cell) ? () => selectCell?.(cell) : undefined}
+        />
+      ))}
     </div>
   </div>
 );
@@ -64,25 +50,6 @@ const StyledComponent = styled(DomComponent)`
     display: grid;
     grid-template-columns: repeat(${(props) => props.columns}, 1fr);
     grid-gap: 0;
-
-    & > .cell {
-      box-sizing: content-box;
-      background-color: #fff;
-      border: 0.1rem dashed #aaa;
-      border-right: 0;
-      border-bottom: 0;
-
-      &:nth-child(n + 1):nth-child(-n + ${({ columns }) => columns}) {
-        border-top: 0;
-      }
-      &:nth-child(${({ columns }) => columns}n + 1) {
-        border-left: 0;
-      }
-
-      &.available {
-        background-color: #ccc;
-      }
-    }
   }
 `;
 

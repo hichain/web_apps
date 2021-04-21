@@ -10,9 +10,10 @@ import {
   HandTiles,
   reverse,
 } from "@games";
-import { Hand, HandsComponent } from "./hands";
+import { MyHandsComponent, PickedHand } from "./my_hands";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 import styled from "styled-components";
+import { OtherHandsComponent } from "./other_hands";
 
 type ContainerProps = BoardProps<GameState> & {
   className?: string;
@@ -25,10 +26,9 @@ type PresenterProps = {
   player: NamedPlayer;
   board: TileBoard;
   hands: HandTiles;
-  pickedTile?: Hand;
+  pickedTileIndex?: number;
   moves?: {
-    pickTile: (index: number) => void;
-    rotateTile: Moves["rotateTile"];
+    pickTile: React.Dispatch<React.SetStateAction<PickedHand | undefined>>;
     putTile: (cell: Cell) => void;
   };
   gameResult: string;
@@ -39,23 +39,27 @@ const DomComponent: FC<PresenterProps> = ({
   player,
   board,
   hands,
-  pickedTile,
+  pickedTileIndex,
   moves,
   gameResult,
 }) => (
   <div className={className}>
-    <HandsComponent
+    <OtherHandsComponent
       className="hands other"
       hands={hands[reverse(player)]}
       player={reverse(player)}
     />
-    <BoardComponent className="board" move={moves?.putTile} board={board} />
-    <HandsComponent
+    <BoardComponent
+      className="board"
+      selectCell={moves?.putTile}
+      board={board}
+    />
+    <MyHandsComponent
       className="hands me"
       hands={hands[player]}
       player={player}
-      pickedTile={pickedTile}
-      moves={moves && { pick: moves.pickTile, rotate: moves.rotateTile }}
+      pickedTileIndex={pickedTileIndex}
+      pickTile={moves?.pickTile}
     />
     <div id="winner">{gameResult}</div>
   </div>
@@ -79,7 +83,7 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const TabletopComponent: React.FC<ContainerProps> = (props) => {
-  const [pickedTile, pick] = useState<Hand | undefined>(undefined);
+  const [pickedTile, pickTile] = useState<PickedHand | undefined>();
 
   const player = playOrder[props.ctx.playOrderPos];
   const isMyTurn = props.ctx.currentPlayer === props.playerID;
@@ -103,30 +107,17 @@ export const TabletopComponent: React.FC<ContainerProps> = (props) => {
       if (pickedTile == null) {
         return;
       }
-      props.moves.clickCell(cell.x, cell.y, pickedTile.index);
+      props.moves.clickCell(cell.x, cell.y, pickedTile.index, pickedTile.angle);
       props.events.endTurn?.();
-      pick(undefined);
+      pickTile(undefined);
     },
     [pickedTile, props.events, props.moves]
   );
 
-  const pickTile = useCallback((index: number) => {
-    pick({ index });
-  }, []);
-
-  const rotateTile = useCallback(
-    (index: number, dir: number): void => {
-      pick({ index, dir: (pickedTile?.dir ?? 0) + dir });
-      props.moves.rotateTile(index, dir);
-    },
-    [pickedTile, props.moves]
-  );
-
   const moves = isMyTurn
     ? {
-        putTile,
         pickTile,
-        rotateTile,
+        putTile,
       }
     : undefined;
 
@@ -137,7 +128,7 @@ export const TabletopComponent: React.FC<ContainerProps> = (props) => {
         player,
         board,
         hands,
-        pickedTile,
+        pickedTileIndex: pickedTile?.index,
         moves,
         gameResult,
       }}

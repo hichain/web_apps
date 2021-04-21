@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import styled from "styled-components";
 import { rotate, RotatedTile, Tile, toRotatedTile } from "@/games/slashchain";
 import { images } from "@images";
@@ -41,16 +41,12 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const TileComponent: FC<ContainerProps> = (props) => {
-  const dir = props.dir ?? 0;
-  const rotatedTile = toRotatedTile(rotate(props.tile, dir * -1));
-  const imageUrl = tileImages[rotatedTile];
+  const presenterProps: PresenterProps = useMemo(() => {
+    const dir = props.dir ?? 0;
+    const rotatedTile = toRotatedTile(rotate(props.tile, dir * -1));
+    const imageUrl = tileImages[rotatedTile];
+    return { dir, rotatedTile, imageUrl };
+  }, [props.dir, props.tile]);
 
-  return (
-    <StyledComponent
-      {...props}
-      rotatedTile={rotatedTile}
-      imageUrl={imageUrl}
-      dir={dir}
-    />
-  );
+  return <StyledComponent {...props} {...presenterProps} />;
 };

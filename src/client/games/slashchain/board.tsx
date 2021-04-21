@@ -7,14 +7,14 @@ import { TileComponent } from "./tile";
 type ContainerProps = {
   className?: string;
   children?: never;
-  move: (cell: Cell) => void;
+  move?: (cell: Cell) => void;
   board: TileBoard;
 };
 
 type PresenterProps = {
   legalCells: CellSet;
   columns: number;
-  cells: Cell[][];
+  cells: Cell[];
 };
 
 type Props = ContainerProps & PresenterProps;
@@ -28,31 +28,29 @@ const DomComponent: FC<Props> = ({
 }) => (
   <div className={className}>
     <div className="board-grid">
-      {cells.map((rows) =>
-        rows
-          .map((cell) => ({
-            ...cell,
-            isLegal: legalCells.has(cell),
-            tile: board.get(cell),
-          }))
-          .map((cell) => (
-            <StyledCell
-              className={[
-                cell.isLegal ? "available" : "",
-                cell.tile != null ? "tile" : "",
-                "cell",
-              ].join(" ")}
-              key={`${cell.x},${cell.y}`}
-              data-x={cell.x}
-              data-y={cell.y}
-              onClick={cell.isLegal ? () => move(cell) : undefined}
-            >
-              {cell.tile != null && (
-                <TileComponent className="tile" tile={cell.tile} />
-              )}
-            </StyledCell>
-          ))
-      )}
+      {cells
+        .map((cell) => ({
+          ...cell,
+          isLegal: legalCells.has(cell),
+          tile: board.get(cell),
+        }))
+        .map((cell) => (
+          <StyledCell
+            className={[
+              cell.isLegal ? "available" : "",
+              cell.tile != null ? "tile" : "",
+              "cell",
+            ].join(" ")}
+            key={`${cell.x},${cell.y}`}
+            data-x={cell.x}
+            data-y={cell.y}
+            onClick={cell.isLegal ? () => move?.(cell) : undefined}
+          >
+            {cell.tile != null && (
+              <TileComponent className="tile" tile={cell.tile} />
+            )}
+          </StyledCell>
+        ))}
     </div>
   </div>
 );
@@ -99,17 +97,16 @@ export const BoardComponent: React.FC<ContainerProps> = (props) => {
       maxY: range.maxY + 1,
     };
   }, [legalCells]);
-  const cells = useMemo(() => {
-    const cells: Cell[][] = [];
-    for (let y = range.minY; y <= range.maxY; y++) {
-      const rows: Cell[] = [];
-      for (let x = range.minX; x <= range.maxX; x++) {
-        rows.push({ x, y });
-      }
-      cells.push(rows);
-    }
-    return cells;
-  }, [range]);
+  const rows = useMemo(() => range.maxY - range.minY + 1, [range]);
+  const columns = useMemo(() => range.maxX - range.minX + 1, [range]);
+  const cells = useMemo(
+    () =>
+      new Array(rows * columns).fill(null).map((_, i) => ({
+        x: range.minX + (i % columns),
+        y: range.minY + Math.floor(i / columns),
+      })),
+    [columns, range.minX, range.minY, rows]
+  );
 
   return (
     <StyledComponent

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { TileComponent } from "./tile";
 import styled from "styled-components";
 import { StyledCell } from "./cell";
-import { Tile } from "@/games/slashchain/";
+import { NamedPlayer, Tile } from "@/games/slashchain/";
 
 export type Hand = {
   index: number;
@@ -13,48 +13,43 @@ type ContainerProps = {
   className?: string;
   children?: never;
   hands: Tile[];
-  playerID: string;
-} & (
-  | {
-      pickable: false;
-    }
-  | {
-      pickable: true;
-      pickedTile?: Hand;
-      pick: (index: number) => void;
-      rotate: (index: number, dir: number) => void;
-    }
-);
+  player: NamedPlayer;
+  pickedTile?: Hand;
+  moves?: {
+    pick: (index: number) => void;
+    rotate: (index: number, dir: number) => void;
+  };
+};
 
 type PresenterProps = Record<string, unknown>;
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, hands, playerID, ...props }) => {
+const DomComponent: FC<Props> = ({ className, hands, player, ...props }) => {
   return (
     <div className={className}>
       {hands.map((tile, i) => {
-        if (props.pickable) {
+        if (props.moves) {
           return props.pickedTile?.index === i ? (
             <StyledCell
               className="tile picked"
-              key={`${playerID}:${i}`}
-              onClick={() => props.rotate(i, 1)}
+              key={`${player}:${i}`}
+              onClick={() => props.moves?.rotate(i, 1)}
             >
               <TileComponent tile={tile} dir={props.pickedTile.dir} />
             </StyledCell>
           ) : (
             <StyledCell
               className="tile pickable"
-              key={`${playerID}:${i}`}
-              onClick={() => props.pick(i)}
+              key={`${player}:${i}`}
+              onClick={() => props.moves?.pick(i)}
             >
               <TileComponent tile={tile} />
             </StyledCell>
           );
         } else {
           return (
-            <StyledCell className="tile" key={`${playerID}:${i}`}>
+            <StyledCell className="tile" key={`${player}:${i}`}>
               <TileComponent tile={tile} />
             </StyledCell>
           );

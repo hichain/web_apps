@@ -1,37 +1,32 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import { BoardComponent } from "./board";
-import { Ctx, PlayerID } from "boardgame.io";
-import { GameState, Moves, Tile, TileBoard, Cell, NamedPlayer } from "@games";
+import {
+  GameState,
+  Moves,
+  TileBoard,
+  Cell,
+  NamedPlayer,
+  playOrder,
+  HandTiles,
+  reverse,
+} from "@games";
 import { Hand, HandsComponent } from "./hands";
-import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 import styled from "styled-components";
 
-type Players = {
-  me: NamedPlayer;
-  other: NamedPlayer;
-};
-
-type ContainerProps = BoardProps & {
+type ContainerProps = BoardProps<GameState> & {
+  className?: string;
   children?: never;
-  playerID: PlayerID;
   moves: Moves;
-  events: EventsAPI;
-  G: GameState;
-  ctx: Ctx;
 };
 
 type PresenterProps = {
   className?: string;
-  players: Players;
+  player: NamedPlayer;
   board: TileBoard;
-  hands: {
-    me: Tile[];
-    other: Tile[];
-  };
-  isMyTurn: boolean;
+  hands: HandTiles;
   pickedTile?: Hand;
-  moves: {
+  moves?: {
     pickTile: (index: number) => void;
     rotateTile: Moves["rotateTile"];
     putTile: (cell: Cell) => void;
@@ -41,10 +36,9 @@ type PresenterProps = {
 
 const DomComponent: FC<PresenterProps> = ({
   className,
-  players,
+  player,
   board,
   hands,
-  isMyTurn,
   pickedTile,
   moves,
   gameResult,
@@ -52,25 +46,16 @@ const DomComponent: FC<PresenterProps> = ({
   <div className={className}>
     <HandsComponent
       className="hands other"
-      hands={hands.other}
-      playerID={players.other}
-      pickable={false}
+      hands={hands[reverse(player)]}
+      player={reverse(player)}
     />
-    <BoardComponent className="board" move={moves.putTile} board={board} />
+    <BoardComponent className="board" move={moves?.putTile} board={board} />
     <HandsComponent
       className="hands me"
-      hands={hands.me}
-      playerID={players.me}
-      {...(isMyTurn
-        ? {
-            pickable: true,
-            pickedTile,
-            pick: moves.pickTile,
-            rotate: moves.rotateTile,
-          }
-        : {
-            pickable: false,
-          })}
+      hands={hands[player]}
+      player={player}
+      pickedTile={pickedTile}
+      moves={moves && { pick: moves.pickTile, rotate: moves.rotateTile }}
     />
     <div id="winner">{gameResult}</div>
   </div>
@@ -96,64 +81,65 @@ const StyledComponent = styled(DomComponent)`
 export const TabletopComponent: React.FC<ContainerProps> = (props) => {
   const [pickedTile, pick] = useState<Hand | undefined>(undefined);
 
-  const me: NamedPlayer = props.playerID === "0" ? "slash" : "backslash";
-  const other: NamedPlayer = me === "slash" ? "backslash" : "slash";
-  if (me == null || other == null) {
-    return <div />;
-  }
-
-  const players = { me, other };
+  const player = playOrder[props.ctx.playOrderPos];
   const isMyTurn = props.ctx.currentPlayer === props.playerID;
 
-  const gameResult = (ctx: Ctx): string => {
-    if (!ctx.gameover) {
+  const gameResult = useMemo(() => {
+    if (!props.ctx.gameover) {
       return "";
     }
-    if (ctx.gameover.winner !== undefined) {
-      return `Winner: ${ctx.gameover.winner}`;
+    if (props.ctx.gameover.winner !== undefined) {
+      return `Winner: ${props.ctx.gameover.winner}`;
     } else {
       return "Draw!";
     }
-  };
+  }, [props.ctx.gameover]);
 
-  const hands = {
-    me: props.G.hands[players.me],
-    other: props.G.hands[players.other],
-  };
+  const board = useMemo(() => new TileBoard(props.G.board), [props.G.board]);
+  const hands = props.G.hands;
 
-  const putTile = (cell: Cell): void => {
-    if (pickedTile != null) {
-      props.moves.clickCell(cell.x, cell.y, pickedTile.index);
-      const endTurn = props.events.endTurn;
-      if (endTurn != null) {
-        endTurn();
+  const putTile = useCallback(
+    (cell: Cell) => {
+      if (pickedTile == null) {
+        return;
       }
-    }
-  };
+      props.moves.clickCell(cell.x, cell.y, pickedTile.index);
+      props.events.endTurn?.();
+      pick(undefined);
+    },
+    [pickedTile, props.events, props.moves]
+  );
 
-  const pickTile = (index: number): void => {
+  const pickTile = useCallback((index: number) => {
     pick({ index });
-  };
+  }, []);
 
-  const rotateTile = (index: number, dir: number): void => {
-    pick({ index, dir: (pickedTile?.dir ?? 0) + dir });
-    props.moves.rotateTile(index, dir);
-  };
+  const rotateTile = useCallback(
+    (index: number, dir: number): void => {
+      pick({ index, dir: (pickedTile?.dir ?? 0) + dir });
+      props.moves.rotateTile(index, dir);
+    },
+    [pickedTile, props.moves]
+  );
+
+  const moves = isMyTurn
+    ? {
+        putTile,
+        pickTile,
+        rotateTile,
+      }
+    : undefined;
 
   return (
     <StyledComponent
       {...{
-        players,
-        board: new TileBoard(props.G.board),
+        className: props.className,
+        player,
+        board,
         hands,
         pickedTile,
-        isMyTurn,
-        moves: {
-          putTile,
-          pickTile,
-          rotateTile,
-        },
-        gameResult: gameResult(props.ctx),
+        moves,
+        gameResult,
       }}
     />
   );

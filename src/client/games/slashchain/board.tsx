@@ -27,7 +27,7 @@ const DomComponent: FC<Props> = ({
   columns,
   selectCell,
 }) => (
-  <ScrollContainer className={className}>
+  <ScrollContainer className={className} hideScrollbars={false}>
     <div className="board-grid">
       {cells.map((cell) => (
         <BoardTileComponent

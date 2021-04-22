@@ -34,6 +34,7 @@ const StyledComponent = styled(DomComponent)`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  transform: rotate(180deg);
 `;
 
 export const OtherHandsComponent: FC<ContainerProps> = (props) => {

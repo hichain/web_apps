@@ -2,6 +2,7 @@ import React, { FC, useMemo } from "react";
 import { TileBoard, Cell, CellSet } from "@games";
 import styled from "styled-components";
 import { BoardTileComponent } from "./board_tile";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 type ContainerProps = {
   className?: string;
@@ -26,7 +27,7 @@ const DomComponent: FC<Props> = ({
   columns,
   selectCell,
 }) => (
-  <div className={className}>
+  <ScrollContainer className={className}>
     <div className="board-grid">
       {cells.map((cell) => (
         <BoardTileComponent
@@ -38,18 +39,22 @@ const DomComponent: FC<Props> = ({
         />
       ))}
     </div>
-  </div>
+  </ScrollContainer>
 );
 
 const StyledComponent = styled(DomComponent)`
   display: flex;
   align-items: center;
   justify-items: center;
+  overflow-x: scroll;
+  overflow-y: scroll;
 
   & > .board-grid {
     display: grid;
     grid-template-columns: repeat(${(props) => props.columns}, 1fr);
     grid-gap: 0;
+    max-height: 100%;
+    margin: auto;
   }
 `;
 

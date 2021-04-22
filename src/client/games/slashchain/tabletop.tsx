@@ -66,19 +66,19 @@ const DomComponent: FC<PresenterProps> = ({
 );
 
 const StyledComponent = styled(DomComponent)`
-  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
-  max-width: 90%;
-  min-height: 100vh;
+  width: 90%;
+  height: 100vh;
   padding: 4rem 0;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 0 auto;
 
   & > .board {
-    flex: 1;
+    width: 100%;
+    height: 70%;
+    margin: 1rem 0;
   }
 `;
 

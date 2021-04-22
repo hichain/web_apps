@@ -37,7 +37,9 @@ export const tiles = {
 } as const;
 
 export const slashchain = {
-  slash,
-  backslash,
+  players: {
+    slash,
+    backslash,
+  },
   tiles,
 } as const;

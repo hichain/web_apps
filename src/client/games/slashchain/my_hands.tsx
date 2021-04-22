@@ -62,8 +62,8 @@ const StyledComponent = styled(DomComponent)`
   }
   > .player-info {
     box-sizing: content-box;
-    margin: 0.6rem 0.6rem 0.6rem 3.6rem;
-    border: 0.2rem solid #888;
+    margin: 0.6rem 0 0.3rem 3.6rem;
+    border: 2px solid #888;
     & > img {
       height: 100%;
     }

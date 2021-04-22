@@ -30,10 +30,9 @@ const DomComponent: FC<Props> = ({ className, tile, angle, onClick }) => {
 };
 
 const StyledComponent = styled(DomComponent)`
-  box-sizing: content-box;
   margin: 0.6rem;
   background-color: #fff;
-  border: 0.2rem solid transparent;
+  border: 2px solid transparent;
   box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
   transition: transform 0.12s;
   object-fit: contain;
@@ -75,5 +74,12 @@ export const HandTileComponent: FC<ContainerProps> = (props) => {
     }
   }, [angle, props]);
 
-  return <StyledComponent {...props} className={className} angle={angle} onClick={onClick} />;
+  return (
+    <StyledComponent
+      {...props}
+      className={className}
+      angle={angle}
+      onClick={onClick}
+    />
+  );
 };

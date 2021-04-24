@@ -1,7 +1,25 @@
+import React, { forwardRef, ReactNode } from "react";
 import { breakpoints } from "@css/variables";
 import styled from "styled-components";
 
-export const StyledCell = styled.div`
+type Props = {
+  className?: string;
+  children?: ReactNode;
+  onClick?: () => void;
+};
+
+const DomComponent = forwardRef<HTMLDivElement, Props>(function render(
+  props,
+  ref
+) {
+  return (
+    <div className={props.className} ref={ref} onClick={props.onClick}>
+      {props.children}
+    </div>
+  );
+});
+
+const StyledComponent = styled(DomComponent)`
   width: 32px;
   height: 32px;
 
@@ -22,3 +40,10 @@ export const StyledCell = styled.div`
     height: 60px;
   }
 `;
+
+export const CellComponent = forwardRef<HTMLDivElement, Props>(function render(
+  props,
+  ref
+) {
+  return <StyledComponent {...props} ref={ref} />;
+});

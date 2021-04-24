@@ -10,9 +10,46 @@ export type BoardRange = {
   maxY: number;
 };
 
-const equals = (e1: Cell, e2: Cell): boolean => {
-  return e1.x === e2.x && e1.y === e2.y;
+export const equals = (e1: Cell, e2?: Cell): boolean => {
+  return e1.x === e2?.x && e1.y === e2?.y;
 };
+
+export const offset = (
+  range: BoardRange,
+  offset: { top: number; right: number; bottom: number; left: number }
+): BoardRange => {
+  return {
+    minX: range.minX - offset.left,
+    maxX: range.maxX + offset.right,
+    minY: range.minY - offset.top,
+    maxY: range.maxY + offset.bottom,
+  };
+};
+
+export class CellArray extends Array<Cell> {
+  static fromRange(range: BoardRange): CellArray {
+    const array = new CellArray();
+    for (let y = range.minY; y <= range.maxY; y++) {
+      for (let x = range.minX; x <= range.maxX; x++) {
+        array.push({ x, y });
+      }
+    }
+    return array;
+  }
+
+  range(): BoardRange {
+    const xArray = this.map((cell) => cell.x);
+    const yArray = this.map((cell) => cell.y);
+    xArray.sort((a, b) => a - b);
+    yArray.sort((a, b) => a - b);
+    return {
+      minX: xArray[0],
+      maxX: xArray[xArray.length - 1],
+      minY: yArray[0],
+      maxY: yArray[yArray.length - 1],
+    };
+  }
+}
 
 export class CellSet extends Set<Cell> {
   has(value: Cell): boolean {
@@ -31,21 +68,8 @@ export class CellSet extends Set<Cell> {
     return super.delete(foundCell);
   }
 
-  range(): BoardRange {
-    const xArray = Array.from(this).map((cell) => cell.x);
-    const yArray = Array.from(this).map((cell) => cell.y);
-    xArray.sort((a, b) => a - b);
-    yArray.sort((a, b) => a - b);
-    return {
-      minX: xArray[0],
-      maxX: xArray[xArray.length - 1],
-      minY: yArray[0],
-      maxY: yArray[yArray.length - 1],
-    };
-  }
-
-  toArray(): Cell[] {
-    return Array.from(this);
+  toArray(): CellArray {
+    return new CellArray(...this);
   }
 }
 
@@ -79,14 +103,10 @@ export class InfiniteBoard<V> extends Map<Cell, V> {
       { x: cell.x, y: cell.y + 1 },
       { x: cell.x + 1, y: cell.y },
     ];
-    const cells = this.keysArray()
+    const cells = Array.from(this.keys())
       .reduce((array: Cell[], cell) => [...array, ...adjucent(cell)], [])
       .filter((cell) => !this.has(cell));
     return new CellSet(cells);
-  }
-
-  keysArray(): Cell[] {
-    return Array.from(this.keys());
   }
 
   entriesArray(): [Cell, V][] {

@@ -1,9 +1,9 @@
 import React, { FC, useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
-import { StyledCell } from "./cell";
 import { TileComponent } from "./tile";
 import { PickedHand } from "./my_hands";
+import { CellComponent } from "./cell";
 
 type ContainerProps = {
   className?: string;
@@ -23,9 +23,9 @@ type Props = ContainerProps & PresenterProps;
 
 const DomComponent: FC<Props> = ({ className, tile, angle, onClick }) => {
   return (
-    <StyledCell className={className} onClick={onClick}>
+    <CellComponent className={className} onClick={onClick}>
       <TileComponent tile={tile} angle={angle} />
-    </StyledCell>
+    </CellComponent>
   );
 };
 

@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from "react";
-import { TileBoard, Cell, CellSet } from "@games";
+import { Cell, CellArray, offset, Tile, TileBoard } from "@games";
 import styled from "styled-components";
-import { BoardTileComponent } from "./board_tile";
 import ScrollContainer from "react-indiana-drag-scroll";
+import { BoardTileComponent } from "./board_tile";
 
 type ContainerProps = {
   className?: string;
@@ -12,35 +12,29 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  cells: Cell[];
-  legalCells: CellSet;
+  cells: Array<Cell & { tile?: Tile; isLegal: boolean }>;
   columns: number;
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({
-  className,
-  board,
-  cells,
-  legalCells,
-  columns,
-  selectCell,
-}) => (
-  <ScrollContainer className={className} hideScrollbars={false}>
-    <div className="board-grid">
-      {cells.map((cell) => (
-        <BoardTileComponent
-          key={`${cell.x},${cell.y}`}
-          columns={columns}
-          cell={cell}
-          tile={board.get(cell)}
-          onClick={legalCells.has(cell) ? () => selectCell?.(cell) : undefined}
-        />
-      ))}
-    </div>
-  </ScrollContainer>
-);
+const DomComponent: FC<Props> = ({ className, cells, columns, selectCell }) => {
+  return (
+    <ScrollContainer className={className} hideScrollbars={false}>
+      <div className="board-grid">
+        {cells.map((cell) => (
+          <BoardTileComponent
+            key={`${cell.x},${cell.y}`}
+            columns={columns}
+            tile={cell.tile}
+            isLegal={cell.isLegal}
+            onClick={cell.isLegal ? () => selectCell?.(cell) : undefined}
+          />
+        ))}
+      </div>
+    </ScrollContainer>
+  );
+};
 
 const StyledComponent = styled(DomComponent)`
   display: flex;
@@ -59,33 +53,32 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const BoardComponent: React.FC<ContainerProps> = (props) => {
-  const legalCells = useMemo(() => props.board.legalCells(), [props.board]);
-  const range = useMemo(() => {
-    const range = legalCells.range();
+  const { board } = props;
+  
+  const { cells, range } = useMemo(() => {
+    const legalCells = board.legalCells();
+    const range = offset(legalCells.toArray().range(), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 1,
+    });
+    const cells = CellArray.fromRange(range);
     return {
-      minX: range.minX - 1,
-      maxX: range.maxX + 1,
-      minY: range.minY - 1,
-      maxY: range.maxY + 1,
-    };
-  }, [legalCells]);
-  const rows = useMemo(() => range.maxY - range.minY + 1, [range]);
-  const columns = useMemo(() => range.maxX - range.minX + 1, [range]);
-  const cells = useMemo(
-    () =>
-      new Array(rows * columns).fill(null).map((_, i) => ({
-        x: range.minX + (i % columns),
-        y: range.minY + Math.floor(i / columns),
+      cells: cells.map((cell) => ({
+        ...cell,
+        isLegal: legalCells.has(cell),
+        tile: board.get(cell),
       })),
-    [columns, range.minX, range.minY, rows]
-  );
+      range,
+    };
+  }, [board]);
 
   return (
     <StyledComponent
-      legalCells={legalCells}
-      columns={range.maxX - range.minX + 1}
-      cells={cells}
       {...props}
+      cells={cells}
+      columns={range.maxX - range.minX + 1}
     />
   );
 };

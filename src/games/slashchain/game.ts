@@ -1,10 +1,10 @@
 import { Game, Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { Rule, ruleSet } from "./rules";
-import { TileBoard } from "./board";
 import { rotate, TileCell } from "./tile";
 import { HandTiles } from "./hands";
 import { playOrder } from "./player";
+import { CellSet } from "../common";
 
 export type GameState = {
   rule: Rule;
@@ -45,7 +45,7 @@ export const Slashchain: Game<GameState> & {
       if (player == null) {
         return INVALID_MOVE;
       }
-      const board = new TileBoard(G.board);
+      const board = new CellSet(G.board);
       const cell = { x, y };
       if (board.has(cell)) {
         return INVALID_MOVE;

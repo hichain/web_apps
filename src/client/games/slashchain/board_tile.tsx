@@ -1,36 +1,35 @@
 import React, { FC } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
-import { StyledCell } from "./cell";
+import { CellComponent } from "./cell";
 import { TileComponent } from "./tile";
-import { Cell } from "@/games";
 
 export type HandState = "picked" | "pickable" | "fixed";
 
-type ContainerProps = {
+type Props = {
   className?: string;
   children?: never;
   columns: number;
-  cell: Cell;
+  isLegal: boolean;
   tile?: Tile;
   onClick?: () => void;
 };
 
-type PresenterProps = Record<string, unknown>;
-
-type Props = ContainerProps & PresenterProps;
-
-const DomComponent: FC<Props> = ({ className, cell, tile, onClick }) => {
+const DomComponent: FC<Props> = ({
+  className,
+  isLegal,
+  tile,
+  onClick,
+}) => {
   return (
-    <StyledCell
-      className={[onClick ? "available" : "", className ?? ""].join(" ")}
-      key={`${cell.x},${cell.y}`}
-      data-x={cell.x}
-      data-y={cell.y}
-      onClick={() => onClick?.()}
+    <CellComponent
+      className={[isLegal ? "available" : "", "cell", className ?? ""].join(
+        " "
+      )}
+      onClick={onClick}
     >
       {tile != null && <TileComponent className="tile" tile={tile} angle={0} />}
-    </StyledCell>
+    </CellComponent>
   );
 };
 
@@ -52,7 +51,6 @@ const StyledComponent = styled(DomComponent)`
     background-color: #ccc;
   }
 `;
-
-export const BoardTileComponent: FC<ContainerProps> = (props) => {
+export const BoardTileComponent: FC<Props> = (props) => {
   return <StyledComponent {...props} />;
 };

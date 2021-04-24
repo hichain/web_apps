@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandTileComponent } from "./hand_tile";
 import { images } from "@images";
-import { StyledCell } from "./cell";
+import { CellComponent } from "./cell";
 
 const playerImages = images.slashchain.players;
 
@@ -42,9 +42,9 @@ const DomComponent: FC<Props> = ({
           />
         ))}
       </div>
-      <StyledCell className="player-info">
+      <CellComponent className="player-info">
         <img src={playerImages[player]} alt={player} />
-      </StyledCell>
+      </CellComponent>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from "react";
-import { Cell, CellArray, offset, Tile, TileBoard } from "@games";
+import { Cell, CellArray, equals, offset, Tile, TileBoard } from "@games";
 import styled from "styled-components";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { BoardTileComponent } from "./board_tile";
@@ -12,7 +12,7 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  cells: Array<Cell & { tile?: Tile; isLegal: boolean }>;
+  cells: Array<Cell & { tile?: Tile; isLegal: boolean, isFocused: boolean }>;
   columns: number;
 };
 
@@ -28,6 +28,7 @@ const DomComponent: FC<Props> = ({ className, cells, columns, selectCell }) => {
             columns={columns}
             tile={cell.tile}
             isLegal={cell.isLegal}
+            isFocused={cell.isFocused}
             onClick={cell.isLegal ? () => selectCell?.(cell) : undefined}
           />
         ))}
@@ -57,6 +58,7 @@ export const BoardComponent: React.FC<ContainerProps> = (props) => {
   
   const { cells, range } = useMemo(() => {
     const legalCells = board.legalCells();
+    const lastMovedCell = Array.from(board.keys()).pop()
     const range = offset(legalCells.toArray().range(), {
       top: 1,
       right: 1,
@@ -67,8 +69,9 @@ export const BoardComponent: React.FC<ContainerProps> = (props) => {
     return {
       cells: cells.map((cell) => ({
         ...cell,
-        isLegal: legalCells.has(cell),
         tile: board.get(cell),
+        isLegal: legalCells.has(cell),
+        isFocused: equals(cell, lastMovedCell),
       })),
       range,
     };

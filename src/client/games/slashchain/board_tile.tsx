@@ -11,6 +11,7 @@ type Props = {
   children?: never;
   columns: number;
   isLegal: boolean;
+  isFocused: boolean;
   tile?: Tile;
   onClick?: () => void;
 };
@@ -19,6 +20,7 @@ const DomComponent: FC<Props> = ({
   className,
   isLegal,
   tile,
+  isFocused,
   onClick,
 }) => {
   return (
@@ -26,6 +28,7 @@ const DomComponent: FC<Props> = ({
       className={[isLegal ? "available" : "", "cell", className ?? ""].join(
         " "
       )}
+      isFocused={isFocused}
       onClick={onClick}
     >
       {tile != null && <TileComponent className="tile" tile={tile} angle={0} />}

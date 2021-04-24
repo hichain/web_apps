@@ -23,7 +23,7 @@ type Props = ContainerProps & PresenterProps;
 
 const DomComponent: FC<Props> = ({ className, tile, angle, onClick }) => {
   return (
-    <CellComponent className={className} onClick={onClick}>
+    <CellComponent className={className} isFocused={false} onClick={onClick}>
       <TileComponent tile={tile} angle={angle} />
     </CellComponent>
   );

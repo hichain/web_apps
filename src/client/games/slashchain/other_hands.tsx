@@ -31,7 +31,7 @@ const DomComponent: FC<Props> = ({ className, hands, player }) => {
           />
         ))}
       </div>
-      <CellComponent className="player-info">
+      <CellComponent isFocused={false} className="player-info">
         <img src={playerImages[player]} alt={player} />
       </CellComponent>
     </div>

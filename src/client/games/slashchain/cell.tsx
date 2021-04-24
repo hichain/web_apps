@@ -1,10 +1,11 @@
-import React, { forwardRef, ReactNode } from "react";
+import React, { FC, forwardRef, ReactNode, useEffect, useRef } from "react";
 import { breakpoints } from "@css/variables";
 import styled from "styled-components";
 
 type Props = {
   className?: string;
   children?: ReactNode;
+  isFocused: boolean
   onClick?: () => void;
 };
 
@@ -41,9 +42,19 @@ const StyledComponent = styled(DomComponent)`
   }
 `;
 
-export const CellComponent = forwardRef<HTMLDivElement, Props>(function render(
-  props,
-  ref
-) {
+export const CellComponent: FC<Props> = (props) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (props.isFocused) {
+      ref.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+      ref.current?.focus();
+    }
+  }, [props.isFocused]);
+
   return <StyledComponent {...props} ref={ref} />;
-});
+}

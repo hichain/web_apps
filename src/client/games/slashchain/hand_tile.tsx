@@ -2,8 +2,8 @@ import React, { FC, useCallback, useState } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
-import { PickedHand } from "./my_field";
 import { CellComponent } from "./cell";
+import { PickedHand } from "./hands";
 
 export type HandState = "picked" | "pickable" | "disabled" | "fixed";
 

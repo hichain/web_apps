@@ -38,7 +38,6 @@ const DomComponent: FC<Props> = ({
 
 const StyledComponent = styled(DomComponent)`
   box-sizing: content-box;
-  background-color: #fff;
   border: 0.1rem dashed #aaa;
   border-right: 0;
   border-bottom: 0;

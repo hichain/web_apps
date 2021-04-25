@@ -12,7 +12,7 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  cells: Array<Cell & { tile?: Tile; isLegal: boolean, isFocused: boolean }>;
+  cells: Array<Cell & { tile?: Tile; isLegal: boolean; isFocused: boolean }>;
   columns: number;
 };
 
@@ -43,6 +43,7 @@ const StyledComponent = styled(DomComponent)`
   justify-items: center;
   overflow-x: scroll;
   overflow-y: scroll;
+  box-shadow: inset 0 0 5px 5px #efefef; 
 
   & > .board-grid {
     display: grid;
@@ -55,10 +56,10 @@ const StyledComponent = styled(DomComponent)`
 
 export const BoardComponent: React.FC<ContainerProps> = (props) => {
   const { board } = props;
-  
+
   const { cells, range } = useMemo(() => {
     const legalCells = board.legalCells();
-    const lastMovedCell = Array.from(board.keys()).pop()
+    const lastMovedCell = Array.from(board.keys()).pop();
     const range = offset(legalCells.toArray().range(), {
       top: 1,
       right: 1,

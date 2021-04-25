@@ -70,7 +70,7 @@ const StyledComponent = styled(DomComponent)`
   flex-direction: column;
   align-items: stretch;
   justify-content: space-between;
-  width: 90%;
+  width: 100%;
   height: 100vh;
   padding: 4rem 0;
   margin: 0 auto;
@@ -79,6 +79,11 @@ const StyledComponent = styled(DomComponent)`
     width: 100%;
     height: 70%;
     margin: 1rem 0;
+  }
+
+  & > .hands {
+    width: 90%;
+    margin: 0 auto;
   }
 `;
 

@@ -33,17 +33,17 @@ const StyledComponent = styled(DomComponent)`
   margin: 0.6rem;
   background-color: #fff;
   border: 2px solid transparent;
-  box-shadow: 0 2px 5px 1px rgb(64 60 67 / 16%);
+  box-shadow: 0 0 5px 1px rgb(64 60 67 / 16%);
   transition: transform 0.12s;
   object-fit: contain;
 
   &.pickable:hover {
-    box-shadow: 0 2px 8px 1px rgb(64 60 67 / 48%);
+    box-shadow: 0 0 8px 1px rgb(64 60 67 / 48%);
   }
 
   &.picked {
     border-color: #8a8a8a;
-    box-shadow: 0 2px 8px 1px rgb(64 60 67 / 48%);
+    box-shadow: 0 0 8px 1px rgb(64 60 67 / 48%);
 
     img {
       transition: transform 0.12s;

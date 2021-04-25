@@ -1,4 +1,10 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, {
+  createContext,
+  FC,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { BoardComponent } from "./board";
 import {
   GameState,
@@ -14,6 +20,15 @@ import { MyHandsComponent, PickedHand } from "./my_hands";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 import styled from "styled-components";
 import { OtherHandsComponent } from "./other_hands";
+import { Ctx } from "boardgame.io";
+
+export const GameContext = createContext<
+  | (Ctx & {
+      player: NamedPlayer;
+      isMyTurn: boolean;
+    })
+  | undefined
+>(undefined);
 
 type ContainerProps = BoardProps<GameState> & {
   className?: string;
@@ -127,16 +142,18 @@ export const TabletopComponent: React.FC<ContainerProps> = (props) => {
     : undefined;
 
   return (
-    <StyledComponent
-      {...{
-        className: props.className,
-        player,
-        board,
-        hands,
-        pickedTileIndex: pickedTile?.index,
-        moves,
-        gameResult,
-      }}
-    />
+    <GameContext.Provider value={{ ...props.ctx, player, isMyTurn }}>
+      <StyledComponent
+        {...{
+          className: props.className,
+          player,
+          board,
+          hands,
+          pickedTileIndex: pickedTile?.index,
+          moves,
+          gameResult,
+        }}
+      />
+    </GameContext.Provider>
   );
 };

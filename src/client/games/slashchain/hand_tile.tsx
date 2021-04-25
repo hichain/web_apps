@@ -1,16 +1,18 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
 import { PickedHand } from "./my_hands";
 import { CellComponent } from "./cell";
 
+export type HandState = "picked" | "pickable" | "disabled" | "fixed";
+
 type ContainerProps = {
   className?: string;
   children?: never;
   tile: Tile;
   index: number;
-  isPicked: boolean;
+  state: HandState;
   pickTile?: React.Dispatch<React.SetStateAction<PickedHand | undefined>>;
 };
 
@@ -37,11 +39,16 @@ const StyledComponent = styled(DomComponent)`
   transition: transform 0.12s;
   object-fit: contain;
 
-  &.pickable:hover {
-    box-shadow: 0 0 8px 1px rgb(64 60 67 / 48%);
+  &.pickable {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 8px 1px rgb(64 60 67 / 48%);
+    }
   }
 
   &.picked {
+    cursor: pointer;
     border-color: #8a8a8a;
     box-shadow: 0 0 8px 1px rgb(64 60 67 / 48%);
 
@@ -50,30 +57,30 @@ const StyledComponent = styled(DomComponent)`
       transition-timing-function: ease-in-out;
     }
   }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
 `;
 
 export const HandTileComponent: FC<ContainerProps> = (props) => {
   const [angle, setAngle] = useState<number>(0);
 
-  const className = useMemo(() => {
-    if (props.isPicked) {
-      return "picked";
-    } else if (props.pickTile) {
-      return "pickable";
-    } else {
-      return "fixed";
-    }
-  }, [props.isPicked, props.pickTile]);
+  const className = props.state;
 
   const onClick = useCallback(() => {
-    if (props.isPicked) {
-      setAngle(angle + 1);
-      props.pickTile?.({ index: props.index, angle: angle + 1 });
-    } else {
-      props.pickTile?.({ index: props.index, angle });
+    switch (props.state) {
+      case "picked": {
+        setAngle(angle + 1);
+        props.pickTile?.({ index: props.index, angle: angle + 1 });
+        break;
+      }
+      case "pickable": {
+        props.pickTile?.({ index: props.index, angle });
+        break;
+      }
     }
   }, [angle, props]);
-
   return (
     <StyledComponent
       {...props}

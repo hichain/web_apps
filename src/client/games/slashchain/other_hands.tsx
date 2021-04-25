@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import styled from "styled-components";
 import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandTileComponent } from "./hand_tile";
 import { images } from "@images";
 import { CellComponent } from "./cell";
+import { GameContext } from "./tabletop";
 
 const playerImages = images.slashchain.players;
 
@@ -14,11 +15,13 @@ type ContainerProps = {
   player: NamedPlayer;
 };
 
-type PresenterProps = Record<string, unknown>;
+type PresenterProps = {
+  isOtherTurn: boolean;
+};
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, hands, player }) => {
+const DomComponent: FC<Props> = ({ className, hands, player, isOtherTurn }) => {
   return (
     <div className={className}>
       <div className="hands">
@@ -27,11 +30,14 @@ const DomComponent: FC<Props> = ({ className, hands, player }) => {
             key={`${player}:${i}`}
             tile={tile}
             index={i}
-            isPicked={false}
+            state="fixed"
           />
         ))}
       </div>
-      <CellComponent isFocused={false} className="player-info">
+      <CellComponent
+        isFocused={false}
+        className={["player-info", isOtherTurn ? "other-turn" : ""].join(" ")}
+      >
         <img src={playerImages[player]} alt={player} />
       </CellComponent>
     </div>
@@ -53,7 +59,12 @@ const StyledComponent = styled(DomComponent)`
   > .player-info {
     box-sizing: content-box;
     margin: 0.6rem 0 0.3rem 3.6rem;
-    border: 2px solid #888;
+    border: 2px solid #222;
+    opacity: 0.6;
+
+    &.other-turn {
+      opacity: 1;
+    }
     & > img {
       height: 100%;
     }
@@ -61,5 +72,7 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const OtherHandsComponent: FC<ContainerProps> = (props) => {
-  return <StyledComponent {...props} />;
+  const context = useContext(GameContext);
+  const isOtherTurn = !context?.isMyTurn;
+  return <StyledComponent {...props} isOtherTurn={isOtherTurn} />;
 };

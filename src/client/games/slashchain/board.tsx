@@ -27,9 +27,11 @@ const DomComponent: FC<Props> = ({ className, cells, columns, selectCell }) => {
             key={`${cell.x},${cell.y}`}
             columns={columns}
             tile={cell.tile}
-            isLegal={cell.isLegal}
             isFocused={cell.isFocused}
-            onClick={cell.isLegal ? () => selectCell?.(cell) : undefined}
+            onClick={
+              (cell.isLegal && selectCell && (() => selectCell(cell))) ||
+              undefined
+            }
           />
         ))}
       </div>
@@ -43,7 +45,7 @@ const StyledComponent = styled(DomComponent)`
   justify-items: center;
   overflow-x: scroll;
   overflow-y: scroll;
-  box-shadow: inset 0 0 5px 5px #efefef; 
+  box-shadow: inset 0 0 5px 5px #efefef;
 
   & > .board-grid {
     display: grid;

@@ -4,13 +4,10 @@ import { Tile } from "@/games/slashchain";
 import { CellComponent } from "./cell";
 import { TileComponent } from "./tile";
 
-export type HandState = "picked" | "pickable" | "fixed";
-
 type Props = {
   className?: string;
   children?: never;
   columns: number;
-  isLegal: boolean;
   isFocused: boolean;
   tile?: Tile;
   onClick?: () => void;
@@ -18,14 +15,13 @@ type Props = {
 
 const DomComponent: FC<Props> = ({
   className,
-  isLegal,
   tile,
   isFocused,
   onClick,
 }) => {
   return (
     <CellComponent
-      className={[isLegal ? "available" : "", "cell", className ?? ""].join(
+      className={[onClick ? "available" : "", "cell", className ?? ""].join(
         " "
       )}
       isFocused={isFocused}
@@ -50,6 +46,7 @@ const StyledComponent = styled(DomComponent)`
   }
 
   &.available {
+    cursor: pointer;
     background-color: #ccc;
   }
 `;

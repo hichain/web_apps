@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, useCallback, useContext } from "react";
 import styled from "styled-components";
 import { NamedPlayer, Tile } from "@/games/slashchain/";
-import { HandTileComponent } from "./hand_tile";
+import { HandState, HandTileComponent } from "./hand_tile";
 import { images } from "@images";
 import { CellComponent } from "./cell";
+import { GameContext } from "./tabletop";
 
 const playerImages = images.slashchain.players;
 
@@ -18,7 +19,10 @@ type ContainerProps = {
   pickTile?: React.Dispatch<React.SetStateAction<PickedHand | undefined>>;
 };
 
-type PresenterProps = Record<string, unknown>;
+type PresenterProps = {
+  isMyTurn: boolean;
+  handState: (index: number) => HandState;
+};
 
 type Props = ContainerProps & PresenterProps;
 
@@ -26,8 +30,9 @@ const DomComponent: FC<Props> = ({
   className,
   hands,
   player,
-  pickedTileIndex,
   pickTile,
+  handState,
+  isMyTurn,
 }) => {
   return (
     <div className={className}>
@@ -37,12 +42,15 @@ const DomComponent: FC<Props> = ({
             key={`${player}:${i}`}
             tile={tile}
             index={i}
-            isPicked={pickedTileIndex === i}
+            state={handState(i)}
             pickTile={pickTile}
           />
         ))}
       </div>
-      <CellComponent isFocused={false} className="player-info">
+      <CellComponent
+        isFocused={false}
+        className={["player-info", isMyTurn ? "my-turn" : ""].join(" ")}
+      >
         <img src={playerImages[player]} alt={player} />
       </CellComponent>
     </div>
@@ -63,7 +71,12 @@ const StyledComponent = styled(DomComponent)`
   > .player-info {
     box-sizing: content-box;
     margin: 0.6rem 0 0.3rem 3.6rem;
-    border: 2px solid #888;
+    border: 2px solid #222;
+    opacity: 0.6;
+
+    &.my-turn {
+      opacity: 1;
+    }
     & > img {
       height: 100%;
     }
@@ -71,5 +84,21 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const MyHandsComponent: FC<ContainerProps> = (props) => {
-  return <StyledComponent {...props} />;
+  const context = useContext(GameContext);
+  const isMyTurn = context?.isMyTurn ?? false;
+  const handState = useCallback(
+    (index: number): HandState => {
+      if (props.pickedTileIndex === index) {
+        return "picked";
+      } else if (isMyTurn) {
+        return "pickable";
+      } else {
+        return "disabled";
+      }
+    },
+    [isMyTurn, props.pickedTileIndex]
+  );
+  return (
+    <StyledComponent {...props} isMyTurn={isMyTurn} handState={handState} />
+  );
 };

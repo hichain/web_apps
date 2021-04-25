@@ -83,7 +83,7 @@ const StyledComponent = styled(DomComponent)`
   }
 `;
 
-export const MyHandsComponent: FC<ContainerProps> = (props) => {
+export const MyFieldComponent: FC<ContainerProps> = (props) => {
   const context = useContext(GameContext);
   const isMyTurn = context?.isMyTurn ?? false;
   const handState = useCallback(

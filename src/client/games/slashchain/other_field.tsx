@@ -71,7 +71,7 @@ const StyledComponent = styled(DomComponent)`
   }
 `;
 
-export const OtherHandsComponent: FC<ContainerProps> = (props) => {
+export const OtherFieldComponent: FC<ContainerProps> = (props) => {
   const context = useContext(GameContext);
   const isOtherTurn = !context?.isMyTurn;
   return <StyledComponent {...props} isOtherTurn={isOtherTurn} />;

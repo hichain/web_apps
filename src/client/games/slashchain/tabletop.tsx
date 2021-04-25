@@ -16,10 +16,10 @@ import {
   HandTiles,
   reverse,
 } from "@games";
-import { MyHandsComponent, PickedHand } from "./my_hands";
+import { MyFieldComponent, PickedHand } from "./my_field";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 import styled from "styled-components";
-import { OtherHandsComponent } from "./other_hands";
+import { OtherFieldComponent } from "./other_field";
 import { Ctx } from "boardgame.io";
 
 export const GameContext = createContext<
@@ -59,7 +59,7 @@ const DomComponent: FC<PresenterProps> = ({
   gameResult,
 }) => (
   <div className={className}>
-    <OtherHandsComponent
+    <OtherFieldComponent
       className="hands other"
       hands={hands[reverse(player)]}
       player={reverse(player)}
@@ -69,7 +69,7 @@ const DomComponent: FC<PresenterProps> = ({
       selectCell={moves?.putTile}
       board={board}
     />
-    <MyHandsComponent
+    <MyFieldComponent
       className="hands me"
       hands={hands[player]}
       player={player}

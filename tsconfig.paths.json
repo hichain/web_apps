@@ -8,7 +8,8 @@
 			"@css/*": ["client/assets/css/*"],
 			"@games": ["games/index"],
 			"@games/*": ["games/*"],
-			"@hooks/*": ["client/hooks/*"]
+			"@hooks/*": ["client/hooks/*"],
+			"@contexts/*": ["client/contexts/*"],
 		},
 	}
 }

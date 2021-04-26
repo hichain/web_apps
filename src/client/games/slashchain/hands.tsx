@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import styled from "styled-components";
 import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandState, HandTileComponent } from "./hand_tile";
@@ -34,6 +34,4 @@ const StyledComponent = styled(DomComponent)`
   justify-content: center;
 `;
 
-export const HandsComponent: FC<ContainerProps> = (props) => {
-  return <StyledComponent {...props} />;
-};
+export const HandsComponent = memo(StyledComponent);

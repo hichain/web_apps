@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useContext, useEffect, useMemo } from "react";
 import { GameState, HandTiles, playOrder as players, TileBoard } from "@/games";
 import { BoardProps } from "boardgame.io/dist/types/packages/react";
-import { PlayerContext } from "@contexts/player";
+import { PlayerContext, PlayerDispatherContext } from "@contexts/player";
 import { GameContext, GameContextState } from "@contexts/game";
 
 type Props = BoardProps<GameState> & {
@@ -13,7 +13,8 @@ type Props = BoardProps<GameState> & {
 };
 
 export const GameMasterComponent: FC<Props> = (props) => {
-  const { state: { pickedTile, selectedCell }, dispatch } = useContext(PlayerContext);
+  const { pickedTile, selectedCell } = useContext(PlayerContext);
+	const dispatch = useContext(PlayerDispatherContext)
   const board = useMemo(() => new TileBoard(props.G.board), [props.G.board]);
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { Tile } from "@/games/slashchain";
 import { CellComponent } from "./cell";
 import { TileComponent } from "./tile";
 import { Cell } from "@/games";
-import { PlayerContext } from "@contexts/player";
+import { PlayerDispatherContext } from "@contexts/player";
 
 type ContainerProps = {
   className?: string;
@@ -60,7 +60,7 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 const Component: FC<ContainerProps> = (props) => {
-  const { dispatch } = useContext(PlayerContext);
+  const dispatch = useContext(PlayerDispatherContext);
   const presenterProps: PresenterProps = {
     onClick: useCallback(() => {
       if (props.isLegal) {

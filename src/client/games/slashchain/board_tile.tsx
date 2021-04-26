@@ -1,10 +1,10 @@
-import React, { FC, useContext } from "react";
+import React, { FC, memo, useCallback, useContext } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { CellComponent } from "./cell";
 import { TileComponent } from "./tile";
 import { Cell } from "@/games";
-import { PlayerContext } from "@contexts/player";
+import { PlayerDispatherContext } from "@contexts/player";
 
 type ContainerProps = {
   className?: string;
@@ -58,10 +58,11 @@ const StyledComponent = styled(DomComponent)`
     background-color: #ccc;
   }
 `;
-export const BoardTileComponent: FC<ContainerProps> = (props) => {
-  const { dispatch } = useContext(PlayerContext);
+
+const Component: FC<ContainerProps> = (props) => {
+  const dispatch = useContext(PlayerDispatherContext);
   const presenterProps: PresenterProps = {
-    onClick: () => {
+    onClick: useCallback(() => {
       if (props.isLegal) {
         dispatch?.({
           type: "put_tile",
@@ -70,7 +71,9 @@ export const BoardTileComponent: FC<ContainerProps> = (props) => {
           },
         });
       }
-    },
+    }, [dispatch, props.cell, props.isLegal]),
   };
   return <StyledComponent {...props} {...presenterProps} />;
 };
+
+export const BoardTileComponent = memo(Component);

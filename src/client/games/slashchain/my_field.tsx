@@ -39,9 +39,7 @@ const StyledComponent = styled(DomComponent)`
 export const MyFieldComponent: FC<ContainerProps> = (props) => {
   const game = useContext(GameContext);
   const isMyTurn = game?.isMyTurn ?? false;
-  const {
-    state: { pickedTile },
-  } = useContext(PlayerContext);
+  const { pickedTile } = useContext(PlayerContext);
 
   const presenterProps: PresenterProps = {
     isMyTurn,

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import styled from "styled-components";
 import { NamedPlayer } from "@/games/slashchain/";
 import { images } from "@images";
@@ -46,6 +46,4 @@ const StyledComponent = styled(DomComponent)`
   }
 `;
 
-export const PlayerInfoComponent: FC<ContainerProps> = (props) => {
-  return <StyledComponent {...props} />;
-};
+export const PlayerInfoComponent = memo(StyledComponent);

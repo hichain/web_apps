@@ -1,9 +1,9 @@
-import React, { FC, useCallback, useContext, useState } from "react";
+import React, { FC, memo, useCallback, useContext, useState } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
 import { CellComponent } from "./cell";
-import { PlayerContext } from "@contexts/player";
+import { PlayerDispatherContext } from "@contexts/player";
 
 export type HandState = "picked" | "pickable" | "disabled" | "fixed";
 
@@ -62,8 +62,8 @@ const StyledComponent = styled(DomComponent)`
   }
 `;
 
-export const HandTileComponent: FC<ContainerProps> = (props) => {
-  const { dispatch } = useContext(PlayerContext);
+const Component: FC<ContainerProps> = (props) => {
+  const dispatch = useContext(PlayerDispatherContext);
   const [angle, setAngle] = useState<number>(0);
 
   const className = props.state;
@@ -96,3 +96,5 @@ export const HandTileComponent: FC<ContainerProps> = (props) => {
     />
   );
 };
+
+export const HandTileComponent = memo(Component);

@@ -58,18 +58,20 @@ const reducer: React.Reducer<State, Action> = (state, action) => {
   }
 };
 
-export const PlayerContext = createContext<{
-  state: State;
-  dispatch?: Dispatch<Action>;
-}>({ state: {} });
+export const PlayerContext = createContext<State>({});
+
+export const PlayerDispatherContext = createContext<
+  Dispatch<Action> | undefined
+>(undefined);
 
 export const PlayerContextProvider: FC<Record<string, unknown>> = (props) => {
   const [state, dispatch] = useReducer(reducer, {});
-  const value = { state, dispatch };
 
   return (
-    <PlayerContext.Provider value={value}>
-      {props.children}
+    <PlayerContext.Provider value={state}>
+      <PlayerDispatherContext.Provider value={dispatch}>
+        {props.children}
+      </PlayerDispatherContext.Provider>
     </PlayerContext.Provider>
   );
 };

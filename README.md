@@ -14,7 +14,7 @@ Multiplayer online games published by Hichain Project
 
 ## Available Games
 
-- slashchain (Comming Soon)
+- slashchain
 
 ## Requirements
 

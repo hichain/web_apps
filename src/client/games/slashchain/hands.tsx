@@ -3,14 +3,11 @@ import styled from "styled-components";
 import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandState, HandTileComponent } from "./hand_tile";
 
-export type PickedHand = { index: number; angle: number };
-
 type ContainerProps = {
   className?: string;
   children?: never;
   hands: { tile: Tile; state: HandState }[];
   player: NamedPlayer;
-  pickTile?: React.Dispatch<React.SetStateAction<PickedHand | undefined>>;
 };
 
 type PresenterProps = Record<string, unknown>;
@@ -25,7 +22,6 @@ const DomComponent: FC<Props> = ({ className, player, hands, pickTile }) => (
         tile={hand.tile}
         index={i}
         state={hand.state}
-        pickTile={pickTile}
       />
     ))}
   </div>

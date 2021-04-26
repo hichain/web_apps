@@ -1,83 +1,39 @@
-import React, {
-  createContext,
-  FC,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { FC } from "react";
 import { BoardComponent } from "./board";
-import {
-  GameState,
-  Moves,
-  TileBoard,
-  Cell,
-  NamedPlayer,
-  playOrder,
-  HandTiles,
-  reverse,
-} from "@games";
+import { GameState, reverse } from "@games";
 import { MyFieldComponent } from "./my_field";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 import styled from "styled-components";
 import { OtherFieldComponent } from "./other_field";
-import { Ctx } from "boardgame.io";
-import { PickedHand } from "./hands";
+import { PlayerContextProvider } from "@/client/contexts/player";
+import { GameMasterComponent } from "./game_master";
 
-export const GameContext = createContext<
-  | (Ctx & {
-      player: NamedPlayer;
-      isMyTurn: boolean;
-    })
-  | undefined
->(undefined);
-
-type ContainerProps = BoardProps<GameState> & {
+type Props = BoardProps<GameState> & {
   className?: string;
   children?: never;
-  moves: Moves;
 };
 
-type PresenterProps = {
-  className?: string;
-  player: NamedPlayer;
-  board: TileBoard;
-  hands: HandTiles;
-  pickedTileIndex?: number;
-  moves?: {
-    pickTile: React.Dispatch<React.SetStateAction<PickedHand | undefined>>;
-    putTile: (cell: Cell) => void;
-  };
-  gameResult: string;
-};
-
-const DomComponent: FC<PresenterProps> = ({
-  className,
-  player,
-  board,
-  hands,
-  pickedTileIndex,
-  moves,
-  gameResult,
-}) => (
+const DomComponent: FC<Props> = ({ className, ...props }) => (
   <div className={className}>
-    <OtherFieldComponent
-      className="hands other"
-      tiles={hands[reverse(player)]}
-      player={reverse(player)}
-    />
-    <BoardComponent
-      className="board"
-      selectCell={moves?.putTile}
-      board={board}
-    />
-    <MyFieldComponent
-      className="hands me"
-      tiles={hands[player]}
-      player={player}
-      pickedTileIndex={pickedTileIndex}
-      pickTile={moves?.pickTile}
-    />
-    <div id="winner">{gameResult}</div>
+    <PlayerContextProvider>
+      <GameMasterComponent {...props}>
+        {({ player }, board, hands) => (
+          <>
+            <OtherFieldComponent
+              className="hands other"
+              tiles={hands[reverse(player)]}
+              player={reverse(player)}
+            />
+            <BoardComponent className="board" board={board} />
+            <MyFieldComponent
+              className="hands me"
+              tiles={hands[player]}
+              player={player}
+            />
+          </>
+        )}
+      </GameMasterComponent>
+    </PlayerContextProvider>
   </div>
 );
 
@@ -103,58 +59,6 @@ const StyledComponent = styled(DomComponent)`
   }
 `;
 
-export const TabletopComponent: React.FC<ContainerProps> = (props) => {
-  const [pickedTile, pickTile] = useState<PickedHand | undefined>();
-
-  const player = playOrder[props.ctx.playOrderPos];
-  const isMyTurn = props.ctx.currentPlayer === props.playerID;
-
-  const gameResult = useMemo(() => {
-    if (!props.ctx.gameover) {
-      return "";
-    }
-    if (props.ctx.gameover.winner !== undefined) {
-      return `Winner: ${props.ctx.gameover.winner}`;
-    } else {
-      return "Draw!";
-    }
-  }, [props.ctx.gameover]);
-
-  const board = useMemo(() => new TileBoard(props.G.board), [props.G.board]);
-  const hands = props.G.hands;
-
-  const putTile = useCallback(
-    (cell: Cell) => {
-      if (pickedTile == null) {
-        return;
-      }
-      props.moves.clickCell(cell.x, cell.y, pickedTile.index, pickedTile.angle);
-      props.events.endTurn?.();
-      pickTile(undefined);
-    },
-    [pickedTile, props.events, props.moves]
-  );
-
-  const moves = isMyTurn
-    ? {
-        pickTile,
-        putTile,
-      }
-    : undefined;
-
-  return (
-    <GameContext.Provider value={{ ...props.ctx, player, isMyTurn }}>
-      <StyledComponent
-        {...{
-          className: props.className,
-          player,
-          board,
-          hands,
-          pickedTileIndex: pickedTile?.index,
-          moves,
-          gameResult,
-        }}
-      />
-    </GameContext.Provider>
-  );
+export const TabletopComponent: React.FC<Props> = (props) => {
+  return <StyledComponent {...props} />;
 };

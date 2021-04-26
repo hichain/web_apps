@@ -1,9 +1,9 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useCallback, useContext, useState } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
 import { CellComponent } from "./cell";
-import { PickedHand } from "./hands";
+import { PlayerContext } from "@/client/contexts/player";
 
 export type HandState = "picked" | "pickable" | "disabled" | "fixed";
 
@@ -13,7 +13,6 @@ type ContainerProps = {
   tile: Tile;
   index: number;
   state: HandState;
-  pickTile?: React.Dispatch<React.SetStateAction<PickedHand | undefined>>;
 };
 
 type PresenterProps = {
@@ -64,6 +63,7 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const HandTileComponent: FC<ContainerProps> = (props) => {
+  const { dispatch } = useContext(PlayerContext);
   const [angle, setAngle] = useState<number>(0);
 
   const className = props.state;
@@ -72,15 +72,21 @@ export const HandTileComponent: FC<ContainerProps> = (props) => {
     switch (props.state) {
       case "picked": {
         setAngle(angle + 1);
-        props.pickTile?.({ index: props.index, angle: angle + 1 });
+        dispatch?.({
+          type: "rotate_tile",
+          payload: { angle: angle + 1 },
+        });
         break;
       }
       case "pickable": {
-        props.pickTile?.({ index: props.index, angle });
+        dispatch?.({
+          type: "pick_tile",
+          payload: { index: props.index, angle },
+        });
         break;
       }
     }
-  }, [angle, props]);
+  }, [angle, dispatch, props.index, props.state]);
   return (
     <StyledComponent
       {...props}

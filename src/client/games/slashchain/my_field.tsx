@@ -2,17 +2,16 @@ import React, { FC, useContext, useMemo } from "react";
 import styled from "styled-components";
 import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandState } from "./hand_tile";
-import { GameContext } from "./tabletop";
-import { HandsComponent, PickedHand } from "./hands";
+import { HandsComponent } from "./hands";
 import { PlayerInfoComponent } from "./player_info";
+import { GameContext } from "@/client/contexts/game";
+import { PlayerContext } from "@/client/contexts/player";
 
 type ContainerProps = {
   className?: string;
   children?: never;
   tiles: Tile[];
   player: NamedPlayer;
-  pickedTileIndex?: number;
-  pickTile?: React.Dispatch<React.SetStateAction<PickedHand | undefined>>;
 };
 
 type PresenterProps = {
@@ -22,20 +21,10 @@ type PresenterProps = {
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({
-  className,
-  hands,
-  player,
-  pickTile,
-  isMyTurn,
-}) => {
+const DomComponent: FC<Props> = ({ className, hands, player, isMyTurn }) => {
   return (
     <div className={className}>
-      <HandsComponent
-        player={player}
-        hands={hands}
-        pickTile={pickTile}
-      />
+      <HandsComponent player={player} hands={hands} />
       <PlayerInfoComponent player={player} isMyTurn={isMyTurn} />
     </div>
   );
@@ -48,14 +37,18 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const MyFieldComponent: FC<ContainerProps> = (props) => {
-  const context = useContext(GameContext);
-  const isMyTurn = context?.isMyTurn ?? false;
+  const game = useContext(GameContext);
+  const isMyTurn = game?.isMyTurn ?? false;
+  const {
+    state: { pickedTile },
+  } = useContext(PlayerContext);
+
   const presenterProps: PresenterProps = {
     isMyTurn,
     hands: useMemo(
       () =>
         props.tiles.map((tile, i) => {
-          if (props.pickedTileIndex === i) {
+          if (pickedTile?.index === i) {
             return { tile, state: "picked" };
           } else if (isMyTurn) {
             return { tile, state: "pickable" };
@@ -63,7 +56,7 @@ export const MyFieldComponent: FC<ContainerProps> = (props) => {
             return { tile, state: "disabled" };
           }
         }),
-      [isMyTurn, props.tiles, props.pickedTileIndex]
+      [props.tiles, pickedTile?.index, isMyTurn]
     ),
   };
 

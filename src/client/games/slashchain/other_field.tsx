@@ -2,9 +2,9 @@ import React, { FC, useContext, useMemo } from "react";
 import styled from "styled-components";
 import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandState } from "./hand_tile";
-import { GameContext } from "./tabletop";
 import { HandsComponent } from "./hands";
 import { PlayerInfoComponent } from "./player_info";
+import { GameContext } from "@/client/contexts/game";
 
 type ContainerProps = {
   className?: string;
@@ -37,8 +37,8 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const OtherFieldComponent: FC<ContainerProps> = (props) => {
-  const context = useContext(GameContext);
-  const isOtherTurn = !context?.isMyTurn;
+  const game = useContext(GameContext);
+  const isOtherTurn = game?.isMyTurn === false;
   const presenterProps: PresenterProps = {
     isOtherTurn,
     hands: useMemo(

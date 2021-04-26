@@ -7,31 +7,33 @@ import { BoardTileComponent } from "./board_tile";
 type ContainerProps = {
   className?: string;
   children?: never;
-  selectCell?: (cell: Cell) => void;
   board: TileBoard;
 };
 
 type PresenterProps = {
-  cells: Array<Cell & { tile?: Tile; isLegal: boolean; isFocused: boolean }>;
+  cells: Array<{
+    cell: Cell;
+    tile?: Tile;
+    isLegal: boolean;
+    isFocused: boolean;
+  }>;
   columns: number;
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, cells, columns, selectCell }) => {
+const DomComponent: FC<Props> = ({ className, cells, columns }) => {
   return (
     <ScrollContainer className={className} hideScrollbars={false}>
       <div className="board-grid">
-        {cells.map((cell) => (
+        {cells.map(({ cell, tile, isFocused, isLegal }) => (
           <BoardTileComponent
             key={`${cell.x},${cell.y}`}
             columns={columns}
-            tile={cell.tile}
-            isFocused={cell.isFocused}
-            onClick={
-              (cell.isLegal && selectCell && (() => selectCell(cell))) ||
-              undefined
-            }
+            cell={cell}
+            tile={tile}
+            isFocused={isFocused}
+            isLegal={isLegal}
           />
         ))}
       </div>
@@ -71,7 +73,7 @@ export const BoardComponent: React.FC<ContainerProps> = (props) => {
     const cells = CellArray.fromRange(range);
     return {
       cells: cells.map((cell) => ({
-        ...cell,
+        cell,
         tile: board.get(cell),
         isLegal: legalCells.has(cell),
         isFocused: equals(cell, lastMovedCell),

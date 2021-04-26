@@ -1,29 +1,38 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { CellComponent } from "./cell";
 import { TileComponent } from "./tile";
+import { Cell } from "@/games";
+import { GameContext } from "@/client/contexts/game";
+import { PlayerContext } from "@/client/contexts/player";
 
-type Props = {
+type ContainerProps = {
   className?: string;
   children?: never;
   columns: number;
-  isFocused: boolean;
+  cell: Cell;
   tile?: Tile;
-  onClick?: () => void;
+  isFocused: boolean;
+  isLegal: boolean;
 };
+
+type PresenterProps = {
+  onClick: () => void;
+};
+
+type Props = ContainerProps & PresenterProps;
 
 const DomComponent: FC<Props> = ({
   className,
   tile,
   isFocused,
+  isLegal,
   onClick,
 }) => {
   return (
     <CellComponent
-      className={[onClick ? "available" : "", "cell", className ?? ""].join(
-        " "
-      )}
+      className={[isLegal ? "available" : "", className ?? ""].join(" ")}
       isFocused={isFocused}
       onClick={onClick}
     >
@@ -50,6 +59,20 @@ const StyledComponent = styled(DomComponent)`
     background-color: #ccc;
   }
 `;
-export const BoardTileComponent: FC<Props> = (props) => {
-  return <StyledComponent {...props} />;
+export const BoardTileComponent: FC<ContainerProps> = (props) => {
+  const game = useContext(GameContext);
+  const { dispatch } = useContext(PlayerContext);
+  const presenterProps: PresenterProps = {
+    onClick: () => {
+      if (game?.isMyTurn && props.isLegal) {
+        dispatch?.({
+          type: "put_tile",
+          payload: {
+            cell: props.cell,
+          },
+        });
+      }
+    },
+  };
+  return <StyledComponent {...props} {...presenterProps} />;
 };

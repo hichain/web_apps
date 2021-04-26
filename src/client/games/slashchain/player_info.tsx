@@ -32,7 +32,7 @@ const DomComponent: FC<Props> = ({ className, player, isMyTurn }) => {
   );
 };
 
-const StyledComponent = styled(memo(DomComponent))`
+const StyledComponent = styled(DomComponent)`
   box-sizing: content-box;
   margin: 0.6rem 0 0.3rem 3.6rem;
   border: 2px solid #222;

@@ -38,7 +38,7 @@ const StyledComponent = styled(DomComponent)`
 
 export const MyFieldComponent: FC<ContainerProps> = (props) => {
   const game = useContext(GameContext);
-  const isMyTurn = useMemo(() => game?.isMyTurn ?? false, [game?.isMyTurn]);
+  const isMyTurn = game?.isMyTurn ?? false;
   const { pickedTile } = useContext(PlayerContext);
 
   const presenterProps: PresenterProps = {

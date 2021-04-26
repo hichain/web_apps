@@ -13,11 +13,10 @@ type Props = BoardProps<GameState> & {
 };
 
 export const GameMasterComponent: FC<Props> = (props) => {
-  const { state: playerState, dispatch } = useContext(PlayerContext);
+  const { state: { pickedTile, selectedCell }, dispatch } = useContext(PlayerContext);
   const board = useMemo(() => new TileBoard(props.G.board), [props.G.board]);
 
   useEffect(() => {
-    const { pickedTile, selectedCell } = playerState;
     if (pickedTile && selectedCell) {
       props.moves.clickCell(
         selectedCell.x,
@@ -27,7 +26,7 @@ export const GameMasterComponent: FC<Props> = (props) => {
       );
       props.events.endTurn?.();
     }
-  }, [dispatch, playerState, props.events, props.moves]);
+  }, [dispatch, pickedTile, props.events, props.moves, selectedCell]);
 
   const game = useMemo(() => {
     const playOrder = props.ctx.playOrder.findIndex(
@@ -50,9 +49,10 @@ export const GameMasterComponent: FC<Props> = (props) => {
     }
   }, [dispatch, game?.isMyTurn]);
 
-  return (
-    <GameContext.Provider value={game}>
-      {game && props.children(game, board, props.G.hands)}
-    </GameContext.Provider>
+  const children = useMemo(
+    () => game && props.children(game, board, props.G.hands),
+    [board, game, props]
   );
+
+  return <GameContext.Provider value={game}>{children}</GameContext.Provider>;
 };

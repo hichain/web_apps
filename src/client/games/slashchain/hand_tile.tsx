@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useState } from "react";
+import React, { FC, memo, useCallback, useContext, useState } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
@@ -62,7 +62,7 @@ const StyledComponent = styled(DomComponent)`
   }
 `;
 
-export const HandTileComponent: FC<ContainerProps> = (props) => {
+const Component: FC<ContainerProps> = (props) => {
   const { dispatch } = useContext(PlayerContext);
   const [angle, setAngle] = useState<number>(0);
 
@@ -96,3 +96,5 @@ export const HandTileComponent: FC<ContainerProps> = (props) => {
     />
   );
 };
+
+export const HandTileComponent = memo(Component);

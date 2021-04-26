@@ -1,4 +1,4 @@
-import React, { createContext, FC, useReducer, Dispatch } from "react";
+import React, { createContext, FC, useReducer, Dispatch, useMemo } from "react";
 import { Cell } from "@/games";
 
 type State = {
@@ -65,7 +65,7 @@ export const PlayerContext = createContext<{
 
 export const PlayerContextProvider: FC<Record<string, unknown>> = (props) => {
   const [state, dispatch] = useReducer(reducer, {});
-  const value = { state, dispatch };
+  const value = useMemo(() => ({ state, dispatch }), [state]);
 
   return (
     <PlayerContext.Provider value={value}>

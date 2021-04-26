@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import styled from "styled-components";
 import { NamedPlayer } from "@/games/slashchain/";
 import { images } from "@images";
@@ -32,7 +32,7 @@ const DomComponent: FC<Props> = ({ className, player, isMyTurn }) => {
   );
 };
 
-const StyledComponent = styled(DomComponent)`
+const StyledComponent = styled(memo(DomComponent))`
   box-sizing: content-box;
   margin: 0.6rem 0 0.3rem 3.6rem;
   border: 2px solid #222;
@@ -46,6 +46,4 @@ const StyledComponent = styled(DomComponent)`
   }
 `;
 
-export const PlayerInfoComponent: FC<ContainerProps> = (props) => {
-  return <StyledComponent {...props} />;
-};
+export const PlayerInfoComponent = memo(StyledComponent);

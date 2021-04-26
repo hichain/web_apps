@@ -26,19 +26,29 @@ export const GameMasterComponent: FC<Props> = (props) => {
         pickedTile.angle
       );
       props.events.endTurn?.();
-      dispatch?.({ type: "reset" });
     }
   }, [dispatch, playerState, props.events, props.moves]);
 
-  const playOrder = props.ctx.playOrder.findIndex(
-    (playerID) => playerID === props.playerID
-  );
-  const game: GameContextState | undefined =
-    (playOrder !== -1 && {
+  const game = useMemo(() => {
+    const playOrder = props.ctx.playOrder.findIndex(
+      (playerID) => playerID === props.playerID
+    );
+    if (playOrder === -1) {
+      return undefined;
+    }
+    return {
       player: players[playOrder],
       isMyTurn: props.ctx.currentPlayer === props.playerID,
-    }) ||
-    undefined;
+    };
+  }, [props.ctx.currentPlayer, props.ctx.playOrder, props.playerID]);
+
+  useEffect(() => {
+    if (game?.isMyTurn) {
+      dispatch?.({ type: "pick_tile", payload: { index: 0, angle: 0 } });
+    } else {
+      dispatch?.({ type: "reset" });
+    }
+  }, [dispatch, game?.isMyTurn]);
 
   return (
     <GameContext.Provider value={game}>

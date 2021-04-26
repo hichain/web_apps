@@ -34,7 +34,6 @@ const reducer: React.Reducer<State, Action> = (state, action) => {
   switch (action.type) {
     case "pick_tile": {
       return {
-        ...state,
         pickedTile: action.payload,
       };
     }

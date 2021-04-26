@@ -5,7 +5,7 @@ import { MyFieldComponent } from "./my_field";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 import styled from "styled-components";
 import { OtherFieldComponent } from "./other_field";
-import { PlayerContextProvider } from "@/client/contexts/player";
+import { PlayerContextProvider } from "@contexts/player";
 import { GameMasterComponent } from "./game_master";
 
 type Props = BoardProps<GameState> & {

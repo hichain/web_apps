@@ -4,7 +4,7 @@ import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandState } from "./hand_tile";
 import { HandsComponent } from "./hands";
 import { PlayerInfoComponent } from "./player_info";
-import { GameContext } from "@/client/contexts/game";
+import { GameContext } from "@contexts/game";
 
 type ContainerProps = {
   className?: string;

@@ -4,8 +4,7 @@ import { Tile } from "@/games/slashchain";
 import { CellComponent } from "./cell";
 import { TileComponent } from "./tile";
 import { Cell } from "@/games";
-import { GameContext } from "@/client/contexts/game";
-import { PlayerContext } from "@/client/contexts/player";
+import { PlayerContext } from "@contexts/player";
 
 type ContainerProps = {
   className?: string;
@@ -32,7 +31,7 @@ const DomComponent: FC<Props> = ({
 }) => {
   return (
     <CellComponent
-      className={[isLegal ? "available" : "", className ?? ""].join(" ")}
+      className={[isLegal ? "legal" : "", className ?? ""].join(" ")}
       isFocused={isFocused}
       onClick={onClick}
     >
@@ -54,17 +53,16 @@ const StyledComponent = styled(DomComponent)`
     border-left: 0;
   }
 
-  &.available {
+  &.legal {
     cursor: pointer;
     background-color: #ccc;
   }
 `;
 export const BoardTileComponent: FC<ContainerProps> = (props) => {
-  const game = useContext(GameContext);
   const { dispatch } = useContext(PlayerContext);
   const presenterProps: PresenterProps = {
     onClick: () => {
-      if (game?.isMyTurn && props.isLegal) {
+      if (props.isLegal) {
         dispatch?.({
           type: "put_tile",
           payload: {

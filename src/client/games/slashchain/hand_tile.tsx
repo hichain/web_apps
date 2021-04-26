@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
 import { CellComponent } from "./cell";
-import { PlayerContext } from "@/client/contexts/player";
+import { PlayerContext } from "@contexts/player";
 
 export type HandState = "picked" | "pickable" | "disabled" | "fixed";
 

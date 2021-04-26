@@ -1,4 +1,6 @@
 export * from "./game";
 export * from "./rules";
+export * from "./board";
 export * from "./tile";
-export * from "./tiles";
+export * from "./hands";
+export * from "./player";

@@ -1,98 +1,68 @@
 import { Game, Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { buildRule, RuleSet } from "./rules";
-import { TileBoard, TileCell, Tile } from "./tile";
-import { rotate } from "./tiles";
+import { Rule, ruleSet } from "./rules";
+import { rotate, TileCell } from "./tile";
+import { HandTiles } from "./hands";
+import { playOrder } from "./player";
+import { CellSet } from "../common";
 
 export type GameState = {
-  ruleSet: RuleSet;
+  rule: Rule;
   board: TileCell[];
-  hands: { [key: string]: Tile[] };
+  hands: HandTiles;
 };
 
 export type Moves = {
-  clickCell: (x: number, y: number, handsIndex: number) => void;
-  rotateTile: (index: number, dir: number) => void;
+  clickCell: (x: number, y: number, handsIndex: number, angle: number) => void;
+};
+
+type InvalidMove = typeof INVALID_MOVE;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type GameMoves<T extends Record<string, (...args: any) => void>> = {
+  [F in keyof T]: (G: GameState, ctx: Ctx, ...args: Parameters<T[F]>) => InvalidMove | void;
 };
 
 export const Slashchain: Game<GameState> & {
   name: string;
   minPlayers: number;
   maxPlayers: number;
+  moves: GameMoves<Moves>;
 } = {
   name: "slashchain",
   minPlayers: 2,
   maxPlayers: 2,
-  setup: (ctx): GameState => {
-    const rules = new Array(3)
-      .fill(null)
-      .map((_, i) => ++i)
-      .map((i) =>
-        buildRule(`Basic Tiles, ${i} tile of each types`, "basic", i)
-      );
-    const ruleSet: RuleSet = {
-      current: rules[2],
-      rules,
-    };
-    const hands = ctx.playOrder.reduce(
-      (obj, player) => ({
-        ...obj,
-        [player]: [...ruleSet.current.hands],
-      }),
-      {}
-    );
+  setup: (): GameState => {
     return {
-      ruleSet,
+      rule: ruleSet.basic3,
       board: [],
-      hands,
+      hands: ruleSet.basic3.hands,
     };
   },
   moves: {
-    clickCell: (
-      G: GameState,
-      ctx: Ctx,
-      x: number,
-      y: number,
-      handsIndex: number
-    ): "INVALID_MOVE" | undefined => {
-      const myPlayerID = ctx.playerID;
-      if (myPlayerID == null) {
+    clickCell: (G, ctx, x, y, handsIndex, angle) => {
+      const player = playOrder[ctx.playOrderPos];
+      if (player == null) {
         return INVALID_MOVE;
       }
-      const board = new TileBoard(G.board);
-      const tile = G.hands[myPlayerID]?.[handsIndex];
-      if (tile == null) {
-        return INVALID_MOVE;
-      }
-      const cell = { x, y, tile };
+      const board = new CellSet(G.board);
+      const cell = { x, y };
       if (board.has(cell)) {
         return INVALID_MOVE;
       }
-      G.board = [...G.board, cell];
-      G.hands[myPlayerID].splice(handsIndex, 1);
-    },
-    rotateTile: (
-      G: GameState,
-      ctx: Ctx,
-      index: number,
-      dir: number
-    ): "INVALID_MOVE" | undefined => {
-      const myPlayerID = ctx.playerID;
-      if (myPlayerID == null) {
-        return INVALID_MOVE;
-      }
-      const tile = G.hands[myPlayerID]?.[index];
+      const tile = G.hands[player][handsIndex];
       if (tile == null) {
         return INVALID_MOVE;
       }
-      G.hands[myPlayerID][index] = rotate(tile, dir);
+      const rotatedTile = rotate(tile, angle);
+      G.board = [...G.board, { ...cell, tile: rotatedTile }];
+      G.hands[player].splice(handsIndex, 1);
     },
   },
-  endIf: (G, ctx) => {
+  endIf: (G, _) => {
     // TODO: define victory conditions
-    const noHands = ctx.playOrder.every(
-      (player) => G.hands[player].length === 0
-    );
+    const noHands =
+      G.hands.slash.length === 0 && G.hands.backslash.length === 0;
     if (noHands) {
       return { draw: true };
     }

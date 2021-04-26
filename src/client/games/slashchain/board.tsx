@@ -1,70 +1,92 @@
-import React, { FC } from "react";
-import { TileBoard, Cell, CellSet } from "@games";
-import { CellComponent } from "./cell";
+import React, { FC, useMemo } from "react";
+import { Cell, CellArray, equals, offset, Tile, TileBoard } from "@games";
 import styled from "styled-components";
+import ScrollContainer from "react-indiana-drag-scroll";
+import { BoardTileComponent } from "./board_tile";
 
 type ContainerProps = {
   className?: string;
   children?: never;
-  move: (cell: Cell) => void;
   board: TileBoard;
 };
 
 type PresenterProps = {
-  legalCells: CellSet;
-  cells: Cell[][];
+  cells: Array<{
+    cell: Cell;
+    tile?: Tile;
+    isLegal: boolean;
+    isFocused: boolean;
+  }>;
+  columns: number;
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({
-  className,
-  board,
-  cells,
-  legalCells,
-  move,
-}) => (
-  <div className={className}>
-    <table className="board">
-      <tbody>
-        {cells.map((cellRow) => (
-          <tr key={cellRow[0].x}>
-            {cellRow.map((cell) => (
-              <CellComponent
-                key={cell.y}
-                {...{
-                  isLegal: legalCells.has(cell),
-                  tile: board.get(cell),
-                  onClick: () => move?.(cell),
-                }}
-              />
-            ))}
-          </tr>
+const DomComponent: FC<Props> = ({ className, cells, columns }) => {
+  return (
+    <ScrollContainer className={className} hideScrollbars={false}>
+      <div className="board-grid">
+        {cells.map(({ cell, tile, isFocused, isLegal }) => (
+          <BoardTileComponent
+            key={`${cell.x},${cell.y}`}
+            columns={columns}
+            cell={cell}
+            tile={tile}
+            isFocused={isFocused}
+            isLegal={isLegal}
+          />
         ))}
-      </tbody>
-    </table>
-  </div>
-);
+      </div>
+    </ScrollContainer>
+  );
+};
 
 const StyledComponent = styled(DomComponent)`
-  .board {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  box-shadow: inset 0 0 5px 5px #efefef;
+
+  & > .board-grid {
+    display: grid;
+    grid-template-columns: repeat(${(props) => props.columns}, 1fr);
+    grid-gap: 0;
+    max-height: 100%;
     margin: auto;
-    table-layout: fixed;
-    border-spacing: 0;
-    border-collapse: collapse;
   }
 `;
 
 export const BoardComponent: React.FC<ContainerProps> = (props) => {
-  const legalCells = props.board.legalCells();
-  const range = legalCells.range();
-  const cells: Cell[][] = [];
-  for (let x = range.minX; x <= range.maxX; x++) {
-    const cellRow: Cell[] = [];
-    for (let y = range.minY; y <= range.maxY; y++) {
-      cellRow.push({ x, y });
-    }
-    cells.push(cellRow);
-  }
-  return <StyledComponent legalCells={legalCells} cells={cells} {...props} />;
+  const { board } = props;
+
+  const { cells, range } = useMemo(() => {
+    const legalCells = board.legalCells();
+    const lastMovedCell = Array.from(board.keys()).pop();
+    const range = offset(legalCells.toArray().range(), {
+      top: 1,
+      right: 1,
+      bottom: 1,
+      left: 1,
+    });
+    const cells = CellArray.fromRange(range);
+    return {
+      cells: cells.map((cell) => ({
+        cell,
+        tile: board.get(cell),
+        isLegal: legalCells.has(cell),
+        isFocused: equals(cell, lastMovedCell),
+      })),
+      range,
+    };
+  }, [board]);
+
+  return (
+    <StyledComponent
+      {...props}
+      cells={cells}
+      columns={range.maxX - range.minX + 1}
+    />
+  );
 };

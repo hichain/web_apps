@@ -1,41 +1,60 @@
-import React, { FC } from "react";
-import { Tile } from "@games";
-import { TileComponent } from "./tile";
+import React, { FC, forwardRef, ReactNode, useEffect, useRef } from "react";
+import { breakpoints } from "@css/variables";
 import styled from "styled-components";
 
-type ContainerProps = {
+type Props = {
   className?: string;
-  children?: never;
-  isLegal: boolean;
-  tile?: Tile;
+  children?: ReactNode;
+  isFocused: boolean
   onClick?: () => void;
 };
 
-const StyledCell = styled.td`
-  width: 80px;
-  height: 80px;
-  padding: 0;
-  line-height: 0;
+const DomComponent = forwardRef<HTMLDivElement, Props>(function render(
+  props,
+  ref
+) {
+  return (
+    <div className={props.className} ref={ref} onClick={props.onClick}>
+      {props.children}
+    </div>
+  );
+});
 
-  &.available {
-    border: 1px solid #555;
+const StyledComponent = styled(DomComponent)`
+  width: 32px;
+  height: 32px;
+
+  @media ${breakpoints.sm} {
+    width: 39px;
+    height: 39px;
+  }
+  @media ${breakpoints.md} {
+    width: 46px;
+    height: 46px;
+  }
+  @media ${breakpoints.lg} {
+    width: 53px;
+    height: 53px;
+  }
+  @media ${breakpoints.xl} {
+    width: 60px;
+    height: 60px;
   }
 `;
 
-export const CellComponent: FC<ContainerProps> = ({
-  tile,
-  isLegal,
-  onClick,
-}) => {
-  if (tile != null) {
-    return (
-      <StyledCell className="available">
-        <TileComponent tile={tile} />
-      </StyledCell>
-    );
-  }
-  if (isLegal) {
-    return <StyledCell className="available" onClick={onClick}></StyledCell>;
-  }
-  return <StyledCell />;
-};
+export const CellComponent: FC<Props> = (props) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (props.isFocused) {
+      ref.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+      ref.current?.focus();
+    }
+  }, [props.isFocused]);
+
+  return <StyledComponent {...props} ref={ref} />;
+}

@@ -24,7 +24,7 @@ describe("CellSet", () => {
       { x: -1, y: -1 },
       { x: 1, y: 1 },
     ]);
-    expect(cells.range()).toEqual({
+    expect(cells.toArray().range()).toEqual({
       minX: -1,
       maxX: 1,
       minY: -1,

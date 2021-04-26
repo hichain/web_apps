@@ -1,40 +1,15 @@
-import { Tile } from "./tile";
-import { tileData } from "./tiles";
+import { HandsBuilder, HandTiles } from "./hands";
 
 export type Rule = {
   name: string;
-  tileType: TileType;
-  hands: Tile[];
+  hands: HandTiles;
 };
 
-export type TileType = "basic";
+const handsBuilder = new HandsBuilder(3, 3);
 
-export interface RuleSet {
-  current: Rule;
-  rules: Rule[];
-}
-
-const times = <T>(array: T[], n: number): T[] => {
-  return new Array(n).fill(null).reduce((acc) => [...acc, ...array], []);
-};
-
-export const buildRule = (
-  name: string,
-  tileType: TileType,
-  tileNumber: number
-): Rule => {
-  const tiles = (): Tile[] => {
-    if (tileType === "basic") {
-      return tileData.map((tile) => tile.lines);
-    } else {
-      const _exhaustiveCheck: never = tileType;
-      return _exhaustiveCheck;
-    }
-  };
-  const hands = times(tiles(), tileNumber);
-  return {
-    name,
-    tileType,
-    hands,
-  };
+export const ruleSet: Record<string, Rule> = {
+  basic3: {
+    name: "Basic Tiles, 3 tiles of each type",
+    hands: handsBuilder.buildTiles(),
+  },
 };

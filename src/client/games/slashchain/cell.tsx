@@ -5,17 +5,17 @@ import styled from "styled-components";
 type Props = {
   className?: string;
   children?: ReactNode;
-  isFocused: boolean
+  isFocused: boolean;
   onClick?: () => void;
 };
 
 const DomComponent = forwardRef<HTMLDivElement, Props>(function render(
-  props,
+  { className, onClick, children },
   ref
 ) {
   return (
-    <div className={props.className} ref={ref} onClick={props.onClick}>
-      {props.children}
+    <div className={className} ref={ref} onClick={onClick}>
+      {children}
     </div>
   );
 });
@@ -57,4 +57,4 @@ export const CellComponent: FC<Props> = (props) => {
   }, [props.isFocused]);
 
   return <StyledComponent {...props} ref={ref} />;
-}
+};

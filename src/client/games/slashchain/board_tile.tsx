@@ -5,6 +5,7 @@ import { CellComponent } from "./cell";
 import { TileComponent } from "./tile";
 import { Cell } from "@/games";
 import { PlayerDispatherContext } from "@contexts/player";
+import clsx from "clsx";
 
 type ContainerProps = {
   className?: string;
@@ -31,7 +32,7 @@ const DomComponent: FC<Props> = ({
 }) => {
   return (
     <CellComponent
-      className={[isLegal ? "legal" : "", className ?? ""].join(" ")}
+      className={clsx({ legal: isLegal }, className)}
       isFocused={isFocused}
       onClick={onClick}
     >

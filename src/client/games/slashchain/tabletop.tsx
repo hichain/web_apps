@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { OtherFieldComponent } from "./other_field";
 import { PlayerContextProvider } from "@contexts/player";
 import { GameMasterComponent } from "./game_master";
+import clsx from "clsx";
 
 type Props = BoardProps<GameState> & {
   className?: string;
@@ -20,13 +21,13 @@ const DomComponent: FC<Props> = ({ className, ...props }) => (
         {({ player }, board, hands) => (
           <>
             <OtherFieldComponent
-              className="hands other"
+              className={clsx("hands", "other")}
               tiles={hands[reverse(player)]}
               player={reverse(player)}
             />
             <BoardComponent className="board" board={board} />
             <MyFieldComponent
-              className="hands me"
+              className={clsx("hands", "me")}
               tiles={hands[player]}
               player={player}
             />

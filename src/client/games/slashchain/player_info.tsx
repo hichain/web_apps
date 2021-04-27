@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { NamedPlayer } from "@/games/slashchain/";
 import { images } from "@images";
 import { CellComponent } from "./cell";
+import clsx from "clsx";
 
 const playerImages = images.slashchain.players;
 
@@ -21,11 +22,7 @@ const DomComponent: FC<Props> = ({ className, player, isMyTurn }) => {
   return (
     <CellComponent
       isFocused={false}
-      className={[
-        className ?? "",
-        isMyTurn ? "my-turn" : "",
-        "player-info",
-      ].join(" ")}
+      className={clsx(className, { "my-turn": isMyTurn })}
     >
       <img src={playerImages[player]} alt={player} />
     </CellComponent>

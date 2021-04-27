@@ -4,6 +4,7 @@ import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
 import { CellComponent } from "./cell";
 import { PlayerDispatherContext } from "@contexts/player";
+import clsx from "clsx";
 
 export type HandState = "picked" | "pickable" | "disabled" | "fixed";
 
@@ -22,9 +23,19 @@ type PresenterProps = {
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, tile, angle, onClick }) => {
+const DomComponent: FC<Props> = ({
+  className,
+  state,
+  tile,
+  angle,
+  onClick,
+}) => {
   return (
-    <CellComponent className={className} isFocused={false} onClick={onClick}>
+    <CellComponent
+      className={clsx(state, className)}
+      isFocused={false}
+      onClick={onClick}
+    >
       <TileComponent tile={tile} angle={angle} />
     </CellComponent>
   );
@@ -66,8 +77,6 @@ const Component: FC<ContainerProps> = (props) => {
   const dispatch = useContext(PlayerDispatherContext);
   const [angle, setAngle] = useState<number>(0);
 
-  const className = props.state;
-
   const onClick = useCallback(() => {
     switch (props.state) {
       case "picked": {
@@ -87,14 +96,7 @@ const Component: FC<ContainerProps> = (props) => {
       }
     }
   }, [angle, dispatch, props.index, props.state]);
-  return (
-    <StyledComponent
-      {...props}
-      className={className}
-      angle={angle}
-      onClick={onClick}
-    />
-  );
+  return <StyledComponent {...props} angle={angle} onClick={onClick} />;
 };
 
 export const HandTileComponent = memo(Component);

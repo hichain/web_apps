@@ -14,7 +14,7 @@ type PresenterProps = Record<string, unknown>;
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, player, hands, pickTile }) => (
+const DomComponent: FC<Props> = ({ className, player, hands }) => (
   <div className={className}>
     {hands.map((hand, i) => (
       <HandTileComponent

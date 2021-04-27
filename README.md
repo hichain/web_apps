@@ -5,7 +5,9 @@
   <img src="https://img.shields.io/github/v/release/hichain/web_apps?style=flat-square" alt="Version"/>
 </p>
 
-<img src="https://github.com/hichain/web_apps/blob/master/public/og_image.png?raw=true" alt="logo" />
+<p align="center">
+  <img src="https://github.com/hichain/web_apps/blob/master/public/og_image.png?raw=true" alt="logo" />
+</p>
 
 <p align="center">
   https://apps.hichain.jp

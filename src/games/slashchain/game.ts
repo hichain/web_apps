@@ -20,7 +20,11 @@ type InvalidMove = typeof INVALID_MOVE;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type GameMoves<T extends Record<string, (...args: any) => void>> = {
-  [F in keyof T]: (G: GameState, ctx: Ctx, ...args: Parameters<T[F]>) => InvalidMove | void;
+  [F in keyof T]: (
+    G: GameState,
+    ctx: Ctx,
+    ...args: Parameters<T[F]>
+  ) => InvalidMove | void;
 };
 
 export const Slashchain: Game<GameState> & {

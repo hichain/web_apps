@@ -52,10 +52,6 @@ export const TileComponent: FC<ContainerProps> = (props) => {
   const imageUrl = tileImages[rotatedTile];
 
   return (
-    <StyledComponent
-      {...props}
-      rotatedTile={rotatedTile}
-      imageUrl={imageUrl}
-    />
+    <StyledComponent {...props} rotatedTile={rotatedTile} imageUrl={imageUrl} />
   );
 };

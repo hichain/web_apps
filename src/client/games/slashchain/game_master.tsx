@@ -14,7 +14,7 @@ type Props = BoardProps<GameState> & {
 
 export const GameMasterComponent: FC<Props> = (props) => {
   const { pickedTile, selectedCell } = useContext(PlayerContext);
-	const dispatch = useContext(PlayerDispatherContext)
+  const dispatch = useContext(PlayerDispatherContext);
   const board = useMemo(() => new TileBoard(props.G.board), [props.G.board]);
 
   useEffect(() => {

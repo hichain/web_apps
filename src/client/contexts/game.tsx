@@ -6,4 +6,6 @@ export type GameContextState = {
   isMyTurn: boolean;
 };
 
-export const GameContext = createContext<GameContextState | undefined>(undefined);
+export const GameContext = createContext<GameContextState | undefined>(
+  undefined
+);

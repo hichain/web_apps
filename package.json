@@ -21,7 +21,7 @@
     "gcp-build": "yarn build:server"
   },
   "engines": {
-    "node": "15.x"
+    "node": "14.x"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",

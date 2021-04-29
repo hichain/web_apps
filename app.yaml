@@ -1,2 +1,2 @@
 runtime: nodejs14
-entrypoint: "yarn serve:master"
+entrypoint: "npm run serve:master"

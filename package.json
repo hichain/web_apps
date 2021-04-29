@@ -17,10 +17,11 @@
     "lint:css-in-js": "stylelint --syntax 'css-in-js' './src/**/*.tsx'",
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "gcp-build": "npm run build:server"
   },
   "engines": {
-    "node": "15.x"
+    "node": "14.x"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",

@@ -17,7 +17,8 @@
     "lint:css-in-js": "stylelint --syntax 'css-in-js' './src/**/*.tsx'",
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "gcp-build": "yarn build:server"
   },
   "engines": {
     "node": "15.x"

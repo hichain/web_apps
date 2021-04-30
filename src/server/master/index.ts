@@ -3,7 +3,7 @@ import { exit } from "process";
 import { games } from "../../games";
 import { envs } from "../../envs";
 
-const port = envs?.master?.port;
+const port = envs?.master.port;
 if (port == null) {
   exit(1);
 }

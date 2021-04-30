@@ -1,16 +1,11 @@
 import { Env } from "./index";
 
-const url = process.env.MASTER_URL;
+const url = window.location.origin;
 const port = process.env.PORT;
 
-export const productionEnv: Env = (() => {
-  if (url == null || port == null) {
-    return {};
-  }
-  return {
-    master: {
-      url: `${url}/api`,
-      port: Number(port),
-    },
-  };
-})();
+export const productionEnv: Env = {
+  master: {
+    url: url != null ? `${url}/api` : undefined,
+    port: port != null ? Number(port) : undefined,
+  },
+};

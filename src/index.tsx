@@ -2,7 +2,7 @@ import "@css/reboot.css";
 import "@css/common.scss";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Switch } from "react-router";
+import { Redirect, Switch } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { DebugComponent } from "./client";
 import { gameComponents, GameListComponent } from "./client/games";
@@ -38,7 +38,7 @@ ReactDOM.render(
           exact
           component={DebugComponent}
         />
-        <PageRoute component={GameListComponent} />
+        <Redirect to={routes.gameList} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

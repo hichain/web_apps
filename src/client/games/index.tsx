@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Slashchain } from "@/games/index";
 import { Client as SlashchainClient } from "./slashchain/client";
 import { GameTopComponent as SlashchainTop } from "./slashchain";
@@ -9,39 +9,59 @@ import styled from "styled-components";
 import { LobbyAPI } from "boardgame.io";
 import { strings } from "@strings";
 
+type Response =
+  | {
+      status: "waiting";
+    }
+  | {
+      status: "success";
+      games: string[];
+      matches: { [game: string]: LobbyAPI.Match[] };
+    }
+  | {
+      status: "failure";
+    };
+
 type ContainerProps = {
   children?: never;
   className?: string;
 };
 
 type PresenterProps = {
-  games: string[];
-  matches: { [game: string]: LobbyAPI.Match[] };
+  response: Response;
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, games, matches }) => (
-  <div className={className}>
-    <h1>Games</h1>
+const DomComponent: FC<Props> = ({ className, response }) => {
+  const children = useMemo(() => {
+    switch (response.status) {
+      case "waiting":
+        return "Loading Games...";
+      case "success":
+        return response.games.map((game, i) => (
+          <div className="game_info" key={i}>
+            <h2>{strings.games[game]}</h2>
+            <ul>
+              <li>All Macthes: {response.matches[game]?.length ?? "?"}</li>
+            </ul>
+            <button className="create_match_button">
+              <Link to={`/games/${game}`}>Create a match</Link>
+            </button>
+          </div>
+        ));
+      case "failure":
+        return "No games are available.";
+    }
+  }, [response]);
 
-    {games.length === 0 ? (
-      <div className="game_info">Loading Games...</div>
-    ) : (
-      games.map((game, i) => (
-        <div className="game_info" key={i}>
-          <h2>{strings.games[game]}</h2>
-          <ul>
-            <li>All Macthes: {matches[game]?.length ?? "?"}</li>
-          </ul>
-          <button className="create_match_button">
-            <Link to={`/games/${game}`}>Create a match</Link>
-          </button>
-        </div>
-      ))
-    )}
-  </div>
-);
+  return (
+    <div className={className}>
+      <h1>Games</h1>
+      <div className="games">{children}</div>
+    </div>
+  );
+};
 
 const StyledComponent = styled(DomComponent)`
   h1 {
@@ -53,21 +73,17 @@ const StyledComponent = styled(DomComponent)`
     margin-top: 2.4rem;
     margin-bottom: 2.4rem;
   }
-  .game_info {
+  .games {
     margin-left: 8rem;
-  }
-  .create_match_button {
-    margin-left: 2rem;
+    > .create_match_button {
+      margin-left: 2rem;
+    }
   }
 `;
 
 export const GameListComponent: FC<ContainerProps> = (props) => {
   const history = useHistory();
-  const [games, setGames] = useState<string[]>([]);
-  const [allMatches, setMatches] = useState<{
-    [game: string]: LobbyAPI.Match[];
-  }>({});
-
+  const [response, setResponse] = useState<Response>({ status: "waiting" });
   const getGames = useCallback(() => {
     return lobbyClient.listGames();
   }, []);
@@ -92,15 +108,20 @@ export const GameListComponent: FC<ContainerProps> = (props) => {
   useEffect(() => {
     getGames()
       .then((games) => {
-        setGames(games);
         getMatches(games).then((matches) => {
-          setMatches(Object.fromEntries(matches));
+          setResponse({
+            status: "success",
+            games,
+            matches: Object.fromEntries(matches),
+          });
         });
       })
-      .catch(() => history.replace("/"));
+      .catch(() => {
+        setResponse({ status: "failure" });
+      });
   }, [getGames, getMatches, history]);
 
-  return <StyledComponent {...props} games={games} matches={allMatches} />;
+  return <StyledComponent {...props} response={response} />;
 };
 
 export { SlashchainClient };

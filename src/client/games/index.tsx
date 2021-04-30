@@ -11,7 +11,7 @@ import { strings } from "@strings";
 
 type Response =
   | {
-      status: "waiting";
+      status: "loading";
     }
   | {
       status: "success";
@@ -36,8 +36,8 @@ type Props = ContainerProps & PresenterProps;
 const DomComponent: FC<Props> = ({ className, response }) => {
   const children = useMemo(() => {
     switch (response.status) {
-      case "waiting":
-        return "Loading Games...";
+      case "loading":
+        return strings.responseMessages.games.loading;
       case "success":
         return response.games.map((game, i) => (
           <div className="game_info" key={i}>
@@ -51,7 +51,7 @@ const DomComponent: FC<Props> = ({ className, response }) => {
           </div>
         ));
       case "failure":
-        return "No games are available.";
+        return strings.responseMessages.games.failure;
     }
   }, [response]);
 
@@ -83,7 +83,7 @@ const StyledComponent = styled(DomComponent)`
 
 export const GameListComponent: FC<ContainerProps> = (props) => {
   const history = useHistory();
-  const [response, setResponse] = useState<Response>({ status: "waiting" });
+  const [response, setResponse] = useState<Response>({ status: "loading" });
   const getGames = useCallback(() => {
     return lobbyClient.listGames();
   }, []);

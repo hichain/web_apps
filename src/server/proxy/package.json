@@ -2,9 +2,9 @@
   "name": "game-master-proxy",
   "version": "0.1.0",
   "scripts": {
-    "start": "npm run shell",
+    "start": "NODE_ENV=production npm run shell",
     "build": "tsc --project ../",
-    "serve": "npm run build && firebase emulators:start --only functions",
+    "serve": "NODE_ENV=development npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"

@@ -15,7 +15,7 @@ jobs:
         id: deploy-function
         uses: google-github-actions/deploy-cloud-functions@v0.1.0
         with:
-          name: proxy-server
+          name: apiProxy
           runtime: nodejs14
-          project: ${{ secrets.GCP_PROJECT }}
+          project_id: ${{ secrets.GCP_PROJECT }}
           credentials: ${{ secrets.GCF_SA_KEY }}

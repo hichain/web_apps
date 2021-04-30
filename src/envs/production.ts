@@ -9,7 +9,7 @@ export const productionEnv: Env = (() => {
   }
   return {
     master: {
-      url,
+      url: `${url}/api`,
       port: Number(port),
     },
   };

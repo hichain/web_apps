@@ -6,7 +6,6 @@
     "start:client": "react-app-rewired start",
     "start:master": "NODE_ENV=development ts-node --project src/server/tsconfig.json src/server/master.ts",
     "serve:master": "node ./dist/server/master.js",
-    "serve:web": "node ./dist/server/web.js",
     "build": "npm-run-all -p build:*",
     "build:client": "react-app-rewired build",
     "build:server": "tsc --project ./src/server",

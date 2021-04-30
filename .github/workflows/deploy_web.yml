@@ -30,3 +30,4 @@ jobs:
           projectId: hichain-web-apps
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
+          MASTER_URL: ${{ secrets.MASTER_URL }}

@@ -22,7 +22,7 @@ Multiplayer online games published by Hichain Project
 
 ## Requirements
 
-- Node.js v15.12.0
+- Node.js v14.x
 
 ## Usage
 
@@ -78,7 +78,6 @@ $ yarn lint
 
 - [TypeScript](https://www.typescriptlang.org/)
 - [boardgame.io](https://github.com/boardgameio/boardgame.io)
-- [express](https://expressjs.com/ja/)
 
 ### Editor
 

@@ -2,13 +2,21 @@
   "name": "hichain_web_apps",
   "version": "0.1.0",
   "private": true,
+  "workspaces": {
+    "packages": [
+      "src/server/*"
+    ]
+  },
   "scripts": {
     "start:client": "react-app-rewired start",
-    "start:master": "NODE_ENV=development ts-node --project src/server/tsconfig.json src/server/master.ts",
-    "serve:master": "node ./dist/server/master.js",
+    "start:master": "yarn workspace game-master start",
+    "start:proxy": "yarn workspace game-master-proxy start",
+    "serve:master": "yarn workspace game-master serve",
+    "serve:proxy": "yarn workspace game-master-proxy serve",
     "build": "npm-run-all -p build:*",
     "build:client": "react-app-rewired build",
-    "build:server": "tsc --project ./src/server",
+    "build:master": "yarn workspace game-master build",
+    "build:proxy": "yarn workspace game-master-proxy build",
     "eject": "react-scripts eject",
     "lint": "npm-run-all -p lint:*",
     "lint:ts": "eslint './src/**/*.{ts,tsx}'",
@@ -17,7 +25,7 @@
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "gcp-build": "npm run build:server"
+    "gcp-build": "npm run build:master"
   },
   "engines": {
     "node": "14.x"
@@ -30,7 +38,6 @@
     "@types/styled-components": "^5.1.9",
     "boardgame.io": "0.43.3",
     "clsx": "^1.1.1",
-    "cors": "^2.8.5",
     "node-sass": "^5.0.0",
     "npm-run-all": "^4.1.5",
     "react": "^17.0.1",

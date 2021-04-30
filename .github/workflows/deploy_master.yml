@@ -1,4 +1,4 @@
-name: Deploy to Google App Engine on merge
+name: Deploy Master Server to Google App Engine on merge
 'on':
   push:
     branches:
@@ -16,4 +16,4 @@ jobs:
         with:
           deliverables: app.yaml
           project_id: ${{ secrets.GCP_PROJECT }}
-          credentials: ${{ secrets.GCP_SA_KEY }}
+          credentials: ${{ secrets.GAE_SA_KEY }}

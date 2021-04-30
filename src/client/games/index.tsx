@@ -25,17 +25,21 @@ const DomComponent: FC<Props> = ({ className, games, matches }) => (
   <div className={className}>
     <h1>Games</h1>
 
-    {games.map((game, i) => (
-      <div className="game_info" key={i}>
-        <h2>{strings.games[game]}</h2>
-        <ul>
-          <li>All Macthes: {matches[game]?.length ?? "?"}</li>
-        </ul>
-        <button className="create_match_button">
-          <Link to={`/games/${game}`}>Create a match</Link>
-        </button>
-      </div>
-    ))}
+    {games.length === 0 ? (
+      <div className="game_info">Loading Games...</div>
+    ) : (
+      games.map((game, i) => (
+        <div className="game_info" key={i}>
+          <h2>{strings.games[game]}</h2>
+          <ul>
+            <li>All Macthes: {matches[game]?.length ?? "?"}</li>
+          </ul>
+          <button className="create_match_button">
+            <Link to={`/games/${game}`}>Create a match</Link>
+          </button>
+        </div>
+      ))
+    )}
   </div>
 );
 

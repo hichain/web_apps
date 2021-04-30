@@ -6,7 +6,6 @@ import { Switch } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import { DebugComponent } from "./client";
 import { gameComponents, GameListComponent } from "./client/games";
-import { TopComponent } from "./top";
 import { pages, routes } from "./client/assets/routes";
 import { PageRoute } from "./page";
 
@@ -39,7 +38,7 @@ ReactDOM.render(
           exact
           component={DebugComponent}
         />
-        <PageRoute component={TopComponent} />
+        <PageRoute component={GameListComponent} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

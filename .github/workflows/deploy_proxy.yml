@@ -3,6 +3,14 @@ name: Deploy Proxy Server to Google Cloud Functions on merge
   push:
     branches:
       - master
+    paths:
+      - src/games/**
+      - src/envs/**
+      - src/server/tsconfig.json
+      - src/server/proxy/**
+      - yarn.lock
+      - firebase.json
+      - .github/workflows/deploy_proxy.yml
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest

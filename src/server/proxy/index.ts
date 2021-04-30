@@ -1,8 +1,14 @@
 import { https } from "firebase-functions";
 import proxy from "express-http-proxy";
 import express from "express";
+import { envs } from "../../envs";
+import { exit } from "node:process";
 
-const apiHost = "https://hichain-web-apps.an.r.appspot.com/";
+const apiHost = envs?.master.url;
+if (apiHost == null) {
+  exit(1);
+}
+
 const app = express();
 
 app.use("/", proxy(apiHost));

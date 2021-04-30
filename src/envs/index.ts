@@ -4,6 +4,7 @@ import { productionEnv } from "./production";
 export type Env = {
   master: {
     url?: string;
+    pathPrefix: string;
     port?: number;
   };
 };

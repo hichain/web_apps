@@ -1,9 +1,9 @@
-import { envs } from "@/envs";
 import { GameComponent } from "boardgame.io/dist/types/src/lobby/connection";
 import { Lobby } from "boardgame.io/react";
 import React, { FC } from "react";
 import styled from "styled-components";
 import { gameComponents } from "./games";
+import { lobbyServerURL } from "./lobby/client";
 
 type ContainerProps = {
   className?: string;
@@ -38,8 +38,8 @@ export const DebugComponent: React.FC<ContainerProps> = (props) => {
     <StyledComponent
       {...props}
       gameComponents={Object.values(gameComponents)}
-      gameServer={envs?.master.url}
-      lobbyServer={envs?.master.url}
+      gameServer={lobbyServerURL}
+      lobbyServer={lobbyServerURL}
     />
   );
 };

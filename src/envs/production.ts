@@ -1,6 +1,6 @@
 import { Env } from "./index";
 
-const url = process.env.MASTER_URL;
+const url = "https://hichain-web-apps.an.r.appspot.com";
 const port = process.env.PORT;
 
 export const productionEnv: Env = {

@@ -22,7 +22,7 @@
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "gcp-build": "npm run build:master"
+    "gcp-build": "npm --prefix src/server/master run build"
   },
   "engines": {
     "node": "14.x"

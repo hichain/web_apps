@@ -4,16 +4,20 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
-        "source": "/api/**",
-        "function": "apiProxy"
-      },
-      {
         "source": "**",
         "destination": "/index.html"
       }
+    ],
+    "headers":  [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "https://hichain-web-apps.an.r.appspot.com"
+          }
+        ]
+      }
     ]
-  },
-  "functions": {
-    "source": "./src/server/proxy"
   }
 }

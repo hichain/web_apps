@@ -2,11 +2,12 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
+    "outDir": "dist",
     "allowJs": false,
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "moduleResolution": "node"
   },
-  "include": ["master", "proxy"]
+  "files": ["index.ts"]
 }

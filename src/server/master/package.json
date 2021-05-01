@@ -2,9 +2,9 @@
   "name": "game-master",
   "version": "0.1.0",
   "scripts": {
-    "start": "NODE_ENV=development ts-node --project ../tsconfig.json index.ts",
-    "build": "tsc --project ../",
-    "serve": "node ./index.js"
+    "start": "NODE_ENV=development ts-node --project ./tsconfig.json index.ts",
+    "build": "tsc",
+    "serve": "node ./dist/server/master/index.js"
   },
   "engines": {
     "node": "14"

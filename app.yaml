@@ -1,2 +1,2 @@
 runtime: nodejs14
-entrypoint: "cd src/server/master && npm run serve"
+entrypoint: "NODE_ENV=production npm --prefix src/server/master run serve"

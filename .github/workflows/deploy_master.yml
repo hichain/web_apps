@@ -6,7 +6,6 @@ name: Deploy Master Server to Google App Engine on merge
     paths:
       - src/games/**
       - src/envs/**
-      - src/server/tsconfig.json
       - src/server/master/**
       - yarn.lock
       - app.yaml

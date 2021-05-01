@@ -32,4 +32,4 @@ jobs:
           projectId: ${{ secrets.GCP_PROJECT }}
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
-          MASTER_URL: ${{ secrets.MASTER_URL }}
+

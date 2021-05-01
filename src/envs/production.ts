@@ -6,7 +6,6 @@ const port = process.env.PORT;
 export const productionEnv: Env = {
   master: {
     url,
-    pathPrefix: "/api",
     port: port != null ? Number(port) : undefined,
   },
 };

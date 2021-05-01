@@ -10,13 +10,10 @@
   "scripts": {
     "start:client": "react-app-rewired start",
     "start:master": "yarn workspace game-master start",
-    "start:proxy": "yarn workspace game-master-proxy start",
     "serve:master": "yarn workspace game-master serve",
-    "serve:proxy": "yarn workspace game-master-proxy serve",
     "build": "npm-run-all -p build:*",
     "build:client": "react-app-rewired build",
     "build:master": "yarn workspace game-master build",
-    "build:proxy": "yarn workspace game-master-proxy build",
     "eject": "react-scripts eject",
     "lint": "npm-run-all -p lint:*",
     "lint:ts": "eslint './src/**/*.{ts,tsx}'",
@@ -48,7 +45,6 @@
     "typescript": "~4.1"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.10",
     "@types/jest": "^26.0.20",
     "@types/koa-router": "^7.4.2",
     "@types/react-router": "^5.1.11",

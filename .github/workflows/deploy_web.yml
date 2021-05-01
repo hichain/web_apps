@@ -29,7 +29,7 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HICHAIN_WEB_APPS }}'
           channelId: live
-          projectId: ${{ secrets.GCP_PROJECT }}
+          projectId: ${{ secrets.GCP_PROJECT_ID }}
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
 

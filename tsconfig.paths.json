@@ -10,6 +10,7 @@
 			"@games/*": ["games/*"],
 			"@hooks/*": ["client/hooks/*"],
 			"@contexts/*": ["client/contexts/*"],
+			"@libs/*": ["libs/*"],
 		},
 	}
 }

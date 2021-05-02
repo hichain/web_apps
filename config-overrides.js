@@ -14,6 +14,7 @@ module.exports = (config, _) => {
         "@games": path.resolve(__dirname, "src/games"),
         "@hooks": path.resolve(__dirname, "src/client/hooks"),
         "@contexts": path.resolve(__dirname, "src/client/contexts"),
+        "@libs": path.resolve(__dirname, "src/libs"),
       },
     },
   };

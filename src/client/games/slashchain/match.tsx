@@ -4,6 +4,7 @@ import { Client } from "./client";
 import { lobbyClient } from "@/client/lobby/client";
 import { useHistory } from "react-router";
 import { Player, useMatchHistory } from "@/client/hooks/useMatchHistory";
+import { routes } from "@routes";
 
 type ContainerProps = {
   children?: never;
@@ -77,7 +78,7 @@ export const GameMatchComponent: FC<ContainerProps> = (props) => {
           },
         });
       })
-      .catch(() => history.replace("/"));
+      .catch(() => history.replace(routes.gameList));
   }, [matchHistory, dispatch, getPlayer, props, history]);
 
   return <DomComponent {...props} player={matchHistory[props.matchID]} />;

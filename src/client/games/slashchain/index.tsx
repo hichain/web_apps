@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Slashchain } from "@/games";
 import { useHistory } from "react-router";
 import { lobbyClient } from "@/client/lobby/client";
+import { routes } from "@routes";
 
 type ContainerProps = {
   children?: never;
@@ -30,7 +31,7 @@ export const GameTopComponent: FC<ContainerProps> = () => {
     createMatch()
       .then((matchID) => history.replace(`/games/slashchain/${matchID}`))
       .catch(() => {
-        history.replace("/");
+        history.replace(routes.gameList);
       });
   }, [createMatch, history]);
 

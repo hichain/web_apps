@@ -13,8 +13,13 @@ const responseMessages = {
   },
 };
 
+const events = {
+  resetGame: "Reset",
+};
+
 export const strings = {
   app,
   games,
   responseMessages,
+  events,
 } as const;

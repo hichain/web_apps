@@ -38,6 +38,7 @@ ReactDOM.render(
           exact
           component={DebugComponent}
         />
+        <Redirect path={routes.root} to={routes.slashchain.index} />
         <Redirect to={routes.gameList} />
       </Switch>
     </BrowserRouter>

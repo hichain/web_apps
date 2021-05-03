@@ -6,6 +6,7 @@
 			"@strings": ["client/assets/strings/index"],
 			"@images": ["client/assets/images/index"],
 			"@css/*": ["client/assets/css/*"],
+			"@routes": ["client/assets/routes/index"],
 			"@games": ["games/index"],
 			"@games/*": ["games/*"],
 			"@hooks/*": ["client/hooks/*"],

@@ -8,6 +8,7 @@ import { OtherFieldComponent } from "./other_field";
 import { PlayerContextProvider } from "@contexts/player";
 import { GameMasterComponent } from "./game_master";
 import clsx from "clsx";
+import { GameInfoComponent } from "./game_info";
 
 type Props = BoardProps<GameState> & {
   className?: string;
@@ -31,6 +32,10 @@ const DomComponent: FC<Props> = ({ className, ...props }) => (
               tiles={hands[player]}
               player={player}
             />
+            <GameInfoComponent
+              className="game_info"
+              events={{ resetGame: props.reset }}
+            />
           </>
         )}
       </GameMasterComponent>
@@ -45,7 +50,7 @@ const StyledComponent = styled(DomComponent)`
   justify-content: space-between;
   width: 100%;
   height: 100vh;
-  padding: 4rem 0;
+  padding: 4rem 0 0 0;
   margin: 0 auto;
 
   & > .board {
@@ -57,6 +62,11 @@ const StyledComponent = styled(DomComponent)`
   & > .hands {
     width: 90%;
     margin: 0 auto;
+  }
+
+  & > .game_info {
+    width: 100%;
+    margin: 2rem auto 0 auto;
   }
 `;
 

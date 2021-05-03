@@ -1,4 +1,5 @@
 export const routes = {
+  root: "/",
   gameList: "/games",
   slashchain: {
     index: "/games/slashchain",

@@ -8,12 +8,6 @@ import { DebugComponent } from "./client";
 import { gameComponents, GameListComponent } from "./client/games";
 import { pages, routes } from "./client/assets/routes";
 import { PageRoute } from "./page";
-import { initializeFirebase } from "@libs/firebase";
-
-if (process.env.NODE_ENV === "production") {
-  const firebase = initializeFirebase();
-  firebase.analytics();
-}
 
 ReactDOM.render(
   <React.StrictMode>

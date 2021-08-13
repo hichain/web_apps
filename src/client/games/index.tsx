@@ -1,26 +1,23 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { Slashchain } from "@/games/index";
-import { Client as SlashchainClient } from "./slashchain/client";
-import { GameTopComponent as SlashchainTop } from "./slashchain";
-import { GameMatchComponent as SlashchainMatch } from "./slashchain/match";
 import { lobbyClient } from "@/client/lobby/client";
+import { Slashchain } from "@/games";
+import { strings } from "@strings";
+import { LobbyAPI } from "boardgame.io";
+import dayjs from "dayjs";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { LobbyAPI } from "boardgame.io";
-import { strings } from "@strings";
+import { useMatchHistory } from "../hooks/useMatchHistory";
+import { GameTopComponent as SlashchainTop } from "./slashchain";
+import { Client as SlashchainClient } from "./slashchain/client";
+import { GameMatchComponent as SlashchainMatch } from "./slashchain/match";
 
-type Response =
-  | {
-      status: "loading";
-    }
-  | {
-      status: "success";
-      games: string[];
-      matches: { [game: string]: LobbyAPI.Match[] };
-    }
-  | {
-      status: "failure";
-    };
+type Game = {
+  id: string;
+  name: string;
+  playingMatches: LobbyAPI.Match[];
+};
+
+type Status = "loading" | "success" | "failure";
 
 type ContainerProps = {
   children?: never;
@@ -28,32 +25,45 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  response: Response;
+  status: Status;
+  games: Game[];
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, response }) => {
+const DomComponent: FC<Props> = ({ className, status, games }) => {
   const children = useMemo(() => {
-    switch (response.status) {
+    switch (status) {
       case "loading":
         return strings.responseMessages.games.loading;
       case "success":
-        return response.games.map((game, i) => (
+        return games.map((game, i) => (
           <div className="game_info" key={i}>
-            <h2>{strings.games[game]}</h2>
-            <ul>
-              <li>All Macthes: {response.matches[game]?.length ?? "?"}</li>
+            <h2>{game.name}</h2>
+            <h3>Playing Match List</h3>
+            <ul className="playing_match_list">
+              {game.playingMatches.length === 0 ? (
+                <li>No Matches Found.</li>
+              ) : (
+                game.playingMatches.map((match) => (
+                  <li key={match.matchID}>
+                    <Link to={`/games/${game.id}/${match.matchID}`}>
+                      {dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
+                      {match.gameover && " (Gameover!)"}
+                    </Link>
+                  </li>
+                ))
+              )}
             </ul>
             <button className="create_match_button">
-              <Link to={`/games/${game}`}>Create a match</Link>
+              <Link to={`/games/${game.id}`}>Create a match</Link>
             </button>
           </div>
         ));
       case "failure":
         return strings.responseMessages.games.failure;
     }
-  }, [response]);
+  }, [games, status]);
 
   return (
     <div className={className}>
@@ -75,53 +85,71 @@ const StyledComponent = styled(DomComponent)`
   }
   .games {
     margin-left: 8rem;
-    > .create_match_button {
-      margin-left: 2rem;
+
+    .playing_match_list {
+      a:link,
+      a:visited,
+      a:hover,
+      a:active {
+        text-decoration: underline;
+      }
     }
   }
 `;
 
 export const GameListComponent: FC<ContainerProps> = (props) => {
   const history = useHistory();
-  const [response, setResponse] = useState<Response>({ status: "loading" });
+  const [status, setStatus] = useState<Status>("loading");
+  const [gameInfo, setGameInfo] = useState<Game[]>([]);
+  const [matchHistory] = useMatchHistory();
+
+  const getPlayingMatches = useCallback(
+    (gameID: string) => {
+      return matchHistory.filter((match) => match.gameID === gameID);
+    },
+    [matchHistory]
+  );
+
   const getGames = useCallback(() => {
     return lobbyClient.listGames();
   }, []);
 
-  const getMatches = useCallback(async (games: string[]) => {
-    return Promise.all(
-      games.map((game) => {
-        return new Promise<[string, LobbyAPI.Match[]]>(
-          (fulfilled, rejected) => {
-            lobbyClient
-              .listMatches(game, { isGameover: false })
-              .then(({ matches }) => {
-                fulfilled([game, matches]);
-              })
-              .catch((reason) => rejected(reason));
-          }
-        );
-      })
-    );
+  const getMatches = useCallback((gameID: string) => {
+    return lobbyClient.listMatches(gameID);
   }, []);
 
-  useEffect(() => {
-    getGames()
-      .then((games) => {
-        getMatches(games).then((matches) => {
-          setResponse({
-            status: "success",
-            games,
-            matches: Object.fromEntries(matches),
-          });
-        });
+  const getGameInfo = useCallback(async () => {
+    const gameList = await getGames();
+    return Promise.all(
+      gameList.map(async (gameID) => {
+        const allMatches = await getMatches(gameID);
+        const playingMatchIDs = getPlayingMatches(gameID).map(
+          (match) => match.matchID
+        );
+        return {
+          id: gameID,
+          name: strings.games[gameID] ?? "Unknown Game",
+          playingMatches: allMatches.matches.filter((match) =>
+            playingMatchIDs.includes(match.matchID)
+          ),
+        };
       })
-      .catch(() => {
-        setResponse({ status: "failure" });
-      });
-  }, [getGames, getMatches, history]);
+    );
+  }, [getGames, getMatches, getPlayingMatches]);
 
-  return <StyledComponent {...props} response={response} />;
+  useEffect(() => {
+    getGameInfo()
+      .then((gameInfo) => {
+        setGameInfo(gameInfo);
+        setStatus("success");
+      })
+      .catch((reason) => {
+        setStatus("failure");
+        throw reason;
+      });
+  }, [getGameInfo, getGames, history]);
+
+  return <StyledComponent {...props} status={status} games={gameInfo} />;
 };
 
 export { SlashchainClient };

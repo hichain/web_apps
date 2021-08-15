@@ -15,4 +15,5 @@
   },
   "javascript.format.semicolons": "insert",
   "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.tsdk": "node_modules/typescript/lib",
 }

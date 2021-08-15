@@ -3,7 +3,7 @@ import { Slashchain } from "@/games";
 import { Client } from "./client";
 import { lobbyClient } from "@/client/lobby/client";
 import { useHistory } from "react-router";
-import { Player, useMatchHistory } from "@/client/hooks/useMatchHistory";
+import { useMatchHistory } from "@/client/hooks/useMatchHistory";
 import { routes } from "@routes";
 
 type ContainerProps = {
@@ -13,24 +13,30 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  player?: Player;
+  playerID?: string;
+  credentials?: string;
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, matchID, player }) => (
+const DomComponent: FC<Props> = ({
+  className,
+  matchID,
+  playerID,
+  credentials,
+}) => (
   <div className={className}>
-    <Client
-      matchID={matchID}
-      playerID={player?.id}
-      credentials={player?.credentials}
-    />
+    <Client matchID={matchID} playerID={playerID} credentials={credentials} />
   </div>
 );
 
-export const GameMatchComponent: FC<ContainerProps> = (props) => {
+export const GameMatchComponent: FC<ContainerProps> = ({
+  matchID,
+  ...props
+}) => {
   const history = useHistory();
   const [matchHistory, dispatch] = useMatchHistory();
+  const match = matchHistory.find((match) => match.matchID === matchID);
 
   const getMatch = useCallback(
     (matchID: string) => lobbyClient.getMatch(Slashchain.name, matchID),
@@ -56,14 +62,12 @@ export const GameMatchComponent: FC<ContainerProps> = (props) => {
         matchID,
         playerID
       );
-      return { id: playerID, credentials: playerCredentials };
+      return { id: playerID, gameID: gameName, credentials: playerCredentials };
     },
     [getMatch, joinMatch]
   );
 
   useEffect(() => {
-    const { matchID } = props;
-    const match = matchHistory[matchID];
     if (match) {
       return;
     }
@@ -74,12 +78,21 @@ export const GameMatchComponent: FC<ContainerProps> = (props) => {
           type: "add_match",
           payload: {
             matchID,
-            player,
+            gameID: player.gameID,
+            playerID: player.id,
+            credentials: player.credentials,
           },
         });
       })
       .catch(() => history.replace(routes.gameList));
-  }, [matchHistory, dispatch, getPlayer, props, history]);
+  }, [matchHistory, dispatch, getPlayer, history, match, matchID]);
 
-  return <DomComponent {...props} player={matchHistory[props.matchID]} />;
+  return (
+    <DomComponent
+      {...props}
+      matchID={matchID}
+      playerID={match?.playerID}
+      credentials={match?.credentials}
+    />
+  );
 };

@@ -1,21 +1,18 @@
 import React, { useReducer } from "react";
 
-export type Player = {
-  id: string;
+type Match = {
+  matchID: string;
+  gameID: string;
+  playerID: string;
   credentials: string;
 };
 
-type State = {
-  [matchID: string]: Player;
-};
+type State = Match[];
 
 type Action =
   | {
       type: "add_match";
-      payload: {
-        matchID: string;
-        player: Player;
-      };
+      payload: Match;
     }
   | {
       type: "remove_match";
@@ -38,25 +35,24 @@ const init = (initialState: State): State => {
 const reducer: React.Reducer<State, Action> = (state, action) => {
   switch (action.type) {
     case "add_match": {
-      const newState = {
-        ...state,
-        [action.payload.matchID]: action.payload.player,
-      };
+      const newState = [...state, action.payload];
       localStorage.setItem("matches", JSON.stringify(newState));
       return newState;
     }
     case "remove_match": {
-      const { [action.payload.matchID]: _, ...newState } = state;
+      const newState = state.filter(
+        (match) => match.matchID !== action.payload.matchID
+      );
       localStorage.setItem("matches", JSON.stringify(newState));
       return newState;
     }
     case "clear_all_matches": {
       localStorage.removeItem("matches");
-      return {};
+      return [];
     }
   }
 };
 
 export const useMatchHistory = (): [State, React.Dispatch<Action>] => {
-  return useReducer(reducer, {}, init);
+  return useReducer(reducer, [], init);
 };

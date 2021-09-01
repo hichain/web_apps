@@ -12,3 +12,6 @@ updates:
     assignees:
       - "kiito1000"
     open-pull-requests-limit: 20
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]

@@ -16,9 +16,9 @@
     "build:master": "yarn workspace game-master build",
     "eject": "react-scripts eject",
     "lint": "npm-run-all -p lint:*",
-    "lint:ts": "eslint './src/**/*.{ts,tsx}'",
-    "lint:css": "stylelint './src/**/*.{css,scss}'",
-    "lint:css-in-js": "stylelint --syntax 'css-in-js' './src/**/*.tsx'",
+    "lint:ts": "eslint --max-warnings=0 './src/**/*.{ts,tsx}'",
+    "lint:css": "stylelint --max-warnings=0 './src/**/*.{css,scss}'",
+    "lint:css-in-js": "stylelint --max-warnings=0 --syntax 'css-in-js' './src/**/*.tsx'",
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
@@ -58,7 +58,7 @@
     "eslint-plugin-jest": "^24.1.5",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
-    "husky": "^5.1.1",
+    "husky": "^7.0.2",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "react-app-rewired": "^2.1.8",
@@ -102,7 +102,7 @@
     ]
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": "eslint --fix",
+    "*.{js,ts,jsx,tsx}": "eslint --fix --max-warnings=0",
     "*.{css,scss,tsx}": "stylelint --fix --syntax 'css-in-js'"
   }
 }

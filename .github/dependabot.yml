@@ -9,8 +9,6 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "monthly"
-    assignees:
-      - "kiito1000"
     open-pull-requests-limit: 20
     ignore:
       - dependency-name: "*"

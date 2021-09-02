@@ -8,5 +8,5 @@ if (port == null) {
   exit(1);
 }
 
-const server = Server({ games });
+const server = Server({ games, origins: envs?.client.urls });
 server.run(port);

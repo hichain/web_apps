@@ -53,6 +53,7 @@ const reducer: React.Reducer<State, Action> = (state, action) => {
   }
 };
 
+// TODO: migrate it to redux-persist
 export const useMatchHistory = (): [State, React.Dispatch<Action>] => {
   return useReducer(reducer, [], init);
 };

@@ -58,6 +58,7 @@ const reducer: React.Reducer<State, Action> = (state, action) => {
   }
 };
 
+// TODO: migrate it to redux
 export const PlayerContext = createContext<State>({});
 
 export const PlayerDispatherContext = createContext<

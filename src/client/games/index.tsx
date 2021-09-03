@@ -99,6 +99,8 @@ const StyledComponent = styled(DomComponent)`
 
 export const GameListComponent: FC<ContainerProps> = (props) => {
   const history = useHistory();
+
+  // TODO: migrate them to redux
   const [status, setStatus] = useState<Status>("loading");
   const [gameInfo, setGameInfo] = useState<Game[]>([]);
   const [matchHistory] = useMatchHistory();
@@ -118,6 +120,7 @@ export const GameListComponent: FC<ContainerProps> = (props) => {
     return lobbyClient.listMatches(gameID);
   }, []);
 
+  // TODO: migrate it to redux-saga
   const getGameInfo = useCallback(async () => {
     const gameList = await getGames();
     return Promise.all(

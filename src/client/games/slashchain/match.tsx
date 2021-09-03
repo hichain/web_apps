@@ -52,6 +52,7 @@ export const GameMatchComponent: FC<ContainerProps> = ({
     []
   );
 
+  // TODO: migrate it to redux=saga
   const getPlayer = useCallback(
     async (matchID: string) => {
       const { gameName, players } = await getMatch(matchID);

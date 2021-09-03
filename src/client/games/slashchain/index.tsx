@@ -20,6 +20,7 @@ const StyledComponent = styled.div`
 export const GameTopComponent: FC<ContainerProps> = () => {
   const history = useHistory();
 
+  // TODO: migrate it to redux=saga
   const createMatch = useCallback(async () => {
     const { matchID } = await lobbyClient.createMatch(Slashchain.name, {
       numPlayers: 2,

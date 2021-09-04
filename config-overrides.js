@@ -14,7 +14,6 @@ module.exports = (config, _) => {
         "@routes": path.resolve(__dirname, "src/client/assets/routes"),
         "@games": path.resolve(__dirname, "src/games"),
         "@hooks": path.resolve(__dirname, "src/client/hooks"),
-        "@contexts": path.resolve(__dirname, "src/client/contexts"),
       },
     },
   };

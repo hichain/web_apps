@@ -30,6 +30,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.14.1",
+    "@types/lodash": "^4.14.172",
     "@types/node": "^14.14.31",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
@@ -37,6 +38,7 @@
     "boardgame.io": "0.47.9",
     "clsx": "^1.1.1",
     "dayjs": "^1.10.6",
+    "lodash": "^4.17.21",
     "node-sass": "^5.0.0",
     "npm-run-all": "^4.1.5",
     "react": "^17.0.1",

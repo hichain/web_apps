@@ -7,6 +7,7 @@ module.exports = (config, _) => {
       ...config.resolve,
       alias: {
         ...config.resolve.alias,
+        "@redux": path.resolve(__dirname, "src/client/redux"),
         "@strings": path.resolve(__dirname, "src/client/assets/strings"),
         "@images": path.resolve(__dirname, "src/client/assets/images"),
         "@css": path.resolve(__dirname, "src/client/assets/css"),

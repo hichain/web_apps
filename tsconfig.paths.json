@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"baseUrl": "src",
 		"paths": {
+			"@redux/*": ["client/redux/*"],
 			"@strings": ["client/assets/strings/index"],
 			"@images": ["client/assets/images/index"],
 			"@css/*": ["client/assets/css/*"],

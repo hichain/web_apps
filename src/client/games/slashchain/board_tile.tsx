@@ -6,7 +6,7 @@ import { TileComponent } from "./tile";
 import { Cell } from "@/games";
 import clsx from "clsx";
 import { useAppDispatch } from "@hooks/useAppDispatch";
-import { putTile } from "@/client/redux/reducers/player";
+import { putTile } from "@redux/modules/player";
 
 type ContainerProps = {
   className?: string;

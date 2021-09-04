@@ -1,7 +1,3 @@
-import { useAppDispatch } from "@hooks/useAppDispatch";
-import { useAppSelector } from "@hooks/useAppSelector";
-import { startGame } from "@/client/redux/reducers/game";
-import { pickTile, reset } from "@/client/redux/reducers/player";
 import {
   GameState,
   HandTiles,
@@ -9,6 +5,10 @@ import {
   playOrder as players,
   TileBoard,
 } from "@/games";
+import { useAppDispatch } from "@hooks/useAppDispatch";
+import { useAppSelector } from "@hooks/useAppSelector";
+import { startGame } from "@redux/modules/game";
+import { pickTile, reset } from "@redux/modules/player";
 import { BoardProps } from "boardgame.io/dist/types/packages/react";
 import React, { FC, ReactNode, useEffect, useMemo } from "react";
 

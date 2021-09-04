@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { gameModule } from "./reducers/game";
-import { playerModule } from "./reducers/player";
+import { gameModule } from "./modules/game";
+import { playerModule } from "./modules/player";
 
 // Redux Design Pattern: https://react-redux.js.org/tutorials/typescript-quick-start
 

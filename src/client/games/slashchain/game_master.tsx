@@ -1,20 +1,28 @@
-import React, { FC, ReactNode, useContext, useEffect, useMemo } from "react";
-import { GameState, HandTiles, playOrder as players, TileBoard } from "@/games";
+import { useAppDispatch } from "@hooks/useAppDispatch";
+import { useAppSelector } from "@hooks/useAppSelector";
+import { startGame } from "@/client/redux/reducers/game";
+import { pickTile, reset } from "@/client/redux/reducers/player";
+import {
+  GameState,
+  HandTiles,
+  NamedPlayer,
+  playOrder as players,
+  TileBoard,
+} from "@/games";
 import { BoardProps } from "boardgame.io/dist/types/packages/react";
-import { PlayerContext, PlayerDispatherContext } from "@contexts/player";
-import { GameContext, GameContextState } from "@contexts/game";
+import React, { FC, ReactNode, useEffect, useMemo } from "react";
 
 type Props = BoardProps<GameState> & {
   children: (
-    game: GameContextState,
+    player: NamedPlayer,
     board: TileBoard,
     hands: HandTiles
   ) => ReactNode;
 };
 
 export const GameMasterComponent: FC<Props> = (props) => {
-  const { pickedTile, selectedCell } = useContext(PlayerContext);
-  const dispatch = useContext(PlayerDispatherContext);
+  const dispatch = useAppDispatch();
+  const { pickedTile, selectedCell } = useAppSelector((state) => state.player);
   const board = useMemo(() => new TileBoard(props.G.board), [props.G.board]);
 
   useEffect(() => {
@@ -27,7 +35,7 @@ export const GameMasterComponent: FC<Props> = (props) => {
       );
       props.events.endTurn?.();
     }
-  }, [dispatch, pickedTile, props.events, props.moves, selectedCell]);
+  }, [pickedTile, props.events, props.moves, selectedCell]);
 
   const game = useMemo(() => {
     const playOrder = props.ctx.playOrder.findIndex(
@@ -43,17 +51,22 @@ export const GameMasterComponent: FC<Props> = (props) => {
   }, [props.ctx.currentPlayer, props.ctx.playOrder, props.playerID]);
 
   useEffect(() => {
+    if (game) {
+      dispatch(startGame({ player: game.player, isMyTurn: game.isMyTurn }));
+    }
+  }, [dispatch, game]);
+
+  useEffect(() => {
     if (game?.isMyTurn) {
-      dispatch?.({ type: "pick_tile", payload: { index: 0, angle: 0 } });
+      dispatch(pickTile({ index: 0, angle: 0 }));
     } else {
-      dispatch?.({ type: "reset" });
+      dispatch(reset());
     }
   }, [dispatch, game?.isMyTurn]);
 
-  const children = useMemo(
-    () => game && props.children(game, board, props.G.hands),
-    [board, game, props]
-  );
+  if (!game) {
+    return null;
+  }
 
-  return <GameContext.Provider value={game}>{children}</GameContext.Provider>;
+  return <>{game && props.children(game.player, board, props.G.hands)}</>;
 };

@@ -1,39 +1,27 @@
 import { NamedPlayer } from "@/games";
-import {
-  createSlice,
-  PayloadAction,
-  SliceCaseReducers,
-} from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type State =
-  | {
-      inGame: false;
-    }
-  | {
-      inGame: true;
-      player: NamedPlayer;
-      isMyTurn: boolean;
-    };
+export type Game = {
+  player?: NamedPlayer;
+  isMyTurn: boolean;
+};
 
-const initialState: State = { inGame: false };
+const initialState: Game = { isMyTurn: false };
 
-const slice = createSlice<State, SliceCaseReducers<State>>({
+export const gameModule = createSlice({
   name: "game",
   initialState,
   reducers: {
-    start: (
+    startGame: (
       _state,
       action: PayloadAction<{ player: NamedPlayer; isMyTurn: boolean }>
     ) => {
       return { inGame: true, ...action.payload };
     },
-    end: () => {
-      return { inGame: false };
+    nextTurn: (state) => {
+      state.isMyTurn = !state.isMyTurn;
     },
   },
 });
 
-export type Game = State;
-export const selectGame = (state: RootState) => state.game;
-export const gameReducer = slice.reducer;
+export const { startGame, nextTurn } = gameModule.actions;

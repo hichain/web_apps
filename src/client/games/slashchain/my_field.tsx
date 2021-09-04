@@ -1,11 +1,10 @@
-import React, { FC, useContext, useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import styled from "styled-components";
 import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandState } from "./hand_tile";
 import { HandsComponent } from "./hands";
 import { PlayerInfoComponent } from "./player_info";
-import { GameContext } from "@contexts/game";
-import { PlayerContext } from "@contexts/player";
+import { useAppSelector } from "@hooks/useAppSelector";
 
 type ContainerProps = {
   className?: string;
@@ -37,9 +36,8 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const MyFieldComponent: FC<ContainerProps> = (props) => {
-  const game = useContext(GameContext);
-  const isMyTurn = game?.isMyTurn ?? false;
-  const { pickedTile } = useContext(PlayerContext);
+  const isMyTurn = useAppSelector((state) => state.game.isMyTurn);
+  const pickedTile = useAppSelector((state) => state.player.pickedTile);
 
   const presenterProps: PresenterProps = {
     isMyTurn,

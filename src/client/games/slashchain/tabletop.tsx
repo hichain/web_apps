@@ -5,7 +5,6 @@ import { MyFieldComponent } from "./my_field";
 import { BoardProps } from "boardgame.io/dist/types/src/client/react";
 import styled from "styled-components";
 import { OtherFieldComponent } from "./other_field";
-import { PlayerContextProvider } from "@contexts/player";
 import { GameMasterComponent } from "./game_master";
 import clsx from "clsx";
 import { GameInfoComponent } from "./game_info";
@@ -17,29 +16,27 @@ type Props = BoardProps<GameState> & {
 
 const DomComponent: FC<Props> = ({ className, ...props }) => (
   <div className={className}>
-    <PlayerContextProvider>
-      <GameMasterComponent {...props}>
-        {({ player }, board, hands) => (
-          <>
-            <OtherFieldComponent
-              className={clsx("hands", "other")}
-              tiles={hands[reverse(player)]}
-              player={reverse(player)}
-            />
-            <BoardComponent className="board" board={board} />
-            <MyFieldComponent
-              className={clsx("hands", "me")}
-              tiles={hands[player]}
-              player={player}
-            />
-            <GameInfoComponent
-              className="game_info"
-              events={{ resetGame: props.reset }}
-            />
-          </>
-        )}
-      </GameMasterComponent>
-    </PlayerContextProvider>
+    <GameMasterComponent {...props}>
+      {(player, board, hands) => (
+        <>
+          <OtherFieldComponent
+            className={clsx("hands", "other")}
+            tiles={hands[reverse(player)]}
+            player={reverse(player)}
+          />
+          <BoardComponent className="board" board={board} />
+          <MyFieldComponent
+            className={clsx("hands", "me")}
+            tiles={hands[player]}
+            player={player}
+          />
+          <GameInfoComponent
+            className="game_info"
+            events={{ resetGame: props.reset }}
+          />
+        </>
+      )}
+    </GameMasterComponent>
   </div>
 );
 

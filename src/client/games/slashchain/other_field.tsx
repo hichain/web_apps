@@ -1,10 +1,10 @@
-import React, { FC, useContext, useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import styled from "styled-components";
 import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandState } from "./hand_tile";
 import { HandsComponent } from "./hands";
 import { PlayerInfoComponent } from "./player_info";
-import { GameContext } from "@contexts/game";
+import { useAppSelector } from "@hooks/useAppSelector";
 
 type ContainerProps = {
   className?: string;
@@ -37,8 +37,7 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const OtherFieldComponent: FC<ContainerProps> = (props) => {
-  const game = useContext(GameContext);
-  const isOtherTurn = game?.isMyTurn === false;
+  const isOtherTurn = useAppSelector((state) => !state.game.isMyTurn);
   const presenterProps: PresenterProps = {
     isOtherTurn,
     hands: useMemo(

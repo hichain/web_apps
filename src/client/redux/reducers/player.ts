@@ -1,15 +1,14 @@
 import { Cell } from "@/games";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
 
-type State = {
+export type Player = {
   pickedTile?: { index: number; angle: number };
   selectedCell?: Cell;
 };
 
-const initialState: State = {};
+const initialState: Player = {};
 
-const slice = createSlice({
+export const playerModule = createSlice({
   name: "player",
   initialState,
   reducers: {
@@ -34,6 +33,4 @@ const slice = createSlice({
   },
 });
 
-export type Player = State;
-export const selectPlayer = (state: RootState) => state.player;
-export const playerReducer = slice.reducer;
+export const { pickTile, rotateTile, putTile, reset } = playerModule.actions;

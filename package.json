@@ -106,7 +106,7 @@
     ]
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": "eslint --fix --max-warnings=0",
+    "*.{ts,tsx}": "eslint --fix --max-warnings=0",
     "*.{css,scss,tsx}": "stylelint --fix --syntax 'css-in-js'"
   }
 }

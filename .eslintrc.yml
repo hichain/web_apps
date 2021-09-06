@@ -12,6 +12,8 @@ extends:
   - plugin:react/recommended
   - plugin:jest/recommended
   - plugin:prettier/recommended
+plugins:
+  - "@jambit/typed-redux-saga"
 parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
@@ -30,6 +32,14 @@ overrides:
       new-cap: 0
       react/prop-types: 0
       "@typescript-eslint/explicit-module-boundary-types": 0
+  -
+    files:
+      - "*.ts"
+    excludedFiles:
+      - "./**/*.spec.ts"
+    rules:
+      "@jambit/typed-redux-saga/use-typed-effects": "error"
+      "@jambit/typed-redux-saga/delegate-effects": "error"
 settings:
   react:
     version: detect

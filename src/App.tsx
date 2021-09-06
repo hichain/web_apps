@@ -8,7 +8,8 @@ import { pages, routes } from "./client/assets/routes";
 import { PageRoute } from "./page";
 import { history } from "./client/history";
 
-const MatchComponent = gameComponents.slashchain.match;
+const { match: SlashchainMatch, top: SlashchainTop } =
+  gameComponents.slashchain;
 
 export const App: FC = () => (
   <Router history={history}>
@@ -23,13 +24,13 @@ export const App: FC = () => (
         title={pages.slashchain}
         path={routes.slashchain.index}
         exact
-        component={gameComponents.slashchain.top}
+        component={SlashchainTop}
       />
       <PageRoute
         title={pages.slashchain}
         path={routes.slashchain.match}
         render={({ match }) => (
-          <MatchComponent matchID={match.params.matchID} />
+          <SlashchainMatch matchID={match.params.matchID} />
         )}
       />
       <PageRoute

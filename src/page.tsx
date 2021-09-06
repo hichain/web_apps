@@ -5,7 +5,6 @@ type Props = Record<string, unknown> & {
   title?: string;
 };
 
-// TODO: do not use effects
 export class PageRoute<Path extends string = string> extends ReactRoute<
   Props,
   Path

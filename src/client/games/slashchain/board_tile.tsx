@@ -1,11 +1,12 @@
-import React, { FC, memo, useCallback, useContext } from "react";
+import React, { FC, memo, useCallback } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { CellComponent } from "./cell";
 import { TileComponent } from "./tile";
 import { Cell } from "@/games";
-import { PlayerDispatherContext } from "@contexts/player";
 import clsx from "clsx";
+import { useAppDispatch } from "@hooks/useAppDispatch";
+import { putTile } from "@redux/modules/player";
 
 type ContainerProps = {
   className?: string;
@@ -61,16 +62,11 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 const Component: FC<ContainerProps> = (props) => {
-  const dispatch = useContext(PlayerDispatherContext);
+  const dispatch = useAppDispatch();
   const presenterProps: PresenterProps = {
     onClick: useCallback(() => {
       if (props.isLegal) {
-        dispatch?.({
-          type: "put_tile",
-          payload: {
-            cell: props.cell,
-          },
-        });
+        dispatch(putTile({ cell: props.cell }));
       }
     }, [dispatch, props.cell, props.isLegal]),
   };

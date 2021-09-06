@@ -1,10 +1,11 @@
-import React, { FC, memo, useCallback, useContext, useState } from "react";
+import React, { FC, memo, useCallback, useState } from "react";
 import styled from "styled-components";
 import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
 import { CellComponent } from "./cell";
-import { PlayerDispatherContext } from "@contexts/player";
 import clsx from "clsx";
+import { pickTile, rotateTile } from "@redux/modules/player";
+import { useAppDispatch } from "@hooks/useAppDispatch";
 
 export type HandState = "picked" | "pickable" | "disabled" | "fixed";
 
@@ -74,24 +75,18 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 const Component: FC<ContainerProps> = (props) => {
-  const dispatch = useContext(PlayerDispatherContext);
+  const dispatch = useAppDispatch();
   const [angle, setAngle] = useState<number>(0);
 
   const onClick = useCallback(() => {
     switch (props.state) {
       case "picked": {
         setAngle(angle + 1);
-        dispatch?.({
-          type: "rotate_tile",
-          payload: { angle: angle + 1 },
-        });
+        dispatch(rotateTile({ angle: angle + 1 }));
         break;
       }
       case "pickable": {
-        dispatch?.({
-          type: "pick_tile",
-          payload: { index: props.index, angle },
-        });
+        dispatch(pickTile({ index: props.index, angle }));
         break;
       }
     }

@@ -1,17 +1,17 @@
 import "@css/reboot.css";
 import "@css/common.scss";
 import React, { FC } from "react";
-import { Redirect, Switch } from "react-router";
-import { BrowserRouter } from "react-router-dom";
+import { Redirect, Router, Switch } from "react-router";
 import { DebugComponent } from "./client";
 import { gameComponents, GameListComponent } from "./client/games";
 import { pages, routes } from "./client/assets/routes";
 import { PageRoute } from "./page";
+import { history } from "./client/history";
 
 const MatchComponent = gameComponents.slashchain.match;
 
 export const App: FC = () => (
-  <BrowserRouter>
+  <Router history={history}>
     <Switch>
       <PageRoute
         title={pages.gameList}
@@ -40,5 +40,5 @@ export const App: FC = () => (
       />
       <Redirect to={routes.gameList} />
     </Switch>
-  </BrowserRouter>
+  </Router>
 );

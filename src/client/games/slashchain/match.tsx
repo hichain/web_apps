@@ -1,10 +1,10 @@
-import React, { FC, useCallback, useEffect } from "react";
 import { Slashchain } from "@/games";
-import { Client } from "./client";
-import { lobbyClient } from "@/client/lobby/client";
+import { useAppSelector } from "@hooks/useAppSelector";
+import { joinMatch } from "@redux/sagas/lobby";
+import React, { FC, useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { useMatchHistory } from "@/client/hooks/useMatchHistory";
-import { routes } from "@routes";
+import { Client } from "./client";
 
 type ContainerProps = {
   children?: never;
@@ -34,59 +34,19 @@ export const GameMatchComponent: FC<ContainerProps> = ({
   matchID,
   ...props
 }) => {
+  const dispatch = useDispatch();
   const history = useHistory();
-  const [matchHistory, dispatch] = useMatchHistory();
-  const match = matchHistory.find((match) => match.matchID === matchID);
-
-  const getMatch = useCallback(
-    (matchID: string) => lobbyClient.getMatch(Slashchain.name, matchID),
-    []
-  );
-
-  const joinMatch = useCallback(
-    (gameName: string, matchID: string, playerID: string) =>
-      lobbyClient.joinMatch(gameName, matchID, {
-        playerID,
-        playerName: playerID,
-      }),
-    []
-  );
-
-  // TODO: migrate it to redux=saga
-  const getPlayer = useCallback(
-    async (matchID: string) => {
-      const { gameName, players } = await getMatch(matchID);
-      const numPlayers = players.filter((player) => player.name != null).length;
-      const playerID = `${numPlayers}`;
-      const { playerCredentials } = await joinMatch(
-        gameName,
-        matchID,
-        playerID
-      );
-      return { id: playerID, gameID: gameName, credentials: playerCredentials };
-    },
-    [getMatch, joinMatch]
+  const matchHistory = useAppSelector((state) => state.matchHistory);
+  const match = useMemo(
+    () => matchHistory.find((match) => match.matchID === matchID),
+    [matchHistory, matchID]
   );
 
   useEffect(() => {
-    if (match) {
-      return;
+    if (!match) {
+      dispatch(joinMatch({ gameName: Slashchain.name, matchID }));
     }
-
-    getPlayer(matchID)
-      .then((player) => {
-        dispatch({
-          type: "add_match",
-          payload: {
-            matchID,
-            gameID: player.gameID,
-            playerID: player.id,
-            credentials: player.credentials,
-          },
-        });
-      })
-      .catch(() => history.replace(routes.gameList));
-  }, [matchHistory, dispatch, getPlayer, history, match, matchID]);
+  }, [matchHistory, dispatch, history, matchID, match]);
 
   return (
     <DomComponent

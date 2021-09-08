@@ -5,6 +5,7 @@ import { matchHistoryModule } from "./modules/matchHistory";
 import { playerModule } from "./modules/player";
 import { rootSaga } from "./sagas";
 import { load, save } from "redux-localstorage-simple";
+import { gameListModule } from "./modules/gameList";
 
 // Redux Design Pattern: https://react-redux.js.org/tutorials/typescript-quick-start
 
@@ -14,6 +15,7 @@ const reducer = {
   player: playerModule.reducer,
   game: gameModule.reducer,
   matchHistory: matchHistoryModule.reducer,
+  gameList: gameListModule.reducer,
 } as const;
 
 const localStorageConfig: {

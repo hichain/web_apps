@@ -25,7 +25,9 @@ function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
   const { gameName, matchID } = action.payload;
 
   try {
-    const { players } = yield* call(lobbyClient.getMatch, gameName, matchID);
+    const { players } = yield* call(() =>
+      lobbyClient.getMatch(gameName, matchID)
+    );
     const numPlayers = players.filter((player) => player.name != null).length;
     const playerID = numPlayers.toString();
     const { playerCredentials } = yield* call(
@@ -48,7 +50,7 @@ function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
 
 function* getGamesSaga(_action: ReturnType<typeof actionCreators.getGames>) {
   try {
-    const gameList = yield* call(lobbyClient.listGames);
+    const gameList = yield* call(() => lobbyClient.listGames());
     yield* put(setGameList(gameList));
   } catch {
     // ignore failure
@@ -63,7 +65,7 @@ function* getPlayingMatchesSaga(
   try {
     const matchList = yield* all(
       matchHistory.map((match) =>
-        call(lobbyClient.getMatch, match.gameName, match.matchID)
+        call(() => lobbyClient.getMatch(match.gameName, match.matchID))
       )
     );
     yield* put(addMatchDetail(matchList));

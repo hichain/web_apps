@@ -1,18 +1,18 @@
 import { NamedPlayer } from "@/games";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type Game = {
+export type Match = {
   player?: NamedPlayer;
   isMyTurn: boolean;
 };
 
-const initialState: Game = { isMyTurn: false };
+const initialState: Match = { isMyTurn: false };
 
-export const gameModule = createSlice({
-  name: "game",
+export const matchModule = createSlice({
+  name: "match",
   initialState,
   reducers: {
-    startGame: (
+    startMatch: (
       _state,
       action: PayloadAction<{ player: NamedPlayer; isMyTurn: boolean }>
     ) => {
@@ -24,4 +24,4 @@ export const gameModule = createSlice({
   },
 });
 
-export const { startGame, nextTurn } = gameModule.actions;
+export const { startMatch, nextTurn } = matchModule.actions;

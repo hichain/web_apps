@@ -1,6 +1,6 @@
 import createSagaMiddleware from "@redux-saga/core";
 import { configureStore } from "@reduxjs/toolkit";
-import { gameModule } from "./modules/game";
+import { matchModule } from "./modules/match";
 import { matchHistoryModule } from "./modules/matchHistory";
 import { playerModule } from "./modules/player";
 import { rootSaga } from "./sagas";
@@ -13,7 +13,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const reducer = {
   player: playerModule.reducer,
-  game: gameModule.reducer,
+  match: matchModule.reducer,
   matchHistory: matchHistoryModule.reducer,
   gameList: gameListModule.reducer,
 } as const;

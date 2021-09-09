@@ -36,7 +36,7 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const MyFieldComponent: FC<ContainerProps> = (props) => {
-  const isMyTurn = useAppSelector((state) => state.game.isMyTurn);
+  const isMyTurn = useAppSelector((state) => state.match.isMyTurn);
   const pickedTile = useAppSelector((state) => state.player.pickedTile);
 
   const presenterProps: PresenterProps = {

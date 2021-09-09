@@ -60,7 +60,7 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const BoardComponent: React.FC<ContainerProps> = (props) => {
-  const isMyTurn = useAppSelector((state) => state.game.isMyTurn);
+  const isMyTurn = useAppSelector((state) => state.match.isMyTurn);
   const { board } = props;
 
   const { cells, range } = useMemo(() => {

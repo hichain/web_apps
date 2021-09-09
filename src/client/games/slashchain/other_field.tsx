@@ -37,7 +37,7 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const OtherFieldComponent: FC<ContainerProps> = (props) => {
-  const isOtherTurn = useAppSelector((state) => !state.game.isMyTurn);
+  const isOtherTurn = useAppSelector((state) => !state.match.isMyTurn);
   const presenterProps: PresenterProps = {
     isOtherTurn,
     hands: useMemo(

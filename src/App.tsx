@@ -21,21 +21,23 @@ export const App: FC = () => (
         component={GameListComponent}
       />
       {supportedGames.map((game) => (
-        <>
-          <PageRoute
-            title={pages[game]}
-            path={routes.game(game)}
-            exact
-            render={() => <GameTop gameName={game} />}
-          />
-          <PageRoute
-            title={pages[game]}
-            path={routes.match(game, ":matchID")}
-            render={({ match }) => (
-              <GameMatch gameName={game} matchID={match.params.matchID ?? ""} />
-            )}
-          />
-        </>
+        <PageRoute
+          key={`${game}-top`}
+          title={pages.game(game)}
+          path={routes.game(game)}
+          exact
+          render={() => <GameTop gameName={game} />}
+        />
+      ))}
+      {supportedGames.map((game) => (
+        <PageRoute
+          key={`${game}-match`}
+          title={pages.game(game)}
+          path={routes.match(game, ":matchID")}
+          render={({ match }) => (
+            <GameMatch gameName={game} matchID={match.params.matchID ?? ""} />
+          )}
+        />
       ))}
       <PageRoute
         title={pages.debugger}

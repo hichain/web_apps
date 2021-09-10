@@ -8,6 +8,7 @@ export const routes = {
 
 export const pages = {
   gameList: "Games",
-  slashchain: "slashchain",
+  match: (game: string) => game,
+  game: (game: string) => game,
   debugger: "Debugger",
 } as const;

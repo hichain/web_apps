@@ -1,7 +1,9 @@
 import { Slashchain } from "@/games";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
+import { SupportedGame } from "@redux/modules/gameList";
 import { getGames, getPlayingMatches } from "@redux/sagas/lobby";
+import { routes } from "@routes";
 import { strings } from "@strings";
 import { LobbyAPI } from "boardgame.io";
 import dayjs from "dayjs";
@@ -22,10 +24,8 @@ type ContainerProps = {
 
 type PresenterProps = {
   status: Status;
-  games: string[];
-  playingMatches: {
-    [gameName: string]: LobbyAPI.Match[];
-  };
+  games: SupportedGame[];
+  playingMatches: Map<SupportedGame, LobbyAPI.Match[]>;
 };
 
 type Props = ContainerProps & PresenterProps;
@@ -41,29 +41,29 @@ const DomComponent: FC<Props> = ({
       case "loading":
         return strings.responseMessages.games.loading;
       case "success":
-        return games.map((game, i) => (
-          <div className="game_info" key={i}>
-            <h2>{strings.games[game] ?? "Unknown Game"}</h2>
-            <h3>Playing Match List</h3>
-            <ul className="playing_match_list">
-              {!playingMatches[game] ? (
-                <li>No Matches Found.</li>
-              ) : (
-                playingMatches[game].map((match) => (
-                  <li key={match.matchID}>
-                    <Link to={`/games/${game}/${match.matchID}`}>
-                      {dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
-                      {match.gameover && " (Gameover!)"}
-                    </Link>
-                  </li>
-                ))
-              )}
-            </ul>
-            <button className="create_match_button">
-              <Link to={`/games/${game}`}>Create a match</Link>
-            </button>
-          </div>
-        ));
+        return games
+          .map((game) => [game, playingMatches.get(game)] as const)
+          .map(([game, playingMatches], i) => (
+            <div className="game_info" key={i}>
+              <h2>{strings.games[game] ?? "Unknown Game"}</h2>
+              <h3>Playing Match List</h3>
+              <ul className="playing_match_list">
+                {!playingMatches?.length ? (
+                  <li>No Matches Found.</li>
+                ) : (
+                  playingMatches?.map((match) => (
+                    <li key={match.matchID}>
+                      <Link to={routes.games.slashchain.match(match.matchID)}>
+                        {dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
+                        {match.gameover && " (Gameover!)"}
+                      </Link>
+                    </li>
+                  ))
+                )}
+              </ul>
+              <Link to={routes.games[game].index}>Create a match</Link>
+            </div>
+          ));
       case "failure":
         return strings.responseMessages.games.failure;
     }
@@ -90,13 +90,11 @@ const StyledComponent = styled(DomComponent)`
   .games {
     margin-left: 8rem;
 
-    .playing_match_list {
-      a:link,
-      a:visited,
-      a:hover,
-      a:active {
-        text-decoration: underline;
-      }
+    a:link,
+    a:visited,
+    a:hover,
+    a:active {
+      text-decoration: underline;
     }
   }
 `;
@@ -109,8 +107,13 @@ export const GameListComponent: FC<ContainerProps> = (props) => {
   const gameList = useAppSelector((state) => state.gameList);
   const playingMatches = useMemo(() => {
     const matchDetails = _.compact(matchHistory.map((match) => match.detail));
-    return _.groupBy(matchDetails, (match) => match.gameName);
-  }, [matchHistory]);
+    return new Map(
+      gameList.map((game) => [
+        game,
+        matchDetails.filter((match) => match.gameName === game),
+      ])
+    );
+  }, [gameList, matchHistory]);
 
   useEffect(() => {
     dispatch(getGames());

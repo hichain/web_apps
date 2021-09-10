@@ -1,9 +1,11 @@
-import React, { FC, useCallback, useEffect } from "react";
-import styled from "styled-components";
 import { Slashchain } from "@/games";
-import { useHistory } from "react-router";
-import { lobbyClient } from "@/client/lobby/client";
+import { useAppDispatch } from "@hooks/useAppDispatch";
+import { useAppSelector } from "@hooks/useAppSelector";
+import { createMatch } from "@redux/sagas/lobby";
 import { routes } from "@routes";
+import React, { FC, useEffect } from "react";
+import { useHistory } from "react-router";
+import styled from "styled-components";
 
 type ContainerProps = {
   children?: never;
@@ -18,23 +20,22 @@ const StyledComponent = styled.div`
 `;
 
 export const GameTopComponent: FC<ContainerProps> = () => {
+  const dispatch = useAppDispatch();
+  const createdMatchID = useAppSelector((state) => state.match.matchID);
   const history = useHistory();
 
-  // TODO: migrate it to redux=saga
-  const createMatch = useCallback(async () => {
-    const { matchID } = await lobbyClient.createMatch(Slashchain.name, {
-      numPlayers: 2,
-    });
-    return matchID;
-  }, []);
-
   useEffect(() => {
-    createMatch()
-      .then((matchID) => history.replace(`/games/slashchain/${matchID}`))
-      .catch(() => {
-        history.replace(routes.gameList);
-      });
-  }, [createMatch, history]);
+    if (createdMatchID == null) {
+      dispatch(
+        createMatch({
+          gameName: "slashchain",
+          numPlayers: Slashchain.maxPlayers,
+        })
+      );
+    } else {
+      history.replace(routes.games.slashchain.match(createdMatchID));
+    }
+  }, [createdMatchID, dispatch, history]);
 
   return <StyledComponent>Creating a match...</StyledComponent>;
 };

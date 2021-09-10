@@ -22,15 +22,15 @@ export const App: FC = () => (
       />
       <PageRoute
         title={pages.slashchain}
-        path={routes.slashchain.index}
+        path={routes.games.slashchain.index}
         exact
         component={SlashchainTop}
       />
       <PageRoute
         title={pages.slashchain}
-        path={routes.slashchain.match}
+        path={routes.games.slashchain.match(":matchID")}
         render={({ match }) => (
-          <SlashchainMatch matchID={match.params.matchID} />
+          <SlashchainMatch matchID={match.params.matchID ?? ""} />
         )}
       />
       <PageRoute

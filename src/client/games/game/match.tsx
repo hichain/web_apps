@@ -1,14 +1,14 @@
-import { Slashchain } from "@/games";
 import { useAppSelector } from "@hooks/useAppSelector";
+import { SupportedGame } from "@games";
 import { joinMatch } from "@redux/sagas/lobby";
 import React, { FC, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import { Client } from "./client";
+import { SlashchainClient } from "../slashchain";
 
 type ContainerProps = {
   children?: never;
   className?: string;
+  gameName: SupportedGame;
   matchID: string;
 };
 
@@ -21,37 +21,45 @@ type Props = ContainerProps & PresenterProps;
 
 const DomComponent: FC<Props> = ({
   className,
+  gameName,
   matchID,
   playerID,
   credentials,
-}) => (
-  <div className={className}>
-    <Client matchID={matchID} playerID={playerID} credentials={credentials} />
-  </div>
-);
-
-export const GameMatchComponent: FC<ContainerProps> = ({
-  matchID,
-  ...props
 }) => {
+  const Client = (() => {
+    switch (gameName) {
+      case "slashchain":
+        return SlashchainClient;
+    }
+  })();
+  return (
+    <div className={className}>
+      <Client matchID={matchID} playerID={playerID} credentials={credentials} />
+    </div>
+  );
+};
+
+export const GameMatchComponent: FC<ContainerProps> = (props) => {
+  const { gameName, matchID } = props;
   const dispatch = useDispatch();
-  const history = useHistory();
   const matchHistory = useAppSelector((state) => state.matchHistory);
   const match = useMemo(
-    () => matchHistory.find((match) => match.matchID === matchID),
-    [matchHistory, matchID]
+    () =>
+      matchHistory.find(
+        (match) => match.gameName === gameName && match.matchID === matchID
+      ),
+    [gameName, matchHistory, matchID]
   );
 
   useEffect(() => {
     if (!match) {
-      dispatch(joinMatch({ gameName: Slashchain.name, matchID }));
+      dispatch(joinMatch({ gameName, matchID }));
     }
-  }, [matchHistory, dispatch, history, matchID, match]);
+  }, [dispatch, gameName, match, matchID]);
 
   return (
     <DomComponent
       {...props}
-      matchID={matchID}
       playerID={match?.playerID}
       credentials={match?.credentials}
     />

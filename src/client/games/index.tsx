@@ -1,7 +1,6 @@
-import { Slashchain } from "@/games";
+import { Slashchain, SupportedGame } from "@/games";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
-import { SupportedGame } from "@redux/modules/gameList";
 import { getGames, getPlayingMatches } from "@redux/sagas/lobby";
 import { routes } from "@routes";
 import { strings } from "@strings";
@@ -11,9 +10,9 @@ import _ from "lodash";
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { GameTopComponent as SlashchainTop } from "./slashchain";
-import { Client as SlashchainClient } from "./slashchain/client";
-import { GameMatchComponent as SlashchainMatch } from "./slashchain/match";
+import { GameTopComponent } from "./game";
+import { SlashchainClient } from "./slashchain";
+import { GameMatchComponent } from "./game/match";
 
 type Status = "loading" | "success" | "failure";
 
@@ -53,7 +52,7 @@ const DomComponent: FC<Props> = ({
                 ) : (
                   playingMatches?.map((match) => (
                     <li key={match.matchID}>
-                      <Link to={routes.games.slashchain.match(match.matchID)}>
+                      <Link to={routes.match(game, match.matchID)}>
                         {dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
                         {match.gameover && " (Gameover!)"}
                       </Link>
@@ -61,7 +60,7 @@ const DomComponent: FC<Props> = ({
                   ))
                 )}
               </ul>
-              <Link to={routes.games[game].index}>Create a match</Link>
+              <Link to={routes.game(game)}>Create a match</Link>
             </div>
           ));
       case "failure":
@@ -142,10 +141,12 @@ export const GameListComponent: FC<ContainerProps> = (props) => {
 export { SlashchainClient };
 
 export const gameComponents = {
-  slashchain: {
-    game: Slashchain,
-    board: SlashchainClient,
-    top: SlashchainTop,
-    match: SlashchainMatch,
+  top: GameTopComponent,
+  match: GameMatchComponent,
+  games: {
+    slashchain: {
+      game: Slashchain,
+      board: SlashchainClient,
+    },
   },
-};
+} as const;

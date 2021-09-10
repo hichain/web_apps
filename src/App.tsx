@@ -7,9 +7,9 @@ import { gameComponents, GameListComponent } from "./client/games";
 import { pages, routes } from "./client/assets/routes";
 import { PageRoute } from "./page";
 import { history } from "./client/history";
+import { supportedGames } from "@games";
 
-const { match: SlashchainMatch, top: SlashchainTop } =
-  gameComponents.slashchain;
+const { match: GameMatch, top: GameTop } = gameComponents;
 
 export const App: FC = () => (
   <Router history={history}>
@@ -20,19 +20,23 @@ export const App: FC = () => (
         exact
         component={GameListComponent}
       />
-      <PageRoute
-        title={pages.slashchain}
-        path={routes.games.slashchain.index}
-        exact
-        component={SlashchainTop}
-      />
-      <PageRoute
-        title={pages.slashchain}
-        path={routes.games.slashchain.match(":matchID")}
-        render={({ match }) => (
-          <SlashchainMatch matchID={match.params.matchID ?? ""} />
-        )}
-      />
+      {supportedGames.map((game) => (
+        <>
+          <PageRoute
+            title={pages[game]}
+            path={routes.game(game)}
+            exact
+            render={() => <GameTop gameName={game} />}
+          />
+          <PageRoute
+            title={pages[game]}
+            path={routes.match(game, ":matchID")}
+            render={({ match }) => (
+              <GameMatch gameName={game} matchID={match.params.matchID ?? ""} />
+            )}
+          />
+        </>
+      ))}
       <PageRoute
         title={pages.debugger}
         path={routes.debugger}

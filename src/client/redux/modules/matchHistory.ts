@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LobbyAPI } from "boardgame.io";
-import { SupportedGame } from "./gameList";
+import { SupportedGame } from "@games";
 
 export type Match = {
   matchID: string;

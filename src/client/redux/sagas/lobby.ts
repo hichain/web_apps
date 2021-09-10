@@ -1,10 +1,7 @@
 import { history } from "@/client/history";
 import { lobbyClient } from "@/client/lobby/client";
-import {
-  filterSupportedGames,
-  setGameList,
-  SupportedGame,
-} from "@redux/modules/gameList";
+import { SupportedGame } from "@games";
+import { filterSupportedGames, setGameList } from "@redux/modules/gameList";
 import { clearPlayingMatch, setPlayingMatch } from "@redux/modules/match";
 import { addMatch, addMatchDetail } from "@redux/modules/matchHistory";
 import { createAction } from "@reduxjs/toolkit";

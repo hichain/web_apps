@@ -1,8 +1,7 @@
-import { gameMap } from "@games";
+import { gameMap, SupportedGame } from "@games";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
-export type SupportedGame = keyof typeof gameMap;
 export type GameList = SupportedGame[];
 
 const initialState: GameList = [];

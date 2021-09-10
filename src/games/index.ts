@@ -1,5 +1,6 @@
 import { Ctx, Game as BGIOGame } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
+import _ from "lodash";
 import { Slashchain } from "./slashchain";
 
 export * from "./common";
@@ -36,3 +37,6 @@ export const games = [Slashchain];
 export const gameMap = {
   [Slashchain.name]: Slashchain,
 } as const;
+
+export type SupportedGame = keyof typeof gameMap;
+export const supportedGames = _.keys(gameMap) as SupportedGame[];

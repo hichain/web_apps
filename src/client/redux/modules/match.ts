@@ -1,22 +1,33 @@
 import { NamedPlayer } from "@/games";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type Match = {
+export type PlayingMatch = {
   player?: NamedPlayer;
   isMyTurn: boolean;
+  matchID?: string;
 };
 
-const initialState: Match = { isMyTurn: false };
+const initialState: PlayingMatch = { isMyTurn: false };
 
 export const matchModule = createSlice({
   name: "match",
   initialState,
   reducers: {
     startMatch: (
-      _state,
-      action: PayloadAction<{ player: NamedPlayer; isMyTurn: boolean }>
+      state,
+      action: PayloadAction<{
+        player: NamedPlayer;
+        isMyTurn: boolean;
+      }>
     ) => {
-      return { inGame: true, ...action.payload };
+      state.player = action.payload.player;
+      state.isMyTurn = action.payload.isMyTurn;
+    },
+    setPlayingMatch: (state, action: PayloadAction<string>) => {
+      state.matchID = action.payload;
+    },
+    clearPlayingMatch: (state) => {
+      state.matchID = undefined;
     },
     nextTurn: (state) => {
       state.isMyTurn = !state.isMyTurn;
@@ -24,4 +35,5 @@ export const matchModule = createSlice({
   },
 });
 
-export const { startMatch, nextTurn } = matchModule.actions;
+export const { startMatch, setPlayingMatch, clearPlayingMatch, nextTurn } =
+  matchModule.actions;

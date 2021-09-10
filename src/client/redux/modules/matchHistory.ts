@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LobbyAPI } from "boardgame.io";
+import { SupportedGame } from "./gameList";
 
 export type Match = {
   matchID: string;
-  gameName: string;
+  gameName: SupportedGame;
   playerID: string;
   credentials: string;
-  detail?: LobbyAPI.Match;
+  detail?: LobbyAPI.Match & { gameName: SupportedGame };
 };
 
 export type MatchHistory = Match[];
@@ -22,11 +23,11 @@ export const matchHistoryModule = createSlice({
     },
     addMatchDetail: (state, action: PayloadAction<LobbyAPI.Match[]>) => {
       const matchList = action.payload;
-      return state.map((match) => {
-        const matchDetail = matchList.find(
-          (detail) => match.matchID === detail.matchID
-        );
-        return { ...match, detail: matchDetail };
+      matchList.forEach((detail) => {
+        const match = state.find((match) => match.matchID === detail.matchID);
+        if (match != null) {
+          match.detail = { ...detail, gameName: match.gameName };
+        }
       });
     },
     removeMatch: (state, action: PayloadAction<{ matchID: string }>) => {

@@ -2,12 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { LobbyAPI } from "boardgame.io";
 import { SupportedGame } from "@games";
 
+export type MatchDetail = LobbyAPI.Match & { gameName: SupportedGame };
+
 export type Match = {
   matchID: string;
   gameName: SupportedGame;
   playerID: string;
   credentials: string;
-  detail?: LobbyAPI.Match & { gameName: SupportedGame };
+  detail?: MatchDetail;
 };
 
 export type MatchHistory = Match[];

@@ -1,18 +1,16 @@
 import { Slashchain, SupportedGame } from "@/games";
-import { useAppDispatch } from "@hooks/useAppDispatch";
-import { useAppSelector } from "@hooks/useAppSelector";
-import { getGames, getPlayingMatches } from "@redux/sagas/lobby";
+import { useGameList } from "@hooks/useGameList";
+import { usePlayingMatchList } from "@hooks/usePlayingMatchList";
+import { MatchDetail } from "@redux/modules/matchHistory";
 import { routes } from "@routes";
 import { strings } from "@strings";
-import { LobbyAPI } from "boardgame.io";
 import dayjs from "dayjs";
-import _ from "lodash";
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { GameTopComponent } from "./game";
-import { SlashchainClient } from "./slashchain";
 import { GameMatchComponent } from "./game/match";
+import { SlashchainClient } from "./slashchain";
 
 type Status = "loading" | "success" | "failure";
 
@@ -24,7 +22,7 @@ type ContainerProps = {
 type PresenterProps = {
   status: Status;
   games: SupportedGame[];
-  playingMatches: Map<SupportedGame, LobbyAPI.Match[]>;
+  playingMatchList: Map<SupportedGame, MatchDetail[]>;
 };
 
 type Props = ContainerProps & PresenterProps;
@@ -33,7 +31,7 @@ const DomComponent: FC<Props> = ({
   className,
   status,
   games,
-  playingMatches,
+  playingMatchList,
 }) => {
   const children = useMemo(() => {
     switch (status) {
@@ -41,16 +39,16 @@ const DomComponent: FC<Props> = ({
         return strings.responseMessages.games.loading;
       case "success":
         return games
-          .map((game) => [game, playingMatches.get(game)] as const)
-          .map(([game, playingMatches], i) => (
+          .map((game) => [game, playingMatchList.get(game)] as const)
+          .map(([game, matches], i) => (
             <div className="game_info" key={i}>
               <h2>{strings.games[game] ?? "Unknown Game"}</h2>
               <h3>Playing Match List</h3>
               <ul className="playing_match_list">
-                {!playingMatches?.length ? (
+                {!matches?.length ? (
                   <li>No Matches Found.</li>
                 ) : (
-                  playingMatches?.map((match) => (
+                  matches?.map((match) => (
                     <li key={match.matchID}>
                       <Link to={routes.match(game, match.matchID)}>
                         {dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
@@ -66,7 +64,7 @@ const DomComponent: FC<Props> = ({
       case "failure":
         return strings.responseMessages.games.failure;
     }
-  }, [games, playingMatches, status]);
+  }, [games, playingMatchList, status]);
 
   return (
     <div className={className}>
@@ -99,28 +97,9 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const GameListComponent: FC<ContainerProps> = (props) => {
-  const dispatch = useAppDispatch();
-
   const [status, setStatus] = useState<Status>("loading"); // TODO: migrate it to redux
-  const matchHistory = useAppSelector((state) => state.matchHistory);
-  const gameList = useAppSelector((state) => state.gameList);
-  const playingMatches = useMemo(() => {
-    const matchDetails = _.compact(matchHistory.map((match) => match.detail));
-    return new Map(
-      gameList.map((game) => [
-        game,
-        matchDetails.filter((match) => match.gameName === game),
-      ])
-    );
-  }, [gameList, matchHistory]);
-
-  useEffect(() => {
-    dispatch(getGames());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getPlayingMatches());
-  }, [dispatch]);
+  const gameList = useGameList();
+  const playingMatchList = usePlayingMatchList();
 
   useEffect(() => {
     if (gameList.length > 0) {
@@ -133,7 +112,7 @@ export const GameListComponent: FC<ContainerProps> = (props) => {
       {...props}
       status={status}
       games={gameList}
-      playingMatches={playingMatches}
+      playingMatchList={playingMatchList}
     />
   );
 };

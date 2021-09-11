@@ -7,7 +7,7 @@ import {
 } from "@/games";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
-import { startGame } from "@redux/modules/game";
+import { startMatch } from "@redux/modules/match";
 import { pickTile, reset } from "@redux/modules/player";
 import { BoardProps } from "boardgame.io/dist/types/packages/react";
 import React, { FC, ReactNode, useEffect, useMemo } from "react";
@@ -52,7 +52,7 @@ export const GameMasterComponent: FC<Props> = (props) => {
 
   useEffect(() => {
     if (game) {
-      dispatch(startGame({ player: game.player, isMyTurn: game.isMyTurn }));
+      dispatch(startMatch({ player: game.player, isMyTurn: game.isMyTurn }));
     }
   }, [dispatch, game]);
 

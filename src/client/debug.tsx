@@ -37,7 +37,7 @@ export const DebugComponent: React.FC<ContainerProps> = (props) => {
   return (
     <StyledComponent
       {...props}
-      gameComponents={Object.values(gameComponents)}
+      gameComponents={Object.values(gameComponents.games)}
       gameServer={lobbyServerURL}
       lobbyServer={lobbyServerURL}
     />

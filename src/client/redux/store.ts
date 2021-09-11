@@ -1,19 +1,32 @@
 import createSagaMiddleware from "@redux-saga/core";
 import { configureStore } from "@reduxjs/toolkit";
-import { gameModule } from "./modules/game";
+import { matchModule } from "./modules/match";
+import { matchHistoryModule } from "./modules/matchHistory";
 import { playerModule } from "./modules/player";
 import { rootSaga } from "./sagas";
+import { load, save } from "redux-localstorage-simple";
+import { gameListModule } from "./modules/gameList";
 
 // Redux Design Pattern: https://react-redux.js.org/tutorials/typescript-quick-start
 
 const sagaMiddleware = createSagaMiddleware();
 
+const reducer = {
+  player: playerModule.reducer,
+  match: matchModule.reducer,
+  matchHistory: matchHistoryModule.reducer,
+  gameList: gameListModule.reducer,
+} as const;
+
+const localStorageConfig: {
+  namespace: string;
+  states: (keyof typeof reducer)[];
+} = { namespace: "app", states: ["matchHistory"] };
+
 export const store = configureStore({
-  reducer: {
-    player: playerModule.reducer,
-    game: gameModule.reducer,
-  },
-  middleware: [sagaMiddleware],
+  reducer,
+  middleware: [sagaMiddleware, save(localStorageConfig)],
+  preloadedState: load(localStorageConfig),
 });
 
 sagaMiddleware.run(rootSaga);

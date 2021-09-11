@@ -1,15 +1,14 @@
 export const routes = {
   root: "/",
   gameList: "/games",
-  slashchain: {
-    index: "/games/slashchain",
-    match: "/games/slashchain/:matchID",
-  },
+  match: (game: string, matchID: string) => `/games/${game}/${matchID}`,
+  game: (game: string) => `/games/${game}`,
   debugger: "/debug",
 } as const;
 
 export const pages = {
   gameList: "Games",
-  slashchain: "slashchain",
+  match: (game: string) => game,
+  game: (game: string) => game,
   debugger: "Debugger",
 } as const;

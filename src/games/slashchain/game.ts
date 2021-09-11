@@ -1,10 +1,10 @@
-import { Game, Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { Rule, ruleSet } from "./rules";
 import { rotate, TileCell } from "./tile";
 import { HandTiles } from "./hands";
 import { playOrder } from "./player";
 import { CellSet } from "../common";
+import { Game } from "..";
 
 export type GameState = {
   rule: Rule;
@@ -16,23 +16,7 @@ export type Moves = {
   clickCell: (x: number, y: number, handsIndex: number, angle: number) => void;
 };
 
-type InvalidMove = typeof INVALID_MOVE;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type GameMoves<T extends Record<string, (...args: any) => void>> = {
-  [F in keyof T]: (
-    G: GameState,
-    ctx: Ctx,
-    ...args: Parameters<T[F]>
-  ) => InvalidMove | void;
-};
-
-export const Slashchain: Game<GameState> & {
-  name: string;
-  minPlayers: number;
-  maxPlayers: number;
-  moves: GameMoves<Moves>;
-} = {
+export const Slashchain: Game<"slashchain", GameState, Moves> = {
   name: "slashchain",
   minPlayers: 2,
   maxPlayers: 2,

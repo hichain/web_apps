@@ -79,6 +79,7 @@ function* getPlayingMatchesSaga(
       call(() => lobbyClient.getMatch(gameName, matchID))
     )
   );
+  // TODO: remove not found matches
   yield* put(addMatchDetail(matchList));
 
   // TODO: toast error

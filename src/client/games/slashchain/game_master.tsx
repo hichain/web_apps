@@ -20,6 +20,7 @@ type Props = BoardProps<GameState> & {
   ) => ReactNode;
 };
 
+// TODO: use Game.playerView instead of this component
 export const GameMasterComponent: FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const { pickedTile, selectedCell } = useAppSelector((state) => state.player);

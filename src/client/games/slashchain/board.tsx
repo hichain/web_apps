@@ -1,6 +1,7 @@
+import { Cell, Tile, TileBoard } from "@games";
 import { useAppSelector } from "@hooks/useAppSelector";
-import { Cell, CellArray, equals, offset, Tile, TileBoard } from "@games";
-import React, { FC, useMemo } from "react";
+import { useBoard } from "@hooks/useBoard";
+import React, { FC } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import styled from "styled-components";
 import { BoardTileComponent } from "./board_tile";
@@ -60,29 +61,9 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const BoardComponent: React.FC<ContainerProps> = (props) => {
-  const isMyTurn = useAppSelector((state) => state.match.isMyTurn);
   const { board } = props;
-
-  const { cells, range } = useMemo(() => {
-    const legalCells = board.legalCells();
-    const lastMovedCell = Array.from(board.keys()).pop();
-    const range = offset(legalCells.toArray().range(), {
-      top: 1,
-      right: 1,
-      bottom: 1,
-      left: 1,
-    });
-    const cells = CellArray.fromRange(range);
-    return {
-      cells: cells.map((cell) => ({
-        cell,
-        tile: board.get(cell),
-        isLegal: isMyTurn && legalCells.has(cell),
-        isFocused: equals(cell, lastMovedCell),
-      })),
-      range,
-    };
-  }, [board, isMyTurn]);
+  const isMyTurn = useAppSelector((state) => state.match.isMyTurn);
+  const { cells, range } = useBoard(board, isMyTurn);
 
   return (
     <StyledComponent

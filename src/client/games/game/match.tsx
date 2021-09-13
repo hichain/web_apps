@@ -1,7 +1,7 @@
-import { useAppSelector } from "@hooks/useAppSelector";
 import { SupportedGame } from "@games";
+import { useMatchHistory } from "@hooks/useMatchHistory";
 import { joinMatch } from "@redux/sagas/lobby";
-import React, { FC, useEffect, useMemo } from "react";
+import React, { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { SlashchainClient } from "../slashchain";
 
@@ -42,14 +42,7 @@ const DomComponent: FC<Props> = ({
 export const GameMatchComponent: FC<ContainerProps> = (props) => {
   const { gameName, matchID } = props;
   const dispatch = useDispatch();
-  const matchHistory = useAppSelector((state) => state.matchHistory);
-  const match = useMemo(
-    () =>
-      matchHistory.find(
-        (match) => match.gameName === gameName && match.matchID === matchID
-      ),
-    [gameName, matchHistory, matchID]
-  );
+  const match = useMatchHistory(gameName, matchID);
 
   useEffect(() => {
     if (!match) {

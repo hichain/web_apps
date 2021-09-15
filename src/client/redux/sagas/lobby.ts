@@ -31,39 +31,53 @@ const actionCreators = {
 function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
   const { gameName, matchID } = action.payload;
 
-  try {
-    const { players } = yield* call(() =>
-      lobbyClient.getMatch(gameName, matchID)
-    );
-    const numPlayers = players.filter((player) => player.name != null).length;
-    const playerID = numPlayers.toString();
-    const { playerCredentials } = yield* call(() =>
-      lobbyClient.joinMatch(gameName, matchID, {
-        playerID,
-        playerName: playerID,
-      })
-    );
-    yield* put(
-      addMatch({
-        gameName,
-        matchID,
-        playerID,
-        credentials: playerCredentials,
-      })
-    );
-  } catch (e) {
+  const matchResponse = yield* call(() =>
+    lobbyClient.getMatch(gameName, matchID)
+  );
+  if (!matchResponse.ok) {
     // TODO: toast error
     history.replace(routes.gameList);
-    throw e;
+    throw matchResponse.error;
   }
+
+  const numPlayers = matchResponse.body.players.filter(
+    (player) => player.name != null
+  ).length;
+  const playerID = numPlayers.toString();
+  const joinedMatchResponse = yield* call(() =>
+    lobbyClient.joinMatch(gameName, matchID, {
+      playerID,
+      playerName: playerID,
+    })
+  );
+  if (!joinedMatchResponse.ok) {
+    // TODO: toast error
+    history.replace(routes.gameList);
+    throw joinedMatchResponse.error;
+  }
+
+  yield* put(
+    addMatch({
+      gameName,
+      matchID,
+      playerID,
+      credentials: joinedMatchResponse.body.playerCredentials,
+    })
+  );
 }
 
 function* getGamesSaga(_action: ReturnType<typeof actionCreators.getGames>) {
-  const gameList = yield* call(() => lobbyClient.listGames());
-  const supportedGameList = filterSupportedGames(gameList);
+  // TODO: fix error
+  const response = yield* call(() => lobbyClient.listGames());
+  if (!response.ok) {
+    // TODO: toast error
+    throw response.error;
+  }
+
+  const supportedGameList = filterSupportedGames(response.body);
   yield* put(setGameList(supportedGameList));
 
-  const noSupportedGameList = _.difference(gameList, supportedGameList);
+  const noSupportedGameList = _.difference(response.body, supportedGameList);
   if (noSupportedGameList.length > 0) {
     throw new Error(`No Supported Games: ${noSupportedGameList.toString()}`);
   }
@@ -74,32 +88,34 @@ function* getPlayingMatchesSaga(
 ) {
   const matchHistory = yield* select((state) => state.matchHistory);
 
-  const matchList = yield* all(
+  const matchResponse = yield* all(
     matchHistory.map(({ gameName, matchID }) =>
       call(() => lobbyClient.getMatch(gameName, matchID))
     )
   );
-  // TODO: remove not found matches
-  yield* put(addMatchDetail(matchList));
+  const details = _.compact(
+    matchResponse.map((match) => (match.ok ? match.body : undefined))
+  );
 
-  // TODO: toast error
+  yield* put(addMatchDetail(details));
 }
 
 function* createMatchSaga(
   action: ReturnType<typeof actionCreators.createMatch>
 ) {
   const { gameName, numPlayers } = action.payload;
-
   yield* put(clearPlayingMatch());
-  try {
-    const { matchID } = yield* call(() =>
-      lobbyClient.createMatch(gameName, { numPlayers })
-    );
-    yield* put(setPlayingMatch(matchID));
-  } catch (e) {
+
+  const response = yield* call(() =>
+    lobbyClient.createMatch(gameName, { numPlayers })
+  );
+  if (!response.ok) {
     history.replace(routes.gameList);
-    throw e;
+    // TODO: toast error
+    throw response.error;
   }
+
+  yield* put(setPlayingMatch(response.body.matchID));
 }
 
 export function* lobbySagas() {

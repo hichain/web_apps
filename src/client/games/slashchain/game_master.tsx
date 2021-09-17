@@ -7,8 +7,6 @@ import {
 } from "@/games";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
-import { startMatch } from "@redux/modules/match";
-import { pickTile, reset } from "@redux/modules/player";
 import { BoardProps } from "boardgame.io/dist/types/packages/react";
 import React, { FC, ReactNode, useEffect, useMemo } from "react";
 
@@ -53,15 +51,17 @@ export const GameMasterComponent: FC<Props> = (props) => {
 
   useEffect(() => {
     if (game) {
-      dispatch(startMatch({ player: game.player, isMyTurn: game.isMyTurn }));
+      dispatch(({ match }) =>
+        match.startMatch({ player: game.player, isMyTurn: game.isMyTurn })
+      );
     }
   }, [dispatch, game]);
 
   useEffect(() => {
     if (game?.isMyTurn) {
-      dispatch(pickTile({ index: 0, angle: 0 }));
+      dispatch(({ player }) => player.pickTile({ index: 0, angle: 0 }));
     } else {
-      dispatch(reset());
+      dispatch(({ player }) => player.reset());
     }
   }, [dispatch, game?.isMyTurn]);
 

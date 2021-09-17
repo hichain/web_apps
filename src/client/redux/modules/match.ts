@@ -34,6 +34,3 @@ export const matchModule = createSlice({
     },
   },
 });
-
-export const { startMatch, setPlayingMatch, clearPlayingMatch, nextTurn } =
-  matchModule.actions;

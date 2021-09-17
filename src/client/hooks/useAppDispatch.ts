@@ -1,4 +1,14 @@
+import { actionCreator, AppDispatch } from "@redux/store";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
+import { AnyAction } from "redux";
 
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppDispatch = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  return useCallback(
+    (create: (creator: typeof actionCreator) => AnyAction) => {
+      dispatch(create(actionCreator));
+    },
+    [dispatch]
+  );
+};

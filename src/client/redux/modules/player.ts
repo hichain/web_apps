@@ -32,5 +32,3 @@ export const playerModule = createSlice({
     },
   },
 });
-
-export const { pickTile, rotateTile, putTile, reset } = playerModule.actions;

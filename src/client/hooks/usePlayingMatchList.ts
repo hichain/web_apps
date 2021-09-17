@@ -1,7 +1,6 @@
 import { SupportedGame } from "@games";
 import { JoinedMatch } from "@redux/modules/matchHistory";
 import { Match } from "@redux/modules/matchList";
-import { getJoinedMatches } from "@redux/sagas/lobby";
 import { groupBy } from "@utils/array";
 import { useEffect, useMemo } from "react";
 import { useAppDispatch } from "./useAppDispatch";
@@ -27,7 +26,7 @@ export const usePlayingMatchList = (): PlayingMatchList => {
   );
 
   useEffect(() => {
-    dispatch(getJoinedMatches());
+    dispatch(({ lobby }) => lobby.getJoinedMatches());
   }, [dispatch]);
 
   return playingMatchList;

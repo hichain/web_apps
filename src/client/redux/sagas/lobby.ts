@@ -1,18 +1,13 @@
 import { history } from "@/client/history";
 import { lobbyClient } from "@/client/lobby/client";
 import { SupportedGame } from "@games";
-import { filterSupportedGames, setGameList } from "@redux/modules/gameList";
-import { clearPlayingMatch, setPlayingMatch } from "@redux/modules/match";
-import {
-  addMatch as addMatchToHistory,
-  removeMatch,
-} from "@redux/modules/matchHistory";
-import { addMatch, isSupportedMatch } from "@redux/modules/matchList";
+import { filterSupportedGames } from "@redux/modules/gameList";
+import { isSupportedMatch } from "@redux/modules/matchList";
 import { createAction } from "@reduxjs/toolkit";
 import { routes } from "@routes";
-import { select } from "@utils/reduxSaga";
+import { select, put } from "@utils/reduxSaga";
 import _ from "lodash";
-import { all, call, put, takeLatest, takeLeading } from "typed-redux-saga";
+import { all, call, takeLatest, takeLeading } from "typed-redux-saga";
 
 const actions = {
   joinMatch: "lobby/joinMatch",
@@ -60,8 +55,8 @@ function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
     throw joinedMatchResponse.error;
   }
 
-  yield* put(
-    addMatchToHistory({
+  yield* put(({ matchHistory }) =>
+    matchHistory.addMatch({
       gameName,
       matchID,
       playerID,
@@ -79,7 +74,7 @@ function* getGamesSaga(_action: ReturnType<typeof actionCreators.getGames>) {
   }
 
   const supportedGameList = filterSupportedGames(response.body);
-  yield* put(setGameList(supportedGameList));
+  yield* put(({ gameList }) => gameList.setGameList(supportedGameList));
 
   const noSupportedGameList = _.difference(response.body, supportedGameList);
   if (noSupportedGameList.length > 0) {
@@ -98,9 +93,10 @@ function* getJoinedMatchesSaga(
         lobbyClient.getMatch(gameName, matchID)
       );
       if (response.ok && isSupportedMatch(response.body)) {
-        yield* put(addMatch(response.body));
+        const match = response.body;
+        yield* put(({ matchList }) => matchList.addMatch(match));
       } else {
-        yield* put(removeMatch({ matchID }));
+        yield* put(({ matchHistory }) => matchHistory.removeMatch({ matchID }));
       }
     })
   );
@@ -110,7 +106,7 @@ function* createMatchSaga(
   action: ReturnType<typeof actionCreators.createMatch>
 ) {
   const { gameName, numPlayers } = action.payload;
-  yield* put(clearPlayingMatch());
+  yield* put(({ match }) => match.clearPlayingMatch());
 
   const response = yield* call(() =>
     lobbyClient.createMatch(gameName, { numPlayers })
@@ -121,7 +117,7 @@ function* createMatchSaga(
     throw response.error;
   }
 
-  yield* put(setPlayingMatch(response.body.matchID));
+  yield* put(({ match }) => match.setPlayingMatch(response.body.matchID));
 }
 
 export function* lobbySagas() {
@@ -131,5 +127,6 @@ export function* lobbySagas() {
   yield* takeLeading(actions.createMatch, createMatchSaga);
 }
 
-export const { joinMatch, getGames, getJoinedMatches, createMatch } =
-  actionCreators;
+export const lobbyModule = {
+  actions: actionCreators,
+};

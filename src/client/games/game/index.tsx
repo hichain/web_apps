@@ -2,7 +2,6 @@ import { Slashchain } from "@/games";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { SupportedGame } from "@games";
-import { createMatch } from "@redux/sagas/lobby";
 import { routes } from "@routes";
 import React, { FC, useEffect } from "react";
 import { useHistory } from "react-router";
@@ -28,8 +27,8 @@ export const GameTopComponent: FC<ContainerProps> = ({ gameName }) => {
 
   useEffect(() => {
     if (createdMatchID == null) {
-      dispatch(
-        createMatch({
+      dispatch(({ lobby }) =>
+        lobby.createMatch({
           gameName,
           numPlayers: Slashchain.maxPlayers,
         })

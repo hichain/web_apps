@@ -27,6 +27,3 @@ export const matchHistoryModule = createSlice({
     },
   },
 });
-
-export const { addMatch, removeMatch, clearAllMatches } =
-  matchHistoryModule.actions;

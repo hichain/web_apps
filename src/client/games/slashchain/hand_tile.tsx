@@ -4,7 +4,6 @@ import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
 import { CellComponent } from "./cell";
 import clsx from "clsx";
-import { pickTile, rotateTile } from "@redux/modules/player";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 
 export type HandState = "picked" | "pickable" | "disabled" | "fixed";
@@ -82,11 +81,13 @@ const Component: FC<ContainerProps> = (props) => {
     switch (props.state) {
       case "picked": {
         setAngle(angle + 1);
-        dispatch(rotateTile({ angle: angle + 1 }));
+        dispatch(({ player }) => player.rotateTile({ angle: angle + 1 }));
         break;
       }
       case "pickable": {
-        dispatch(pickTile({ index: props.index, angle }));
+        dispatch(({ player }) =>
+          player.pickTile({ index: props.index, angle })
+        );
         break;
       }
     }

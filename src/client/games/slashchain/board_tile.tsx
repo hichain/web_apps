@@ -6,7 +6,6 @@ import { TileComponent } from "./tile";
 import { Cell } from "@/games";
 import clsx from "clsx";
 import { useAppDispatch } from "@hooks/useAppDispatch";
-import { putTile } from "@redux/modules/player";
 
 type ContainerProps = {
   className?: string;
@@ -66,7 +65,7 @@ const Component: FC<ContainerProps> = (props) => {
   const presenterProps: PresenterProps = {
     onClick: useCallback(() => {
       if (props.isLegal) {
-        dispatch(putTile({ cell: props.cell }));
+        dispatch(({ player }) => player.putTile({ cell: props.cell }));
       }
     }, [dispatch, props.cell, props.isLegal]),
   };

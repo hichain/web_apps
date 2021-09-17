@@ -16,8 +16,6 @@ export const gameListModule = createSlice({
   },
 });
 
-export const { setGameList } = gameListModule.actions;
-
 const isSupportedGame = (game: string): game is SupportedGame =>
   _.keys(gameMap).includes(game);
 

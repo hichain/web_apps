@@ -5,7 +5,7 @@ import { filterSupportedGames } from "@redux/modules/gameList";
 import { isSupportedMatch } from "@redux/modules/matchList";
 import { createAction } from "@reduxjs/toolkit";
 import { routes } from "@routes";
-import { select, put } from "@utils/reduxSaga";
+import { select, put } from "@redux/utils/saga";
 import _ from "lodash";
 import { all, call, takeLatest, takeLeading } from "typed-redux-saga";
 

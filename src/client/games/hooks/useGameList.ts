@@ -1,7 +1,7 @@
 import { GameList } from "@redux/modules/gameList";
 import { useEffect } from "react";
-import { useAppDispatch } from "./useAppDispatch";
-import { useAppSelector } from "./useAppSelector";
+import { useAppDispatch } from "@redux/hooks/useAppDispatch";
+import { useAppSelector } from "@redux/hooks/useAppSelector";
 
 export const useGameList = (): GameList => {
   const dispatch = useAppDispatch();

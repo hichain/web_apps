@@ -10,7 +10,6 @@
 			"@routes": ["client/assets/routes/index"],
 			"@games": ["games/index"],
 			"@games/*": ["games/*"],
-			"@hooks/*": ["client/hooks/*"],
 			"@/*" : ["*"],
 		},
 	}

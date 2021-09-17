@@ -1,6 +1,6 @@
 import { SupportedGame } from "@games";
-import { useAppDispatch } from "@hooks/useAppDispatch";
-import { useMatchHistory } from "@hooks/useMatchHistory";
+import { useAppDispatch } from "@redux/hooks/useAppDispatch";
+import { useMatchHistory } from "../hooks/useMatchHistory";
 import React, { FC, useEffect } from "react";
 import { SlashchainClient } from "../slashchain";
 

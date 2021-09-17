@@ -5,8 +5,8 @@ import {
   playOrder as players,
   TileBoard,
 } from "@/games";
-import { useAppDispatch } from "@hooks/useAppDispatch";
-import { useAppSelector } from "@hooks/useAppSelector";
+import { useAppDispatch } from "@redux/hooks/useAppDispatch";
+import { useAppSelector } from "@redux/hooks/useAppSelector";
 import { BoardProps } from "boardgame.io/dist/types/packages/react";
 import React, { FC, ReactNode, useEffect, useMemo } from "react";
 

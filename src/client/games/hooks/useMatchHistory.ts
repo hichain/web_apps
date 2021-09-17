@@ -1,6 +1,6 @@
 import { SupportedGame } from "@games";
 import { useMemo } from "react";
-import { useAppSelector } from "./useAppSelector";
+import { useAppSelector } from "@redux/hooks/useAppSelector";
 
 export const useMatchHistory = (gameName: SupportedGame, matchID: string) => {
   const matchHistory = useAppSelector((state) => state.matchHistory);

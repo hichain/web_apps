@@ -4,7 +4,7 @@ import { Tile } from "@/games/slashchain";
 import { TileComponent } from "./tile";
 import { CellComponent } from "./cell";
 import clsx from "clsx";
-import { useAppDispatch } from "@hooks/useAppDispatch";
+import { useAppDispatch } from "@redux/hooks/useAppDispatch";
 
 export type HandState = "picked" | "pickable" | "disabled" | "fixed";
 

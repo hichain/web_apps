@@ -4,7 +4,7 @@ import { NamedPlayer, Tile } from "@/games/slashchain/";
 import { HandState } from "./hand_tile";
 import { HandsComponent } from "./hands";
 import { PlayerInfoComponent } from "./player_info";
-import { useAppSelector } from "@hooks/useAppSelector";
+import { useAppSelector } from "@redux/hooks/useAppSelector";
 
 type ContainerProps = {
   className?: string;

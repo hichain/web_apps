@@ -3,8 +3,8 @@ import { JoinedMatch } from "@redux/modules/matchHistory";
 import { Match } from "@redux/modules/matchList";
 import { groupBy } from "@utils/array";
 import { useEffect, useMemo } from "react";
-import { useAppDispatch } from "./useAppDispatch";
-import { useAppSelector } from "./useAppSelector";
+import { useAppDispatch } from "@redux/hooks/useAppDispatch";
+import { useAppSelector } from "@redux/hooks/useAppSelector";
 
 export type PlayingMatchList = Map<SupportedGame, (JoinedMatch & Match)[]>;
 

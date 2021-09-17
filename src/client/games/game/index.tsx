@@ -1,6 +1,6 @@
 import { Slashchain } from "@/games";
-import { useAppDispatch } from "@hooks/useAppDispatch";
-import { useAppSelector } from "@hooks/useAppSelector";
+import { useAppDispatch } from "@redux/hooks/useAppDispatch";
+import { useAppSelector } from "@redux/hooks/useAppSelector";
 import { SupportedGame } from "@games";
 import { routes } from "@routes";
 import React, { FC, useEffect } from "react";

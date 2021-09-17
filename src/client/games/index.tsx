@@ -1,9 +1,9 @@
 import { Slashchain, SupportedGame } from "@/games";
-import { useGameList } from "@hooks/useGameList";
+import { useGameList } from "./hooks/useGameList";
 import {
   PlayingMatchList,
   usePlayingMatchList,
-} from "@hooks/usePlayingMatchList";
+} from "./hooks/usePlayingMatchList";
 import { routes } from "@routes";
 import { strings } from "@strings";
 import dayjs from "dayjs";

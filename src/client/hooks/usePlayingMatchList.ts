@@ -1,23 +1,33 @@
 import { SupportedGame } from "@games";
-import { MatchDetail } from "@redux/modules/matchHistory";
-import { getPlayingMatches } from "@redux/sagas/lobby";
+import { JoinedMatch } from "@redux/modules/matchHistory";
+import { Match } from "@redux/modules/matchList";
+import { getJoinedMatches } from "@redux/sagas/lobby";
 import { groupBy } from "@utils/array";
-import _ from "lodash";
 import { useEffect, useMemo } from "react";
 import { useAppDispatch } from "./useAppDispatch";
 import { useAppSelector } from "./useAppSelector";
 
-export const usePlayingMatchList = (): Map<SupportedGame, MatchDetail[]> => {
+export type PlayingMatchList = Map<SupportedGame, (JoinedMatch & Match)[]>;
+
+export const usePlayingMatchList = (): PlayingMatchList => {
   const dispatch = useAppDispatch();
   const matchHistory = useAppSelector((state) => state.matchHistory);
+  const matchList = useAppSelector((state) => state.matchList);
 
-  const playingMatchList = useMemo(() => {
-    const matchDetails = _.compact(matchHistory.map((match) => match.detail));
-    return groupBy(matchDetails, "gameName");
-  }, [matchHistory]);
+  const playingMatchList = useMemo(
+    () =>
+      groupBy(
+        matchHistory
+          .map((match) => [match, matchList[match.matchID]] as const)
+          .filter(([, detail]) => detail != null)
+          .map(([match, detail]) => ({ ...match, ...detail })),
+        "gameName"
+      ),
+    [matchHistory, matchList]
+  );
 
   useEffect(() => {
-    dispatch(getPlayingMatches());
+    dispatch(getJoinedMatches());
   }, [dispatch]);
 
   return playingMatchList;

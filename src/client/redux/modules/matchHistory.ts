@@ -1,18 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { LobbyAPI } from "boardgame.io";
 import { SupportedGame } from "@games";
 
-export type MatchDetail = LobbyAPI.Match & { gameName: SupportedGame };
-
-export type Match = {
+export type JoinedMatch = {
   matchID: string;
   gameName: SupportedGame;
   playerID: string;
   credentials: string;
-  detail?: MatchDetail;
 };
 
-export type MatchHistory = Match[];
+export type MatchHistory = JoinedMatch[];
 
 const initialState: MatchHistory = [];
 
@@ -20,17 +16,8 @@ export const matchHistoryModule = createSlice({
   name: "matchHistory",
   initialState,
   reducers: {
-    addMatch: (state, action: PayloadAction<Match>) => {
+    addMatch: (state, action: PayloadAction<JoinedMatch>) => {
       state.push(action.payload);
-    },
-    addMatchDetail: (state, action: PayloadAction<LobbyAPI.Match[]>) => {
-      const matchList = action.payload;
-      matchList.forEach((detail) => {
-        const match = state.find((match) => match.matchID === detail.matchID);
-        if (match != null) {
-          match.detail = { ...detail, gameName: match.gameName };
-        }
-      });
     },
     removeMatch: (state, action: PayloadAction<{ matchID: string }>) => {
       return state.filter((match) => match.matchID !== action.payload.matchID);
@@ -41,5 +28,5 @@ export const matchHistoryModule = createSlice({
   },
 });
 
-export const { addMatch, addMatchDetail, removeMatch, clearAllMatches } =
+export const { addMatch, removeMatch, clearAllMatches } =
   matchHistoryModule.actions;

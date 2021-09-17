@@ -1,7 +1,9 @@
 import { Slashchain, SupportedGame } from "@/games";
 import { useGameList } from "@hooks/useGameList";
-import { usePlayingMatchList } from "@hooks/usePlayingMatchList";
-import { MatchDetail } from "@redux/modules/matchHistory";
+import {
+  PlayingMatchList,
+  usePlayingMatchList,
+} from "@hooks/usePlayingMatchList";
 import { routes } from "@routes";
 import { strings } from "@strings";
 import dayjs from "dayjs";
@@ -22,7 +24,7 @@ type ContainerProps = {
 type PresenterProps = {
   status: Status;
   games: SupportedGame[];
-  playingMatchList: Map<SupportedGame, MatchDetail[]>;
+  playingMatchList: PlayingMatchList;
 };
 
 type Props = ContainerProps & PresenterProps;
@@ -48,7 +50,7 @@ const DomComponent: FC<Props> = ({
                 {!matches?.length ? (
                   <li>No Matches Found.</li>
                 ) : (
-                  matches?.map((match) => (
+                  matches.map((match) => (
                     <li key={match.matchID}>
                       <Link to={routes.match(game, match.matchID)}>
                         {dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}

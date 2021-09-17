@@ -23,7 +23,7 @@ export const matchListModule = createSlice({
   },
 });
 
-export const { addMatchList: addMatch } = matchListModule.actions;
+export const { addMatchList } = matchListModule.actions;
 
 export const isSupportedMatch = (match: LobbyAPI.Match): match is Match => {
   return _.keys(gameMap).includes(match.gameName);

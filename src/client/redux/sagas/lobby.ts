@@ -3,12 +3,11 @@ import { lobbyClient } from "@/client/lobby/client";
 import { SupportedGame } from "@games";
 import { filterSupportedGames, setGameList } from "@redux/modules/gameList";
 import { clearPlayingMatch, setPlayingMatch } from "@redux/modules/match";
-import { addMatch as addMatchToHistory } from "@redux/modules/matchHistory";
 import {
-  addMatchList,
-  isSupportedMatch,
-  Match,
-} from "@redux/modules/matchList";
+  addMatch as addMatchToHistory,
+  removeMatch,
+} from "@redux/modules/matchHistory";
+import { addMatch, isSupportedMatch } from "@redux/modules/matchList";
 import { createAction } from "@reduxjs/toolkit";
 import { routes } from "@routes";
 import { select } from "@utils/reduxSaga";
@@ -93,18 +92,18 @@ function* getJoinedMatchesSaga(
 ) {
   const matchHistory = yield* select((state) => state.matchHistory);
 
-  const matchResponse = yield* all(
-    matchHistory.map(({ gameName, matchID }) =>
-      call(() => lobbyClient.getMatch(gameName, matchID))
-    )
+  yield* all(
+    matchHistory.map(function* ({ gameName, matchID }) {
+      const response = yield* call(() =>
+        lobbyClient.getMatch(gameName, matchID)
+      );
+      if (response.ok && isSupportedMatch(response.body)) {
+        yield* put(addMatch(response.body));
+      } else {
+        yield* put(removeMatch({ matchID }));
+      }
+    })
   );
-  const supportedMatchList = matchResponse
-    .filter(
-      (response): response is { ok: true; body: Match } =>
-        response.ok && isSupportedMatch(response.body)
-    )
-    .map((response) => response.body);
-  yield* put(addMatchList(supportedMatchList));
 }
 
 function* createMatchSaga(

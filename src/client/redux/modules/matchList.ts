@@ -15,15 +15,13 @@ export const matchListModule = createSlice({
   name: "matchList",
   initialState,
   reducers: {
-    addMatchList: (state, action: PayloadAction<Match[]>) => {
-      action.payload.forEach((match) => {
-        state[match.matchID] = match;
-      });
+    addMatch: (state, action: PayloadAction<Match>) => {
+      state[action.payload.matchID] = action.payload;
     },
   },
 });
 
-export const { addMatchList } = matchListModule.actions;
+export const { addMatch } = matchListModule.actions;
 
 export const isSupportedMatch = (match: LobbyAPI.Match): match is Match => {
   return _.keys(gameMap).includes(match.gameName);

@@ -66,7 +66,6 @@ function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
 }
 
 function* getGamesSaga(_action: ReturnType<typeof actionCreators.getGames>) {
-  // TODO: fix error
   const response = yield* call(() => lobbyClient.listGames());
   if (!response.ok) {
     // TODO: toast error

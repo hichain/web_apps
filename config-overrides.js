@@ -11,7 +11,7 @@ module.exports = (config, _) => {
         "@redux": path.resolve(__dirname, "src/client/redux"),
         "@strings": path.resolve(__dirname, "src/client/assets/strings"),
         "@images": path.resolve(__dirname, "src/client/assets/images"),
-        "@css": path.resolve(__dirname, "src/client/assets/css"),
+        "@styles": path.resolve(__dirname, "src/client/assets/styles"),
         "@routes": path.resolve(__dirname, "src/client/assets/routes"),
         "@games": path.resolve(__dirname, "src/games"),
         "@": path.resolve(__dirname, "src"),

@@ -6,7 +6,7 @@
 			"@redux/*": ["client/redux/*"],
 			"@strings": ["client/assets/strings/index"],
 			"@images": ["client/assets/images/index"],
-			"@css/*": ["client/assets/css/*"],
+			"@styles/*": ["client/assets/styles/*"],
 			"@routes": ["client/assets/routes/index"],
 			"@games": ["games/index"],
 			"@games/*": ["games/*"],

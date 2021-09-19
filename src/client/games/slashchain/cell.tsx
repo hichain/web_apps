@@ -1,5 +1,5 @@
 import React, { FC, forwardRef, ReactNode, useEffect, useRef } from "react";
-import { breakpoints } from "@css/variables";
+import { breakpoints } from "@styles/variables";
 import styled from "styled-components";
 
 type Props = {

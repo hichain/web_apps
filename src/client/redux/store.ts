@@ -8,6 +8,7 @@ import { load, save } from "redux-localstorage-simple";
 import { gameListModule } from "./modules/gameList";
 import { matchListModule } from "./modules/matchList";
 import { lobbyModule } from "./sagas/lobby";
+import { notificationsModule } from "./modules/notifications";
 
 // Redux Design Pattern: https://react-redux.js.org/tutorials/typescript-quick-start
 
@@ -19,6 +20,7 @@ const reducer = {
   matchHistory: matchHistoryModule.reducer,
   gameList: gameListModule.reducer,
   matchList: matchListModule.reducer,
+  notifications: notificationsModule.reducer,
 } as const;
 
 export const actionCreator = {
@@ -28,6 +30,7 @@ export const actionCreator = {
   gameList: gameListModule.actions,
   matchList: matchListModule.actions,
   lobby: lobbyModule.actions,
+  notifications: notificationsModule.actions,
 } as const;
 
 const localStorageConfig: {

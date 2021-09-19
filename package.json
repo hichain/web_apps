@@ -28,6 +28,8 @@
     "node": "14.x"
   },
   "dependencies": {
+    "@mui/material": "^5.0.0",
+    "@mui/styled-engine-sc": "^5.0.0",
     "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@types/lodash": "^4.14.172",

@@ -1,5 +1,3 @@
-import "@css/reboot.css";
-import "@css/common.scss";
 import React from "react";
 import ReactDOM from "react-dom";
 import { App } from "./App";

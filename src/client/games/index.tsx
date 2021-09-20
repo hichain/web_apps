@@ -1,20 +1,18 @@
 import { Slashchain, SupportedGame } from "@/games";
+import { routes } from "@routes";
+import { strings } from "@strings";
+import dayjs from "dayjs";
+import React, { FC, useMemo } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { GameTopComponent } from "./game";
+import { GameMatchComponent } from "./game/match";
 import { useGameList } from "./hooks/useGameList";
 import {
   PlayingMatchList,
   usePlayingMatchList,
 } from "./hooks/usePlayingMatchList";
-import { routes } from "@routes";
-import { strings } from "@strings";
-import dayjs from "dayjs";
-import React, { FC, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { GameTopComponent } from "./game";
-import { GameMatchComponent } from "./game/match";
 import { SlashchainClient } from "./slashchain";
-
-type Status = "loading" | "success" | "failure";
 
 type ContainerProps = {
   children?: never;
@@ -22,65 +20,50 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  status: Status;
   games: SupportedGame[];
   playingMatchList: PlayingMatchList;
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({
-  className,
-  status,
-  games,
-  playingMatchList,
-}) => {
-  const children = useMemo(() => {
-    switch (status) {
-      case "loading":
-        return strings.responseMessages.games.loading;
-      case "success":
-        return games
-          .map((game) => [game, playingMatchList.get(game)] as const)
-          .map(([game, matches], i) => (
-            <div className="game_info" key={i}>
-              <h2>{strings.games[game] ?? "Unknown Game"}</h2>
-              <h3>Playing Match List</h3>
-              <ul className="playing_match_list">
-                {!matches?.length ? (
-                  <li>No Matches Found.</li>
-                ) : (
-                  matches.map((match) => (
-                    <li key={match.matchID}>
-                      <Link to={routes.match(game, match.matchID)}>
-                        {dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
-                        {match.gameover && " (Gameover!)"}
-                      </Link>
-                    </li>
-                  ))
-                )}
-              </ul>
-              <Link to={routes.game(game)}>Create a match</Link>
-            </div>
-          ));
-      case "failure":
-        return strings.responseMessages.games.failure;
-    }
-  }, [games, playingMatchList, status]);
+const DomComponent: FC<Props> = ({ className, games, playingMatchList }) => {
+  const GameList = useMemo(() => {
+    return games
+      .map((game) => [game, playingMatchList.get(game)] as const)
+      .map(([game, matches], i) => (
+        <div className="game_info" key={i}>
+          <h2>{strings.games[game] ?? "Unknown Game"}</h2>
+          <h3>Playing Match List</h3>
+          <ul className="playing_match_list">
+            {!matches?.length ? (
+              <li>No Matches Found.</li>
+            ) : (
+              matches.map((match) => (
+                <li key={match.matchID}>
+                  <Link to={routes.match(game, match.matchID)}>
+                    {dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
+                    {match.gameover && " (Gameover!)"}
+                  </Link>
+                </li>
+              ))
+            )}
+          </ul>
+          <Link to={routes.game(game)}>Create a match</Link>
+        </div>
+      ));
+  }, [games, playingMatchList]);
 
   return (
     <div className={className}>
       <h1>Games</h1>
-      <div className="games">{children}</div>
+      <div className="games">{GameList}</div>
     </div>
   );
 };
 
 const StyledComponent = styled(DomComponent)`
   h1 {
-    margin-top: 3.8rem;
-    margin-bottom: 3.8rem;
-    margin-left: 6rem;
+    margin: 2.4rem 0 2.4rem 6rem;
   }
   h2 {
     margin-top: 2.4rem;
@@ -99,20 +82,12 @@ const StyledComponent = styled(DomComponent)`
 `;
 
 export const GameListComponent: FC<ContainerProps> = (props) => {
-  const [status, setStatus] = useState<Status>("loading"); // TODO: migrate it to redux
   const gameList = useGameList();
   const playingMatchList = usePlayingMatchList();
-
-  useEffect(() => {
-    if (gameList.length > 0) {
-      setStatus("success");
-    }
-  }, [gameList.length]);
 
   return (
     <StyledComponent
       {...props}
-      status={status}
       games={gameList}
       playingMatchList={playingMatchList}
     />

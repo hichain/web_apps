@@ -63,9 +63,7 @@ const DomComponent: FC<Props> = ({ className, games, playingMatchList }) => {
 
 const StyledComponent = styled(DomComponent)`
   h1 {
-    margin-top: 3.8rem;
-    margin-bottom: 3.8rem;
-    margin-left: 6rem;
+    margin: 2.4rem 0 2.4rem 6rem;
   }
   h2 {
     margin-top: 2.4rem;

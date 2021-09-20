@@ -1,10 +1,17 @@
 import { LinearProgress } from "@mui/material";
 import { Box } from "@mui/system";
 import { useAppSelector } from "@redux/hooks/useAppSelector";
+import { View } from "@redux/modules/view";
 import React, { FC } from "react";
 
-export const ProgressBar: FC = () => {
-  const action = useAppSelector((state) => state.view.action);
+export type ProgressBarProps = {
+  action?: View["action"];
+};
+
+export const ProgressBar: FC<ProgressBarProps> = ({
+  action: overrideAction,
+}) => {
+  const action = useAppSelector((state) => overrideAction || state.view.action);
 
   return (
     <Box

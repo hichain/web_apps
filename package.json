@@ -12,7 +12,7 @@
     "start:master": "yarn workspace game-master start",
     "serve:master": "yarn workspace game-master serve",
     "build": "npm-run-all -p build:*",
-    "build:client": "react-app-rewired build",
+    "build:client": "REACT_APP_VERSION=\"`yarn run --silent app-version`\" react-app-rewired build",
     "build:master": "yarn workspace game-master build",
     "eject": "react-scripts eject",
     "lint": "npm-run-all -p lint:*",
@@ -21,7 +21,8 @@
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "gcp-build": "npm --prefix src/server/master run build"
+    "gcp-build": "npm --prefix src/server/master run build",
+    "app-version": "echo \"v$npm_package_version+`git rev-parse --short HEAD`\""
   },
   "engines": {
     "node": "14.x"

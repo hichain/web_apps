@@ -3,6 +3,7 @@ import { Env } from "./index";
 const port = process.env.PORT;
 
 export const productionEnv: Env = {
+  version: process.env.REACT_APP_VERSION,
   client: {
     urls: [
       "https://apps.hichain.jp",

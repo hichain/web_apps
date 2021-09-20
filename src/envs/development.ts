@@ -1,6 +1,7 @@
 import { Env } from "./index";
 
 export const developmentEnv: Env = {
+  version: "development",
   client: {
     urls: ["http://localhost:3000"],
   },

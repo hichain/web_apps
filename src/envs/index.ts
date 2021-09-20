@@ -2,6 +2,7 @@ import { developmentEnv } from "./development";
 import { productionEnv } from "./production";
 
 export type Env = {
+  version?: string;
   client: {
     urls: string[];
   };
@@ -11,7 +12,7 @@ export type Env = {
   };
 };
 
-export const envs = (() => {
+export const envs: Env | undefined = (() => {
   switch (process.env.NODE_ENV) {
     case "development":
       return developmentEnv;

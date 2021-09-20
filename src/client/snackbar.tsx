@@ -1,33 +1,20 @@
 import { useAppDispatch } from "@redux/hooks/useAppDispatch";
 import { useAppSelector } from "@redux/hooks/useAppSelector";
-import {
-  TransitionCloseHandler,
-  TransitionHandler,
-  useSnackbar,
-} from "notistack";
-import { FC, useCallback, useEffect } from "react";
+import { SnackbarProvider, TransitionHandler, useSnackbar } from "notistack";
+import React, { FC, useCallback, useEffect, useRef } from "react";
 
-export const SnackbarComponent: FC = () => {
+const Snackbar: FC = () => {
   const dispatch = useAppDispatch();
   const notifications = useAppSelector((state) => state.notifications);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-  const onClose: TransitionCloseHandler = useCallback(
-    (_event, _reason, closedKey) => {
-      dispatch(({ notifications }) =>
-        closedKey != null
-          ? notifications.close({ key: closedKey.toString() })
-          : notifications.closeAll()
-      );
-    },
-    [dispatch]
-  );
+  const displayed = useRef<string[]>([]);
 
   const onExited: TransitionHandler = useCallback(
     (_event, exitedKey) => {
       dispatch(({ notifications }) =>
         notifications.remove({ key: exitedKey.toString() })
       );
+      displayed.current = displayed.current.filter((key) => key !== exitedKey);
     },
     [dispatch]
   );
@@ -39,14 +26,33 @@ export const SnackbarComponent: FC = () => {
         return;
       }
 
+      if (displayed.current.includes(key)) return;
+
       enqueueSnackbar(message, {
         key,
         variant,
-        onClose,
         onExited,
       });
+
+      displayed.current.push(key);
     });
-  }, [closeSnackbar, enqueueSnackbar, notifications, onClose, onExited]);
+  }, [closeSnackbar, enqueueSnackbar, notifications, onExited]);
 
   return null;
 };
+
+const CustomSnackbarProvider: FC = ({ children }) => {
+  return (
+    <SnackbarProvider
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left",
+      }}
+    >
+      {children}
+      <Snackbar />
+    </SnackbarProvider>
+  );
+};
+
+export { CustomSnackbarProvider as SnackbarProvider };

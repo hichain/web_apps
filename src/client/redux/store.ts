@@ -9,6 +9,7 @@ import { gameListModule } from "./modules/gameList";
 import { matchListModule } from "./modules/matchList";
 import { lobbyModule } from "./sagas/lobby";
 import { notificationsModule } from "./modules/notifications";
+import { viewModule } from "./modules/view";
 
 // Redux Design Pattern: https://react-redux.js.org/tutorials/typescript-quick-start
 
@@ -21,6 +22,7 @@ const reducer = {
   gameList: gameListModule.reducer,
   matchList: matchListModule.reducer,
   notifications: notificationsModule.reducer,
+  view: viewModule.reducer,
 } as const;
 
 export const actionCreator = {
@@ -31,6 +33,7 @@ export const actionCreator = {
   matchList: matchListModule.actions,
   lobby: lobbyModule.actions,
   notifications: notificationsModule.actions,
+  view: viewModule.actions,
 } as const;
 
 const localStorageConfig: {

@@ -1,5 +1,3 @@
-import "@css/reboot.css";
-import "@css/common.scss";
 import React, { FC } from "react";
 import { Redirect, Router, Switch } from "react-router";
 import { DebugComponent } from "./client";

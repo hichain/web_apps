@@ -8,6 +8,8 @@ import { routes } from "@routes";
 import { select, put } from "@redux/utils/saga";
 import _ from "lodash";
 import { all, call, takeLatest, takeLeading } from "typed-redux-saga";
+import { strings } from "@strings";
+import { Notification } from "@redux/modules/notifications";
 
 const actions = {
   joinMatch: "lobby/joinMatch",
@@ -27,6 +29,12 @@ const actionCreators = {
   ),
 };
 
+const getErrorNotification = (
+  key: keyof typeof strings.errors
+): Notification => {
+  return { key, message: strings.errors[key], variant: "error" };
+};
+
 function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
   const { gameName, matchID } = action.payload;
 
@@ -34,9 +42,11 @@ function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
     lobbyClient.getMatch(gameName, matchID)
   );
   if (!matchResponse.ok) {
-    // TODO: toast error
+    yield* put(({ notifications }) =>
+      notifications.enqueue(getErrorNotification("joinMatch"))
+    );
     history.replace(routes.gameList);
-    throw matchResponse.error;
+    return;
   }
 
   const numPlayers = matchResponse.body.players.filter(
@@ -50,9 +60,11 @@ function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
     })
   );
   if (!joinedMatchResponse.ok) {
-    // TODO: toast error
+    yield* put(({ notifications }) =>
+      notifications.enqueue(getErrorNotification("joinMatch"))
+    );
     history.replace(routes.gameList);
-    throw joinedMatchResponse.error;
+    return;
   }
 
   yield* put(({ matchHistory }) =>
@@ -68,8 +80,10 @@ function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
 function* getGamesSaga(_action: ReturnType<typeof actionCreators.getGames>) {
   const response = yield* call(() => lobbyClient.listGames());
   if (!response.ok) {
-    // TODO: toast error
-    throw response.error;
+    yield* put(({ notifications }) =>
+      notifications.enqueue(getErrorNotification("getGames"))
+    );
+    return;
   }
 
   const supportedGameList = filterSupportedGames(response.body);
@@ -111,9 +125,11 @@ function* createMatchSaga(
     lobbyClient.createMatch(gameName, { numPlayers })
   );
   if (!response.ok) {
+    yield* put(({ notifications }) =>
+      notifications.enqueue(getErrorNotification("createMatch"))
+    );
     history.replace(routes.gameList);
-    // TODO: toast error
-    throw response.error;
+    return;
   }
 
   yield* put(({ match }) => match.setPlayingMatch(response.body.matchID));

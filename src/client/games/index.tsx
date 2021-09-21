@@ -1,6 +1,4 @@
-import { envs } from "@/envs";
 import { Slashchain, SupportedGame } from "@/games";
-import { Typography } from "@mui/material";
 import { routes } from "@routes";
 import { strings } from "@strings";
 import dayjs from "dayjs";
@@ -27,8 +25,6 @@ type PresenterProps = {
 };
 
 type Props = ContainerProps & PresenterProps;
-
-const version = envs?.version ?? "";
 
 const DomComponent: FC<Props> = ({ className, games, playingMatchList }) => {
   const GameList = useMemo(() => {
@@ -61,9 +57,6 @@ const DomComponent: FC<Props> = ({ className, games, playingMatchList }) => {
     <div className={className}>
       <h1>Games</h1>
       <div className="games">{GameList}</div>
-      <Typography variant="caption" className="version">
-        {version}
-      </Typography>
     </div>
   );
 };
@@ -85,11 +78,6 @@ const StyledComponent = styled(DomComponent)`
     a:active {
       text-decoration: underline;
     }
-  }
-  .version {
-    position: absolute;
-    right: 0.4rem;
-    bottom: 0.1rem;
   }
 `;
 

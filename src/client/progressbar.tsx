@@ -16,11 +16,8 @@ export const ProgressBar: FC<ProgressBarProps> = ({
   return (
     <Box
       sx={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 10000,
+        height: 0,
+        overflow: "visible",
       }}
     >
       {action === "running" && <LinearProgress />}

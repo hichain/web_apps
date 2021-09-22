@@ -4,14 +4,16 @@ import { Info } from "@mui/icons-material";
 import {
   AppBar,
   Box,
+  Button,
   IconButton,
   Popover,
   SvgIcon,
   Toolbar,
-  Typography,
 } from "@mui/material";
+import { routes } from "@routes";
 import { strings } from "@strings";
 import React, { FC, useCallback, useRef, useState } from "react";
+import { useHistory } from "react-router";
 
 const { AppIcon } = imageComponents;
 
@@ -57,6 +59,10 @@ const InfoButton: FC = () => {
 };
 
 export const Header: FC = () => {
+  const history = useHistory(); // TODO: fix "history is undefined"
+
+  const toRootPage = useCallback(() => history.push(routes.root), [history]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -66,14 +72,17 @@ export const Header: FC = () => {
             edge="start"
             color="inherit"
             aria-label="app-icon"
+            onClick={toRootPage}
           >
             <SvgIcon fontSize="large">
               <AppIcon />
             </SvgIcon>
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {strings.app.title}
-          </Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <Button size="large" color="inherit" onClick={toRootPage}>
+              {strings.app.title}
+            </Button>
+          </Box>
           <InfoButton />
         </Toolbar>
       </AppBar>

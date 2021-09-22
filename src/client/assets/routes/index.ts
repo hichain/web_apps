@@ -11,3 +11,9 @@ export const pages = {
   game: (game: string) => game,
   debugger: "Debugger",
 } as const;
+
+export const externalLinks = {
+  games: {
+    slashchain: "https://hichain.jp/slashchain/",
+  },
+} as const;

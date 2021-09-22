@@ -6,11 +6,8 @@ const games: { [game: string]: string } = {
   slashchain: "slashchain",
 } as const;
 
-const responseMessages = {
-  games: {
-    loading: "Loading Games...",
-    failure: "No games are available.",
-  },
+const titles = {
+  recentlyPlayedMatches: "Recently Played Matches",
 } as const;
 
 const events = {
@@ -27,7 +24,7 @@ const errors = {
 export const strings = {
   app,
   games,
-  responseMessages,
+  titles,
   events,
   errors,
 } as const;

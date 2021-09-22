@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Redirect, Router, Switch } from "react-router";
 import { DebugComponent } from "./client";
-import { gameComponents, GameListComponent } from "./client/games";
+import { gameComponents } from "./client/games";
 import { pages, routes } from "./client/assets/routes";
 import { PageRoute } from "./page";
 import { history } from "./client/history";
@@ -9,15 +9,15 @@ import { supportedGames } from "@games";
 import { Header } from "./client/header";
 import { ProgressBar } from "./client/progressbar";
 
-const { match: GameMatch, top: GameTop } = gameComponents;
+const { match: GameMatch, top: GameTop, list: GameList } = gameComponents;
 
 const Page: FC = () => (
   <Switch>
     <PageRoute
       title={pages.gameList}
-      path={routes.gameList}
+      path={routes.root}
       exact
-      component={GameListComponent}
+      component={GameList}
     />
     {supportedGames.map((game) => (
       <PageRoute
@@ -44,7 +44,7 @@ const Page: FC = () => (
       exact
       component={DebugComponent}
     />
-    <Redirect to={routes.gameList} />
+    <Redirect to={routes.root} />
   </Switch>
 );
 

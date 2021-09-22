@@ -81,7 +81,7 @@ const StyledComponent = styled(DomComponent)`
   }
 `;
 
-export const GameListComponent: FC<ContainerProps> = (props) => {
+const GameListComponent: FC<ContainerProps> = (props) => {
   const gameList = useGameList();
   const playingMatchList = usePlayingMatchList();
 
@@ -94,9 +94,8 @@ export const GameListComponent: FC<ContainerProps> = (props) => {
   );
 };
 
-export { SlashchainClient };
-
 export const gameComponents = {
+  list: GameListComponent,
   top: GameTopComponent,
   match: GameMatchComponent,
   games: {

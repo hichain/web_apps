@@ -16,4 +16,12 @@
   "javascript.format.semicolons": "insert",
   "typescript.preferences.importModuleSpecifierEnding": "minimal",
   "typescript.tsdk": "node_modules/typescript/lib",
+  "files.watcherExclude": {
+    "**/.git/**": true,
+    "**/node_modules/*/**": true,
+    "**/.hg/store/**": true,
+    ".husky/**": true,
+    ".vscode/**": true,
+    "build/**": true,
+  }
 }

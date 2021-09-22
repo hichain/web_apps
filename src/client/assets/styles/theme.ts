@@ -4,10 +4,10 @@ import { grey, deepOrange } from "@mui/material/colors";
 export const theme = createTheme({
   palette: {
     primary: {
-      main: grey[50],
+      main: deepOrange["500"],
     },
     secondary: {
-      main: deepOrange["A400"],
+      main: grey[50],
     },
     background: {
       default: grey[50],

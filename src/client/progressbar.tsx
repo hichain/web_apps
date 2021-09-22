@@ -20,7 +20,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
         overflow: "visible",
       }}
     >
-      {action === "running" && <LinearProgress />}
+      {action === "running" && <LinearProgress color="secondary" />}
     </Box>
   );
 };

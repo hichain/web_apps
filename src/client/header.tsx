@@ -59,7 +59,7 @@ const InfoButton: FC = () => {
 };
 
 export const Header: FC = () => {
-  const history = useHistory(); // TODO: fix "history is undefined"
+  const history = useHistory();
 
   const toRootPage = useCallback(() => history.push(routes.root), [history]);
 
@@ -79,7 +79,10 @@ export const Header: FC = () => {
             </SvgIcon>
           </IconButton>
           <Box sx={{ flexGrow: 1 }}>
-            <Button size="large" color="inherit" onClick={toRootPage}>
+            <Button
+              sx={{ color: "inherit", fontSize: "h6.fontSize" }}
+              onClick={toRootPage}
+            >
               {strings.app.title}
             </Button>
           </Box>

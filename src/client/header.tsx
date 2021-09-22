@@ -1,21 +1,19 @@
 import { envs } from "@/envs";
-import { imageComponents } from "@images";
+import { images } from "@images";
 import { Info } from "@mui/icons-material";
 import {
   AppBar,
   Box,
   Button,
+  Icon,
   IconButton,
   Popover,
-  SvgIcon,
   Toolbar,
 } from "@mui/material";
 import { routes } from "@routes";
 import { strings } from "@strings";
 import React, { FC, useCallback, useRef, useState } from "react";
 import { useHistory } from "react-router";
-
-const { AppIcon } = imageComponents;
 
 const version = envs?.version ?? "";
 
@@ -74,9 +72,9 @@ export const Header: FC = () => {
             aria-label="app-icon"
             onClick={toRootPage}
           >
-            <SvgIcon fontSize="large">
-              <AppIcon />
-            </SvgIcon>
+            <Icon fontSize="large">
+              <img src={images.appIcon} alt="app-icon" />
+            </Icon>
           </IconButton>
           <Box sx={{ flexGrow: 1 }}>
             <Button

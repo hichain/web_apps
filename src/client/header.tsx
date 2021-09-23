@@ -62,31 +62,29 @@ export const Header: FC = () => {
   const toRootPage = useCallback(() => history.push(routes.root), [history]);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="secondary">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="app-icon"
+    <AppBar position="sticky" color="secondary">
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="app-icon"
+          onClick={toRootPage}
+        >
+          <Icon fontSize="large">
+            <img src={images.appIcon} alt="app-icon" />
+          </Icon>
+        </IconButton>
+        <Box sx={{ flexGrow: 1 }}>
+          <Button
+            sx={{ color: "inherit", fontSize: "h6.fontSize" }}
             onClick={toRootPage}
           >
-            <Icon fontSize="large">
-              <img src={images.appIcon} alt="app-icon" />
-            </Icon>
-          </IconButton>
-          <Box sx={{ flexGrow: 1 }}>
-            <Button
-              sx={{ color: "inherit", fontSize: "h6.fontSize" }}
-              onClick={toRootPage}
-            >
-              {strings.app.title}
-            </Button>
-          </Box>
-          <InfoButton />
-        </Toolbar>
-      </AppBar>
-    </Box>
+            {strings.app.title}
+          </Button>
+        </Box>
+        <InfoButton />
+      </Toolbar>
+    </AppBar>
   );
 };

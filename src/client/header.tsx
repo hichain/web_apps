@@ -76,7 +76,7 @@ export const Header: FC = () => {
   return (
     <HideOnScroll>
       <AppBar position="sticky" color="secondary">
-        <Toolbar>
+        <Toolbar sx={{ alignItems: "center" }}>
           <IconButton
             size="large"
             edge="start"

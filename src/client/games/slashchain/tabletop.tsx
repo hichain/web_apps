@@ -46,7 +46,7 @@ const StyledComponent = styled(DomComponent)`
   align-items: stretch;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   padding: 4rem 0 0 0;
   margin: 0 auto;
 

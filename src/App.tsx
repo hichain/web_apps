@@ -8,8 +8,20 @@ import { history } from "./client/history";
 import { supportedGames } from "@games";
 import { Header } from "./client/header";
 import { ProgressBar } from "./client/progressbar";
+import { styled } from "@mui/system";
 
 const { match: GameMatch, top: GameTop, list: GameList } = gameComponents;
+
+const StyledGameMatch = styled(GameMatch)(() => ({
+  height: "calc(100vh - 64px)",
+  "& > *": {
+    height: "inherit",
+  },
+}));
+
+const StyledHeader = styled(Header)(() => ({
+  height: 64,
+}));
 
 const Page: FC = () => (
   <Switch>
@@ -29,7 +41,10 @@ const Page: FC = () => (
         title={pages.game(game)}
         path={routes.match(game, ":matchID")}
         render={({ match }) => (
-          <GameMatch gameName={game} matchID={match.params.matchID ?? ""} />
+          <StyledGameMatch
+            gameName={game}
+            matchID={match.params.matchID ?? ""}
+          />
         )}
       />
     ))}
@@ -45,7 +60,7 @@ const Page: FC = () => (
 
 export const App: FC = () => (
   <Router history={history}>
-    <Header />
+    <StyledHeader />
     <ProgressBar />
     <Page />
   </Router>

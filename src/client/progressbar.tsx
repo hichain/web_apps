@@ -18,9 +18,10 @@ export const ProgressBar: FC<ProgressBarProps> = ({
       sx={{
         height: 0,
         overflow: "visible",
+        zIndex: 1200,
       }}
     >
-      {action === "running" && <LinearProgress color="secondary" />}
+      {action === "running" && <LinearProgress />}
     </Box>
   );
 };

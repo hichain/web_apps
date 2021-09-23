@@ -6,7 +6,6 @@ export const routes = {
 } as const;
 
 export const pages = {
-  gameList: "Games",
   match: (game: string) => game,
   game: (game: string) => game,
   debugger: "Debugger",

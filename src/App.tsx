@@ -13,12 +13,7 @@ const { match: GameMatch, top: GameTop, list: GameList } = gameComponents;
 
 const Page: FC = () => (
   <Switch>
-    <PageRoute
-      title={pages.gameList}
-      path={routes.root}
-      exact
-      component={GameList}
-    />
+    <PageRoute path={routes.root} exact component={GameList} />
     {supportedGames.map((game) => (
       <PageRoute
         key={`${game}-top`}

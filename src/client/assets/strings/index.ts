@@ -2,11 +2,16 @@ const app = {
   title: "HICHAIN Apps",
 } as const;
 
-const games: { [game: string]: string } = {
-  slashchain: "slashchain",
+const games = {
+  slashchain: {
+    name: "slashchain",
+    description:
+      "シンプルで覚えやすいアブストラクトゲーム。\n使うタイルは6種類。\nスラッシュとバックスラッシュに分かれて、自分のラインを5つ繋げたら勝ち。",
+  },
 } as const;
 
 const titles = {
+  games: "Games",
   recentlyPlayedMatches: "Recently Played Matches",
 } as const;
 

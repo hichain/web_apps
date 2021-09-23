@@ -2,6 +2,7 @@ import { Slashchain, SupportedGame } from "@/games";
 import { images } from "@images";
 import {
   Avatar,
+  Box,
   Button,
   Card,
   CardActions,
@@ -32,7 +33,7 @@ type GameListComponentProps = {
   className?: string;
 };
 
-const gameName = (game: SupportedGame) => strings.games[game] ?? "Unknown Game";
+const gameStrings = (game: SupportedGame) => strings.games[game];
 
 const GameListComponent: FC<GameListComponentProps> = (props) => {
   const history = useHistory();
@@ -52,12 +53,18 @@ const GameListComponent: FC<GameListComponentProps> = (props) => {
   );
 
   return (
-    <div>
+    <Box>
       <CardMedia
         image={images.appLogo}
         sx={{ height: 160, marginY: 8, backgroundSize: "contain" }}
       />
-      <Container maxWidth="lg" sx={{ marginY: 8 }}>
+      <Typography variant="h4" align="center">
+        {strings.titles.games}
+      </Typography>
+      <Container
+        maxWidth="lg"
+        sx={{ display: "flex", justifyContent: "center", marginY: 8 }}
+      >
         {gameList.map((game) => (
           <Card sx={{ maxWidth: 350 }} key={game}>
             <CardMedia
@@ -68,10 +75,14 @@ const GameListComponent: FC<GameListComponentProps> = (props) => {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                {gameName(game)}
+                {gameStrings(game).name}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Description
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                whiteSpace="pre-line"
+              >
+                {gameStrings(game).description}
               </Typography>
             </CardContent>
             <CardActions>
@@ -106,7 +117,7 @@ const GameListComponent: FC<GameListComponentProps> = (props) => {
                   />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={gameName(match.gameName)}
+                  primary={gameStrings(match.gameName).name}
                   secondary={dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
                 />
               </ListItemButton>
@@ -114,7 +125,7 @@ const GameListComponent: FC<GameListComponentProps> = (props) => {
           ))}
         </List>
       </Container>
-    </div>
+    </Box>
   );
 };
 

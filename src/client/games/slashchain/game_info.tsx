@@ -1,6 +1,7 @@
 import React, { FC, memo } from "react";
 import styled from "styled-components";
 import { strings } from "@/client/assets/strings";
+import { Button } from "@mui/material";
 
 type Props = {
   className?: string;
@@ -12,9 +13,9 @@ type Props = {
 
 const DomComponent: FC<Props> = ({ className, events }) => (
   <div className={className}>
-    <button onClick={() => events.resetGame()}>
+    <Button size="medium" variant="outlined" onClick={() => events.resetGame()}>
       {strings.events.resetGame}
-    </button>
+    </Button>
   </div>
 );
 
@@ -22,10 +23,6 @@ const StyledComponent = styled(DomComponent)`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-
-  > button {
-    font-size: 1.4rem;
-  }
 `;
 
 export const GameInfoComponent = memo(StyledComponent);

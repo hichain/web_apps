@@ -33,10 +33,18 @@ const gameStrings = (game: SupportedGame) => strings.games[game];
 
 const AppImage: FC = () => {
   return (
-    <CardMedia
-      image={images.appLogo}
-      sx={{ height: 160, marginY: 8, backgroundSize: "contain" }}
-    />
+    <Container
+      maxWidth="lg"
+      sx={{ display: "flex", flexDirection: "column", marginY: 8 }}
+    >
+      <CardMedia
+        image={images.appLogo}
+        sx={{ height: "160px", backgroundSize: "contain" }}
+      />
+      <Typography variant="body1" align="center" whiteSpace="pre-line">
+        {strings.app.description}
+      </Typography>
+    </Container>
   );
 };
 

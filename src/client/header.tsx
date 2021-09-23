@@ -8,7 +8,9 @@ import {
   Icon,
   IconButton,
   Popover,
+  Slide,
   Toolbar,
+  useScrollTrigger,
 } from "@mui/material";
 import { routes } from "@routes";
 import { strings } from "@strings";
@@ -56,35 +58,47 @@ const InfoButton: FC = () => {
   );
 };
 
+const HideOnScroll: FC<{ children: React.ReactElement }> = ({ children }) => {
+  const trigger = useScrollTrigger();
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+};
+
 export const Header: FC = () => {
   const history = useHistory();
 
   const toRootPage = useCallback(() => history.push(routes.root), [history]);
 
   return (
-    <AppBar position="sticky" color="secondary">
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="app-icon"
-          onClick={toRootPage}
-        >
-          <Icon fontSize="large">
-            <img src={images.appIcon} alt="app-icon" />
-          </Icon>
-        </IconButton>
-        <Box sx={{ flexGrow: 1 }}>
-          <Button
-            sx={{ color: "inherit", fontSize: "h6.fontSize" }}
+    <HideOnScroll>
+      <AppBar position="sticky" color="secondary">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="app-icon"
             onClick={toRootPage}
           >
-            {strings.app.title}
-          </Button>
-        </Box>
-        <InfoButton />
-      </Toolbar>
-    </AppBar>
+            <Icon fontSize="large">
+              <img src={images.appIcon} alt="app-icon" />
+            </Icon>
+          </IconButton>
+          <Box sx={{ flexGrow: 1 }}>
+            <Button
+              sx={{ color: "inherit", fontSize: "h6.fontSize" }}
+              onClick={toRootPage}
+            >
+              {strings.app.title}
+            </Button>
+          </Box>
+          <InfoButton />
+        </Toolbar>
+      </AppBar>
+    </HideOnScroll>
   );
 };

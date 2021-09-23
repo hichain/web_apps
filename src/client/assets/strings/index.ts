@@ -1,7 +1,6 @@
 const app = {
   title: "HICHAIN Apps",
-  description:
-    "The platform for games published Hichain Project.\nYou can play the games with your friends for free.",
+  description: "Hichain Projectのボードゲームが遊べるアプリ",
 } as const;
 
 const games = {

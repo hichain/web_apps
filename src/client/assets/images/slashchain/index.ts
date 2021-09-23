@@ -16,6 +16,8 @@ import powerUpperLeft from "./power_upper-left.svg";
 import powerUpperRight from "./power_upper-right.svg";
 import cross from "./cross.svg";
 import square from "./square.svg";
+import artwork from "./artwork.png";
+import icon from "./icon.svg";
 
 export const tiles = {
   arrowUpwards,
@@ -42,4 +44,6 @@ export const slashchain = {
     backslash,
   },
   tiles,
+  artwork,
+  icon,
 } as const;

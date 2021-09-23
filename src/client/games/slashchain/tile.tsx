@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { RotatedTile, Tile, toRotatedTile } from "@/games/slashchain";
 import { images } from "@images";
 
-const tileImages = images.slashchain.tiles;
+const tileImages = images.games.slashchain.tiles;
 
 type ContainerProps = {
   className?: string;

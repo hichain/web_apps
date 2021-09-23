@@ -1,114 +1,181 @@
-import { envs } from "@/envs";
 import { Slashchain, SupportedGame } from "@/games";
-import { Typography } from "@mui/material";
-import { routes } from "@routes";
+import { images } from "@images";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Container,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  Typography,
+} from "@mui/material";
+import { externalLinks, routes } from "@routes";
 import { strings } from "@strings";
 import dayjs from "dayjs";
-import React, { FC, useMemo } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import _ from "lodash";
+import React, { FC, useCallback, useMemo } from "react";
+import { useHistory } from "react-router";
 import { GameTopComponent } from "./game";
 import { GameMatchComponent } from "./game/match";
 import { useGameList } from "./hooks/useGameList";
-import {
-  PlayingMatchList,
-  usePlayingMatchList,
-} from "./hooks/usePlayingMatchList";
+import { usePlayingMatchList } from "./hooks/usePlayingMatchList";
 import { SlashchainClient } from "./slashchain";
 
-type ContainerProps = {
+const gameStrings = (game: SupportedGame) => strings.games[game];
+
+const AppImage: FC = () => {
+  return (
+    <Container
+      maxWidth="lg"
+      sx={{ display: "flex", flexDirection: "column", marginY: 8 }}
+    >
+      <CardMedia
+        image={images.appLogo}
+        sx={{ height: "160px", backgroundSize: "contain" }}
+      />
+      <Typography variant="body1" align="center" whiteSpace="pre-line">
+        {strings.app.description}
+      </Typography>
+    </Container>
+  );
+};
+
+const GameList: FC = () => {
+  const gameList = useGameList();
+
+  return (
+    <Container maxWidth="lg" sx={{ marginY: 4 }}>
+      <Typography variant="h4" align="center">
+        {strings.gameList.games}
+      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        {gameList.length === 0 && (
+          <Typography variant="body1" align="center">
+            {strings.gameList.noGames}
+          </Typography>
+        )}
+        {gameList.map((game) => (
+          <Card sx={{ maxWidth: 350, marginY: 2 }} key={game}>
+            <CardMedia
+              component="img"
+              height="350"
+              image={images.games[game].artwork}
+              alt={game}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {gameStrings(game).name}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                whiteSpace="pre-line"
+              >
+                {gameStrings(game).description}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" variant="contained" href={routes.game(game)}>
+                {strings.common.play}
+              </Button>
+              <Button
+                size="small"
+                href={externalLinks.games[game]}
+                target="_blank"
+              >
+                {strings.common.learnMore}
+              </Button>
+            </CardActions>
+          </Card>
+        ))}
+      </Box>
+    </Container>
+  );
+};
+
+const MatchHistory: FC = () => {
+  const history = useHistory();
+  const playingMatchList = usePlayingMatchList();
+
+  const playMatch = useCallback(
+    (game: SupportedGame, matchID: string) => {
+      history.push(routes.match(game, matchID));
+    },
+    [history]
+  );
+
+  const sortedMatchList = useMemo(
+    () => _.reverse(_.sortBy(playingMatchList, (match) => match.createdAt)),
+    [playingMatchList]
+  );
+
+  return (
+    <Container maxWidth="sm" sx={{ marginY: 8 }}>
+      <Typography variant="h4" align="center">
+        {strings.gameList.recentlyPlayedMatches}
+      </Typography>
+      <Box sx={{ marginY: 2 }}>
+        {sortedMatchList.length === 0 && (
+          <Typography variant="body1" align="center">
+            {strings.gameList.noMatches}
+          </Typography>
+        )}
+        {sortedMatchList.length > 0 && (
+          <Paper>
+            <List>
+              {sortedMatchList.map((match) => (
+                <ListItem key={match.matchID}>
+                  <ListItemButton
+                    onClick={() => playMatch(match.gameName, match.matchID)}
+                  >
+                    <ListItemAvatar>
+                      <Avatar
+                        src={images.games[match.gameName].icon}
+                        variant="square"
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={gameStrings(match.gameName).name}
+                      secondary={dayjs(match.createdAt).format(
+                        "YYYY/MM/DD HH:mm"
+                      )}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        )}
+      </Box>
+    </Container>
+  );
+};
+
+type GameListComponentProps = {
   children?: never;
   className?: string;
 };
 
-type PresenterProps = {
-  games: SupportedGame[];
-  playingMatchList: PlayingMatchList;
-};
-
-type Props = ContainerProps & PresenterProps;
-
-const version = envs?.version ?? "";
-
-const DomComponent: FC<Props> = ({ className, games, playingMatchList }) => {
-  const GameList = useMemo(() => {
-    return games
-      .map((game) => [game, playingMatchList.get(game)] as const)
-      .map(([game, matches], i) => (
-        <div className="game_info" key={i}>
-          <h2>{strings.games[game] ?? "Unknown Game"}</h2>
-          <h3>Playing Match List</h3>
-          <ul className="playing_match_list">
-            {!matches?.length ? (
-              <li>No Matches Found.</li>
-            ) : (
-              matches.map((match) => (
-                <li key={match.matchID}>
-                  <Link to={routes.match(game, match.matchID)}>
-                    {dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
-                    {match.gameover && " (Gameover!)"}
-                  </Link>
-                </li>
-              ))
-            )}
-          </ul>
-          <Link to={routes.game(game)}>Create a match</Link>
-        </div>
-      ));
-  }, [games, playingMatchList]);
-
+const GameListComponent: FC<GameListComponentProps> = ({ className }) => {
   return (
-    <div className={className}>
-      <h1>Games</h1>
-      <div className="games">{GameList}</div>
-      <Typography variant="caption" className="version">
-        {version}
-      </Typography>
-    </div>
+    <Box className={className}>
+      <AppImage />
+      <GameList />
+      <MatchHistory />
+    </Box>
   );
 };
-
-const StyledComponent = styled(DomComponent)`
-  h1 {
-    margin: 2.4rem 0 2.4rem 6rem;
-  }
-  h2 {
-    margin-top: 2.4rem;
-    margin-bottom: 2.4rem;
-  }
-  .games {
-    margin-left: 8rem;
-
-    a:link,
-    a:visited,
-    a:hover,
-    a:active {
-      text-decoration: underline;
-    }
-  }
-  .version {
-    position: absolute;
-    right: 0.4rem;
-    bottom: 0.1rem;
-  }
-`;
-
-export const GameListComponent: FC<ContainerProps> = (props) => {
-  const gameList = useGameList();
-  const playingMatchList = usePlayingMatchList();
-
-  return (
-    <StyledComponent
-      {...props}
-      games={gameList}
-      playingMatchList={playingMatchList}
-    />
-  );
-};
-
-export { SlashchainClient };
 
 export const gameComponents = {
+  list: GameListComponent,
   top: GameTopComponent,
   match: GameMatchComponent,
   games: {

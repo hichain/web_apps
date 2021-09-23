@@ -45,7 +45,7 @@ function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
     yield* put(({ notifications }) =>
       notifications.enqueue(getErrorNotification("joinMatch"))
     );
-    history.replace(routes.gameList);
+    history.replace(routes.root);
     return;
   }
 
@@ -63,7 +63,7 @@ function* joinMatchSaga(action: ReturnType<typeof actionCreators.joinMatch>) {
     yield* put(({ notifications }) =>
       notifications.enqueue(getErrorNotification("joinMatch"))
     );
-    history.replace(routes.gameList);
+    history.replace(routes.root);
     return;
   }
 
@@ -128,7 +128,7 @@ function* createMatchSaga(
     yield* put(({ notifications }) =>
       notifications.enqueue(getErrorNotification("createMatch"))
     );
-    history.replace(routes.gameList);
+    history.replace(routes.root);
     return;
   }
 

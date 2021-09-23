@@ -5,7 +5,7 @@ import { images } from "@images";
 import { CellComponent } from "./cell";
 import clsx from "clsx";
 
-const playerImages = images.slashchain.players;
+const playerImages = images.games.slashchain.players;
 
 type ContainerProps = {
   className?: string;

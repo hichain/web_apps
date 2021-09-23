@@ -6,7 +6,6 @@ import { store } from "./client";
 import { SnackbarProvider } from "./client/snackbar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "@styles/theme";
-import { ProgressBar } from "./client/progressbar";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,7 +13,6 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <SnackbarProvider>
           <CssBaseline />
-          <ProgressBar />
           <App />
         </SnackbarProvider>
       </ThemeProvider>

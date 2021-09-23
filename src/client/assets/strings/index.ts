@@ -10,9 +10,16 @@ const games = {
   },
 } as const;
 
-const titles = {
+const gameList = {
   games: "Games",
   recentlyPlayedMatches: "Recently Played Matches",
+  noGames: "No Games are available.",
+  noMatches: "No Matches are available.",
+} as const;
+
+const common = {
+  play: "Play",
+  learnMore: "Learn More",
 } as const;
 
 const events = {
@@ -29,7 +36,8 @@ const errors = {
 export const strings = {
   app,
   games,
-  titles,
+  common,
+  gameList,
   events,
   errors,
 } as const;

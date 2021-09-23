@@ -14,6 +14,7 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Paper,
   Typography,
 } from "@mui/material";
 import { externalLinks, routes } from "@routes";
@@ -35,7 +36,7 @@ type GameListComponentProps = {
 
 const gameStrings = (game: SupportedGame) => strings.games[game];
 
-const GameListComponent: FC<GameListComponentProps> = (props) => {
+const GameListComponent: FC<GameListComponentProps> = ({ className }) => {
   const history = useHistory();
   const gameList = useGameList();
   const playingMatchList = usePlayingMatchList();
@@ -53,18 +54,23 @@ const GameListComponent: FC<GameListComponentProps> = (props) => {
   );
 
   return (
-    <Box>
+    <Box className={className}>
       <CardMedia
         image={images.appLogo}
         sx={{ height: 160, marginY: 8, backgroundSize: "contain" }}
       />
       <Typography variant="h4" align="center">
-        {strings.titles.games}
+        {strings.gameList.games}
       </Typography>
       <Container
         maxWidth="lg"
-        sx={{ display: "flex", justifyContent: "center", marginY: 8 }}
+        sx={{ display: "flex", justifyContent: "center", marginY: 4 }}
       >
+        {gameList.length === 0 && (
+          <Typography variant="body1" align="center">
+            {strings.gameList.noGames}
+          </Typography>
+        )}
         {gameList.map((game) => (
           <Card sx={{ maxWidth: 350 }} key={game}>
             <CardMedia
@@ -87,43 +93,56 @@ const GameListComponent: FC<GameListComponentProps> = (props) => {
             </CardContent>
             <CardActions>
               <Button size="small" variant="contained" href={routes.game(game)}>
-                Play
+                {strings.common.play}
               </Button>
               <Button
                 size="small"
                 href={externalLinks.games[game]}
                 target="_blank"
               >
-                Learn More
+                {strings.common.learnMore}
               </Button>
             </CardActions>
           </Card>
         ))}
       </Container>
-      <Container maxWidth="md" sx={{ marginY: 8 }}>
+      <Container maxWidth="sm" sx={{ marginY: 8 }}>
         <Typography variant="h4" align="center">
-          {strings.titles.recentlyPlayedMatches}
+          {strings.gameList.recentlyPlayedMatches}
         </Typography>
-        <List>
-          {sortedMatchList.map((match) => (
-            <ListItem key={match.matchID}>
-              <ListItemButton
-                onClick={() => playMatch(match.gameName, match.matchID)}
-              >
-                <ListItemAvatar>
-                  <Avatar
-                    src={images.games[match.gameName].icon}
-                    variant="square"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={gameStrings(match.gameName).name}
-                  secondary={dayjs(match.createdAt).format("YYYY/MM/DD HH:mm")}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <Box sx={{ marginY: 2 }}>
+          {sortedMatchList.length === 0 && (
+            <Typography variant="body1" align="center">
+              {strings.gameList.noMatches}
+            </Typography>
+          )}
+          {sortedMatchList.length > 0 && (
+            <Paper>
+              <List>
+                {sortedMatchList.map((match) => (
+                  <ListItem key={match.matchID}>
+                    <ListItemButton
+                      onClick={() => playMatch(match.gameName, match.matchID)}
+                    >
+                      <ListItemAvatar>
+                        <Avatar
+                          src={images.games[match.gameName].icon}
+                          variant="square"
+                        />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={gameStrings(match.gameName).name}
+                        secondary={dayjs(match.createdAt).format(
+                          "YYYY/MM/DD HH:mm"
+                        )}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
+          )}
+        </Box>
       </Container>
     </Box>
   );

@@ -29,50 +29,33 @@ import { useGameList } from "./hooks/useGameList";
 import { usePlayingMatchList } from "./hooks/usePlayingMatchList";
 import { SlashchainClient } from "./slashchain";
 
-type GameListComponentProps = {
-  children?: never;
-  className?: string;
-};
-
 const gameStrings = (game: SupportedGame) => strings.games[game];
 
-const GameListComponent: FC<GameListComponentProps> = ({ className }) => {
-  const history = useHistory();
+const AppImage: FC = () => {
+  return (
+    <CardMedia
+      image={images.appLogo}
+      sx={{ height: 160, marginY: 8, backgroundSize: "contain" }}
+    />
+  );
+};
+
+const GameList: FC = () => {
   const gameList = useGameList();
-  const playingMatchList = usePlayingMatchList();
-
-  const sortedMatchList = useMemo(
-    () => _.reverse(_.sortBy(playingMatchList, (match) => match.createdAt)),
-    [playingMatchList]
-  );
-
-  const playMatch = useCallback(
-    (game: SupportedGame, matchID: string) => {
-      history.push(routes.match(game, matchID));
-    },
-    [history]
-  );
 
   return (
-    <Box className={className}>
-      <CardMedia
-        image={images.appLogo}
-        sx={{ height: 160, marginY: 8, backgroundSize: "contain" }}
-      />
+    <Container maxWidth="lg" sx={{ marginY: 4 }}>
       <Typography variant="h4" align="center">
         {strings.gameList.games}
       </Typography>
-      <Container
-        maxWidth="lg"
-        sx={{ display: "flex", justifyContent: "center", marginY: 4 }}
-      >
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         {gameList.length === 0 && (
           <Typography variant="body1" align="center">
             {strings.gameList.noGames}
           </Typography>
         )}
         {gameList.map((game) => (
-          <Card sx={{ maxWidth: 350 }} key={game}>
+          <Card sx={{ maxWidth: 350, marginY: 2 }} key={game}>
             <CardMedia
               component="img"
               height="350"
@@ -105,45 +88,80 @@ const GameListComponent: FC<GameListComponentProps> = ({ className }) => {
             </CardActions>
           </Card>
         ))}
-      </Container>
-      <Container maxWidth="sm" sx={{ marginY: 8 }}>
-        <Typography variant="h4" align="center">
-          {strings.gameList.recentlyPlayedMatches}
-        </Typography>
-        <Box sx={{ marginY: 2 }}>
-          {sortedMatchList.length === 0 && (
-            <Typography variant="body1" align="center">
-              {strings.gameList.noMatches}
-            </Typography>
-          )}
-          {sortedMatchList.length > 0 && (
-            <Paper>
-              <List>
-                {sortedMatchList.map((match) => (
-                  <ListItem key={match.matchID}>
-                    <ListItemButton
-                      onClick={() => playMatch(match.gameName, match.matchID)}
-                    >
-                      <ListItemAvatar>
-                        <Avatar
-                          src={images.games[match.gameName].icon}
-                          variant="square"
-                        />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={gameStrings(match.gameName).name}
-                        secondary={dayjs(match.createdAt).format(
-                          "YYYY/MM/DD HH:mm"
-                        )}
+      </Box>
+    </Container>
+  );
+};
+
+const MatchHistory: FC = () => {
+  const history = useHistory();
+  const playingMatchList = usePlayingMatchList();
+
+  const playMatch = useCallback(
+    (game: SupportedGame, matchID: string) => {
+      history.push(routes.match(game, matchID));
+    },
+    [history]
+  );
+
+  const sortedMatchList = useMemo(
+    () => _.reverse(_.sortBy(playingMatchList, (match) => match.createdAt)),
+    [playingMatchList]
+  );
+
+  return (
+    <Container maxWidth="sm" sx={{ marginY: 8 }}>
+      <Typography variant="h4" align="center">
+        {strings.gameList.recentlyPlayedMatches}
+      </Typography>
+      <Box sx={{ marginY: 2 }}>
+        {sortedMatchList.length === 0 && (
+          <Typography variant="body1" align="center">
+            {strings.gameList.noMatches}
+          </Typography>
+        )}
+        {sortedMatchList.length > 0 && (
+          <Paper>
+            <List>
+              {sortedMatchList.map((match) => (
+                <ListItem key={match.matchID}>
+                  <ListItemButton
+                    onClick={() => playMatch(match.gameName, match.matchID)}
+                  >
+                    <ListItemAvatar>
+                      <Avatar
+                        src={images.games[match.gameName].icon}
+                        variant="square"
                       />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-            </Paper>
-          )}
-        </Box>
-      </Container>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={gameStrings(match.gameName).name}
+                      secondary={dayjs(match.createdAt).format(
+                        "YYYY/MM/DD HH:mm"
+                      )}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        )}
+      </Box>
+    </Container>
+  );
+};
+
+type GameListComponentProps = {
+  children?: never;
+  className?: string;
+};
+
+const GameListComponent: FC<GameListComponentProps> = ({ className }) => {
+  return (
+    <Box className={className}>
+      <AppImage />
+      <GameList />
+      <MatchHistory />
     </Box>
   );
 };

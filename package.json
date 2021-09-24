@@ -11,9 +11,9 @@
     "start:client": "vite",
     "start:master": "yarn workspace game-master start",
     "build": "npm-run-all -p build:*",
-    "build:client": "REACT_APP_VERSION=\"`yarn run --silent app-version`\" vite build",
+    "build:client": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite build",
     "build:master": "yarn workspace game-master build",
-    "serve:client": "REACT_APP_VERSION=\"`yarn run --silent app-version`\" vite preview",
+    "serve:client": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite preview",
     "serve:master": "yarn workspace game-master serve",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --watch",
@@ -89,7 +89,8 @@
     "stylelint-config-styled-components": "^0.1.1",
     "ts-jest": "^26.5.2",
     "ts-node": "^10.2.1",
-    "vite": "^2.5.10"
+    "vite": "^2.5.10",
+    "vite-plugin-eslint": "^1.3.0"
   },
   "browserslist": {
     "production": [

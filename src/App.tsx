@@ -24,44 +24,46 @@ const StyledHeader = styled(Header)(() => ({
 }));
 
 const Page: FC = () => (
-  <Switch>
-    <PageRoute path={routes.root} exact component={GameList} />
-    {supportedGames.map((game) => (
+  <Router history={history}>
+    <Switch>
+      <PageRoute path={routes.root} exact component={GameList} />
+      {supportedGames.map((game) => (
+        <PageRoute
+          key={`${game}-top`}
+          title={pages.game(game)}
+          path={routes.game(game)}
+          exact
+          render={() => <GameTop gameName={game} />}
+        />
+      ))}
+      {supportedGames.map((game) => (
+        <PageRoute
+          key={`${game}-match`}
+          title={pages.game(game)}
+          path={routes.match(game, ":matchID")}
+          render={({ match }) => (
+            <StyledGameMatch
+              gameName={game}
+              matchID={match.params.matchID ?? ""}
+            />
+          )}
+        />
+      ))}
       <PageRoute
-        key={`${game}-top`}
-        title={pages.game(game)}
-        path={routes.game(game)}
+        title={pages.debugger}
+        path={routes.debugger}
         exact
-        render={() => <GameTop gameName={game} />}
+        component={DebugComponent}
       />
-    ))}
-    {supportedGames.map((game) => (
-      <PageRoute
-        key={`${game}-match`}
-        title={pages.game(game)}
-        path={routes.match(game, ":matchID")}
-        render={({ match }) => (
-          <StyledGameMatch
-            gameName={game}
-            matchID={match.params.matchID ?? ""}
-          />
-        )}
-      />
-    ))}
-    <PageRoute
-      title={pages.debugger}
-      path={routes.debugger}
-      exact
-      component={DebugComponent}
-    />
-    <Redirect to={routes.root} />
-  </Switch>
+      <Redirect to={routes.root} />
+    </Switch>
+  </Router>
 );
 
 export const App: FC = () => (
-  <Router history={history}>
+  <>
     <StyledHeader />
     <ProgressBar />
     <Page />
-  </Router>
+  </>
 );

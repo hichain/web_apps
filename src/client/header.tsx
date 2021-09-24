@@ -15,7 +15,6 @@ import {
 import { routes } from "@routes";
 import { strings } from "@strings";
 import React, { FC, useCallback, useRef, useState } from "react";
-import { useHistory } from "react-router";
 
 const version = envs?.version ?? "";
 
@@ -69,10 +68,6 @@ const HideOnScroll: FC<{ children: React.ReactElement }> = ({ children }) => {
 };
 
 export const Header: FC = () => {
-  const history = useHistory();
-
-  const toRootPage = useCallback(() => history.push(routes.root), [history]);
-
   return (
     <HideOnScroll>
       <AppBar position="sticky" color="secondary">
@@ -82,7 +77,7 @@ export const Header: FC = () => {
             edge="start"
             color="inherit"
             aria-label="app-icon"
-            onClick={toRootPage}
+            href={routes.root}
           >
             <Icon fontSize="large">
               <img src={images.appIcon} alt="app-icon" />
@@ -91,7 +86,7 @@ export const Header: FC = () => {
           <Box sx={{ flexGrow: 1 }}>
             <Button
               sx={{ color: "inherit", fontSize: "h6.fontSize" }}
-              onClick={toRootPage}
+              href={routes.root}
             >
               {strings.app.title}
             </Button>

@@ -13,7 +13,7 @@ export type Env = {
 };
 
 export const envs: Env | undefined = (() => {
-  switch (process.env.NODE_ENV) {
+  switch (import.meta.env.MODE) {
     case "development":
       return developmentEnv;
     case "production":

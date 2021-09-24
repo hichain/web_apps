@@ -1,9 +1,9 @@
 import { Env } from "./index";
 
-const port = process.env.PORT;
+const port = import.meta.env.PORT;
 
 export const productionEnv: Env = {
-  version: process.env.REACT_APP_VERSION,
+  version: import.meta.env.REACT_APP_VERSION?.toString(),
   client: {
     urls: [
       "https://apps.hichain.jp",

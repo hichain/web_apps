@@ -8,7 +8,7 @@
     ]
   },
   "scripts": {
-    "start:client": "vite",
+    "start:client": "VITE_APP_VERSION=\"development\" vite",
     "start:master": "yarn workspace game-master start",
     "build": "npm-run-all -p build:*",
     "build:client": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite build",

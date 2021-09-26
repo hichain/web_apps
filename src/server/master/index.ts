@@ -1,12 +1,14 @@
 import { Server } from "boardgame.io/server";
 import { exit } from "process";
 import { games } from "../../games";
-import { envs } from "../../envs";
 
-const port = envs?.master.port;
+const port = process.env.MASTER_PORT ?? process.env.PORT;
 if (port == null) {
+  console.error("PORT is undefined");
   exit(1);
 }
 
-const server = Server({ games, origins: envs?.client.urls });
-server.run(port);
+const clientUrls = process.env.CLIENT_URLS?.split(",");
+
+const server = Server({ games, origins: clientUrls });
+server.run(Number(port));

@@ -1,4 +1,4 @@
-import { envs } from "@/envs";
+import { envs } from "@/client/envs";
 import { images } from "@images";
 import { Info } from "@mui/icons-material";
 import {
@@ -16,7 +16,7 @@ import { routes } from "@routes";
 import { strings } from "@strings";
 import React, { FC, useCallback, useRef, useState } from "react";
 
-const version = envs?.version ?? "";
+const version = envs?.appVersion ?? "";
 
 const InfoButton: FC = () => {
   const [open, setOpen] = useState<boolean>(false);

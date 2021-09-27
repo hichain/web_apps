@@ -6,8 +6,15 @@ name: Deploy Web Server to Firebase Hosting on merge
   push:
     branches:
       - master
-    paths-ignore:
-      - README.md
+    paths:
+      - .env*
+      - .firebaserc
+      - firebase.json
+      - package.json
+      - yarn.lock
+      - .github/workflows/deploy_web.yml
+      - src/client/**
+      - src/games/**
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest

@@ -4,12 +4,13 @@ name: Deploy Master Server to Google App Engine on merge
     branches:
       - master
     paths:
-      - src/games/**
-      - src/envs/**
-      - src/server/master/**
+      - .env*
       - yarn.lock
       - app.yaml
+      - package.json
       - .github/workflows/deploy_master.yml
+      - src/games/**
+      - src/server/master/**
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest

@@ -2,28 +2,25 @@
   "name": "hichain_web_apps",
   "version": "1.0.0",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "src/server/*"
-    ]
-  },
   "scripts": {
-    "start:client": "VITE_APP_VERSION=\"development\" vite",
-    "start:master": "yarn workspace game-master start",
+    "start:client": "VITE_APP_VERSION=\"development\" vite --config src/vite.config.ts",
+    "start:master": "ts-node -r dotenv/config --project src/tsconfig.server.json src/server/index.ts dotenv_config_path=.env.development",
     "build": "npm-run-all -p build:*",
-    "build:client": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite build",
-    "build:master": "yarn workspace game-master build",
-    "serve:client": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite preview",
-    "serve:master": "yarn workspace game-master serve",
-    "typecheck": "tsc --noEmit",
-    "typecheck:watch": "tsc --watch",
+    "build:client": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite --config src/vite.config.ts build",
+    "build:master": "tsc --project src/tsconfig.server.json",
+    "serve:client": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite --config src/vite.config.ts preview",
+    "serve:master": "node -r dotenv/config src/dist/server/server/index.js dotenv_config_path=.env.production",
+    "typecheck": "npm-run-all -p typecheck:*",
+    "typecheck:client": "tsc --project src/tsconfig.json --noEmit",
+    "typecheck:server": "tsc --project src/tsconfig.server.json --noEmit",
+    "tsc-watch:client": "tsc --project src/tsconfig.json --watch",
+    "tsc-watch:server": "tsc --project src/tsconfig.server.json --watch",
     "lint": "npm-run-all -p lint:*",
     "lint:ts": "eslint --max-warnings=0 './src/**/*.{ts,tsx}'",
     "lint:css-in-js": "stylelint --max-warnings=0 --syntax 'css-in-js' './src/**/*.tsx'",
     "test": "jest --passWithNoTests",
     "prepare": "husky install",
     "lint-staged": "lint-staged",
-    "gcp-build": "npm --prefix src/server/master run build",
     "app-version": "echo \"v$npm_package_version+`git rev-parse --short HEAD`\""
   },
   "engines": {
@@ -105,21 +102,16 @@
     ]
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "js"
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/src/**/*.test.ts"
     ],
-    "transform": {
-      "^.+\\.ts$": "ts-jest"
-    },
     "globals": {
       "ts-jest": {
-        "tsconfig": "tsconfig.json"
+        "tsconfig": "<rootDir>/src/tsconfig.test.json"
       }
-    },
-    "testMatch": [
-      "**/*.test.ts"
-    ]
+    }
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --fix --max-warnings=0",

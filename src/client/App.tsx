@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 import { Redirect, Router, Switch } from "react-router";
-import { DebugComponent } from "./client";
-import { gameComponents } from "./client/games";
-import { pages, routes } from "./client/assets/routes";
+import { DebugComponent } from "./debug";
+import { gameComponents } from "./games";
+import { pages, routes } from "./assets/routes";
 import { PageRoute } from "./page";
-import { history } from "./client/history";
-import { supportedGames } from "@games";
-import { Header } from "./client/header";
-import { ProgressBar } from "./client/progressbar";
+import { history } from "./history";
+import { supportedGames } from "../games";
+import { Header } from "./header";
+import { ProgressBar } from "./progressbar";
 import { styled } from "@mui/system";
 
 const { match: GameMatch, top: GameTop, list: GameList } = gameComponents;

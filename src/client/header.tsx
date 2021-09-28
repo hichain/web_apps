@@ -1,4 +1,4 @@
-import { envs } from "@/client/envs";
+import { envs } from "./envs";
 import { images } from "@images";
 import { Info } from "@mui/icons-material";
 import {

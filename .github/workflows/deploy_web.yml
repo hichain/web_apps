@@ -28,9 +28,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn
-      - run: yarn build
+      - run: yarn typecheck:client
       - run: yarn test
       - run: yarn lint
+      - run: yarn build:client
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

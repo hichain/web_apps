@@ -27,6 +27,8 @@ const createConfig = ({ mode }: UserConfig) => {
         "@routes": path.resolve(__dirname, "client/assets/routes"),
         "@games": path.resolve(__dirname, "games"),
         "@": path.resolve(__dirname, "."),
+        "xmlhttprequest-ssl":
+          "./node_modules/engine.io-client/lib/xmlhttprequest.js",
       },
     },
   });

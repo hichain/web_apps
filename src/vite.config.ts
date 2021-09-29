@@ -15,7 +15,7 @@ const createConfig = ({ mode }: UserConfig) => {
     plugins: [react(), esLintPlugin()],
     build: {
       sourcemap: true,
-      outDir: "dist/client",
+      outDir: "../dist/client",
     },
     resolve: {
       alias: {

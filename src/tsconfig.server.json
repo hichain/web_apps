@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
-    "outDir": "dist/server",
+    "outDir": "../dist/server",
     "allowJs": false,
     "strict": true,
     "esModuleInterop": true,

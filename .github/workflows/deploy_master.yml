@@ -10,7 +10,8 @@ name: Deploy Master Server to Google App Engine on merge
       - package.json
       - .github/workflows/deploy_master.yml
       - src/games/**
-      - src/server/master/**
+      - src/server/**
+      - src/*
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -24,10 +25,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn
-      - run: yarn typecheck:server
+      - run: yarn typecheck:master
       - run: yarn test
       - run: yarn lint:ts
-      - run: yarn build:server
+      - run: yarn build:master
       - id: deploy
         uses: google-github-actions/deploy-appengine@main
         with:

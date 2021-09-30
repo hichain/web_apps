@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { envs } from "@/envs";
+import { envs } from "@/client/envs";
 import { getAPIResponse, PromiseValue } from "@utils/promise";
 import { LobbyClient, LobbyClientError } from "boardgame.io/client";
 
-export const lobbyServerURL = envs?.master.url;
+export const lobbyServerURL = envs?.masterUrl;
 
 const wrapAPI = <API extends (...args: any[]) => Promise<any>>(
   context: LobbyClient,

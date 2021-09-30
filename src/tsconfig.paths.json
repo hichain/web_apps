@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"baseUrl": "src",
+		"baseUrl": ".",
 		"paths": {
 			"@utils/*": ["client/utils/*"],
 			"@redux/*": ["client/redux/*"],

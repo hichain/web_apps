@@ -30,12 +30,6 @@ const createConfig = ({ mode }: UserConfig) => {
         "xmlhttprequest-ssl": "engine.io-client/lib/xmlhttprequest.js",
       },
     },
-    server: {
-      fs: {
-        strict: false,
-        allow: [".."],
-      },
-    },
   });
 };
 

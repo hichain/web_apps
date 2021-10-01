@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.172",
-    "boardgame.io": "0.47.9",
+    "boardgame.io": "0.48.0",
     "dayjs": "^1.10.6",
     "dotenv": "^10.0.0",
     "@games": "link:./src/games",

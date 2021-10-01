@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from "react";
 import styled from "styled-components";
-import { NamedPlayer, Tile } from "@/games/slashchain/";
+import { NamedPlayer, Tile } from "@games";
 import { HandState } from "./hand_tile";
 import { HandsComponent } from "./hands";
 import { PlayerInfoComponent } from "./player_info";
@@ -14,17 +14,17 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  isOtherTurn: boolean;
+  isMyTurn: boolean;
   hands: { tile: Tile; state: HandState }[];
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, hands, player, isOtherTurn }) => {
+const DomComponent: FC<Props> = ({ className, hands, player, isMyTurn }) => {
   return (
     <div className={className}>
       <HandsComponent player={player} hands={hands} />
-      <PlayerInfoComponent player={player} isMyTurn={isOtherTurn} />
+      <PlayerInfoComponent player={player} isMyTurn={isMyTurn} />
     </div>
   );
 };
@@ -33,16 +33,26 @@ const StyledComponent = styled(DomComponent)`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  transform: rotate(180deg);
 `;
 
-export const OtherFieldComponent: FC<ContainerProps> = (props) => {
-  const isOtherTurn = useAppSelector((state) => !state.match.isMyTurn);
+export const MyFieldComponent: FC<ContainerProps> = (props) => {
+  const isMyTurn = useAppSelector((state) => state.match.isMyTurn);
+  const pickedTile = useAppSelector((state) => state.player.pickedTile);
+
   const presenterProps: PresenterProps = {
-    isOtherTurn,
+    isMyTurn,
     hands: useMemo(
-      () => props.tiles.map((tile) => ({ tile, state: "fixed" })),
-      [props.tiles]
+      () =>
+        props.tiles.map((tile, i) => {
+          if (pickedTile?.index === i) {
+            return { tile, state: "picked" };
+          } else if (isMyTurn) {
+            return { tile, state: "pickable" };
+          } else {
+            return { tile, state: "disabled" };
+          }
+        }),
+      [props.tiles, pickedTile?.index, isMyTurn]
     ),
   };
 

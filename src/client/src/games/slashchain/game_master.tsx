@@ -4,7 +4,7 @@ import {
   NamedPlayer,
   playOrder as players,
   TileBoard,
-} from "@/games";
+} from "@games";
 import { useAppDispatch } from "@redux/hooks/useAppDispatch";
 import { useAppSelector } from "@redux/hooks/useAppSelector";
 import { BoardProps } from "boardgame.io/dist/types/packages/react";

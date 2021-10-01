@@ -1,6 +1,6 @@
 import React, { FC, memo } from "react";
 import styled from "styled-components";
-import { NamedPlayer } from "@/games/slashchain/";
+import { NamedPlayer } from "@games";
 import { images } from "@images";
 import { CellComponent } from "./cell";
 import clsx from "clsx";

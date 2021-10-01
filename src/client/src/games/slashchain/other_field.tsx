@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from "react";
 import styled from "styled-components";
-import { NamedPlayer, Tile } from "@/games/slashchain/";
+import { NamedPlayer, Tile } from "@games";
 import { HandState } from "./hand_tile";
 import { HandsComponent } from "./hands";
 import { PlayerInfoComponent } from "./player_info";
@@ -14,17 +14,17 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  isMyTurn: boolean;
+  isOtherTurn: boolean;
   hands: { tile: Tile; state: HandState }[];
 };
 
 type Props = ContainerProps & PresenterProps;
 
-const DomComponent: FC<Props> = ({ className, hands, player, isMyTurn }) => {
+const DomComponent: FC<Props> = ({ className, hands, player, isOtherTurn }) => {
   return (
     <div className={className}>
       <HandsComponent player={player} hands={hands} />
-      <PlayerInfoComponent player={player} isMyTurn={isMyTurn} />
+      <PlayerInfoComponent player={player} isMyTurn={isOtherTurn} />
     </div>
   );
 };
@@ -33,26 +33,16 @@ const StyledComponent = styled(DomComponent)`
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  transform: rotate(180deg);
 `;
 
-export const MyFieldComponent: FC<ContainerProps> = (props) => {
-  const isMyTurn = useAppSelector((state) => state.match.isMyTurn);
-  const pickedTile = useAppSelector((state) => state.player.pickedTile);
-
+export const OtherFieldComponent: FC<ContainerProps> = (props) => {
+  const isOtherTurn = useAppSelector((state) => !state.match.isMyTurn);
   const presenterProps: PresenterProps = {
-    isMyTurn,
+    isOtherTurn,
     hands: useMemo(
-      () =>
-        props.tiles.map((tile, i) => {
-          if (pickedTile?.index === i) {
-            return { tile, state: "picked" };
-          } else if (isMyTurn) {
-            return { tile, state: "pickable" };
-          } else {
-            return { tile, state: "disabled" };
-          }
-        }),
-      [props.tiles, pickedTile?.index, isMyTurn]
+      () => props.tiles.map((tile) => ({ tile, state: "fixed" })),
+      [props.tiles]
     ),
   };
 

@@ -1,5 +1,5 @@
-import { history } from "@/client/history";
-import { lobbyClient } from "@/client/lobby/client";
+import { history } from "@//history";
+import { lobbyClient } from "@/lobby/client";
 import { SupportedGame } from "@games";
 import { filterSupportedGames } from "@redux/modules/gameList";
 import { isSupportedMatch } from "@redux/modules/matchList";

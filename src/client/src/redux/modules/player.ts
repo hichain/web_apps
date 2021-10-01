@@ -1,4 +1,4 @@
-import { Cell } from "@/games";
+import { Cell } from "@games";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type Player = {

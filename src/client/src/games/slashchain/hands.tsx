@@ -1,6 +1,6 @@
 import React, { FC, memo } from "react";
 import styled from "styled-components";
-import { NamedPlayer, Tile } from "@/games/slashchain/";
+import { NamedPlayer, Tile } from "@games";
 import { HandState, HandTileComponent } from "./hand_tile";
 
 type ContainerProps = {

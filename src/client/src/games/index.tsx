@@ -1,4 +1,4 @@
-import { Slashchain, SupportedGame } from "@/games";
+import { Slashchain, SupportedGame } from "@games";
 import { images } from "@images";
 import {
   Avatar,

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { RotatedTile, Tile, toRotatedTile } from "@/games/slashchain";
+import { RotatedTile, Tile, toRotatedTile } from "@games";
 import { images } from "@images";
 
 const tileImages = images.games.slashchain.tiles;

@@ -5,7 +5,7 @@ import { gameComponents } from "./games";
 import { pages, routes } from "./assets/routes";
 import { PageRoute } from "./page";
 import { history } from "./history";
-import { supportedGames } from "../games";
+import { supportedGames } from "@games";
 import { Header } from "./header";
 import { ProgressBar } from "./progressbar";
 import { styled } from "@mui/system";

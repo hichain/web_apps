@@ -3,8 +3,8 @@ import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
 import { Slashchain } from "@games";
 import { TabletopComponent } from "./tabletop";
-import { lobbyServerURL } from "@/client/lobby/client";
-import { ProgressBar } from "@/client/progressbar";
+import { lobbyServerURL } from "@/lobby/client";
+import { ProgressBar } from "@/progressbar";
 
 const Loading: FC = () => <ProgressBar action="running" />;
 

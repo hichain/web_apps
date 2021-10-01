@@ -1,4 +1,4 @@
-import { Slashchain } from "@/games";
+import { Slashchain } from "@games";
 import { useAppDispatch } from "@redux/hooks/useAppDispatch";
 import { useAppSelector } from "@redux/hooks/useAppSelector";
 import { SupportedGame } from "@games";

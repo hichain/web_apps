@@ -1,6 +1,6 @@
 import { Cell, Tile, TileBoard } from "@games";
 import { useAppSelector } from "@redux/hooks/useAppSelector";
-import { useBoard } from "@/client/games/hooks/useBoard";
+import { useBoard } from "@/games/hooks/useBoard";
 import React, { FC } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import styled from "styled-components";

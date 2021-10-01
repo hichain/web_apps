@@ -1,6 +1,6 @@
 import React, { FC, memo, useCallback, useState } from "react";
 import styled from "styled-components";
-import { Tile } from "@/games/slashchain";
+import { Tile } from "@games";
 import { TileComponent } from "./tile";
 import { CellComponent } from "./cell";
 import clsx from "clsx";

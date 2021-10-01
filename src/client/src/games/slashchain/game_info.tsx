@@ -1,6 +1,6 @@
 import React, { FC, memo } from "react";
 import styled from "styled-components";
-import { strings } from "@/client/assets/strings";
+import { strings } from "@strings";
 import { Button } from "@mui/material";
 
 type Props = {

@@ -1,9 +1,8 @@
 import React, { FC, memo, useCallback } from "react";
 import styled from "styled-components";
-import { Tile } from "@/games/slashchain";
+import { Tile, Cell } from "@games";
 import { CellComponent } from "./cell";
 import { TileComponent } from "./tile";
-import { Cell } from "@/games";
 import clsx from "clsx";
 import { useAppDispatch } from "@redux/hooks/useAppDispatch";
 

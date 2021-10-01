@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { envs } from "@/client/envs";
+import { envs } from "@envs";
 import { getAPIResponse, PromiseValue } from "@utils/promise";
 import { LobbyClient, LobbyClientError } from "boardgame.io/client";
 

@@ -1,4 +1,4 @@
-import { NamedPlayer } from "@/games";
+import { NamedPlayer } from "@games";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type PlayingMatch = {

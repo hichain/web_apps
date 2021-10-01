@@ -1,6 +1,6 @@
 import { Server } from "boardgame.io/server";
 import { exit } from "process";
-import { games } from "../games";
+import { games } from "@games";
 
 const port = process.env.MASTER_PORT ?? process.env.PORT;
 if (port == null) {

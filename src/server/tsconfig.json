@@ -2,13 +2,12 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
-    "outDir": "../dist/server",
+    "outDir": "dist",
     "allowJs": false,
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "moduleResolution": "node"
   },
-  "files": ["server/index.ts"],
-  "extends": "./tsconfig.paths.json"
+  "files": ["index.ts"]
 }

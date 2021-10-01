@@ -36,12 +36,14 @@ $ yarn
 
 ```
 $ yarn start:client
+[optional] $ yarn tsc-watch:client
 ```
 
 ### Running Game Master Server (local)
 
 ```
-$ yarn start:master
+$ yarn start:server
+[optional] $ yarn tsc-watch:server
 ```
 
 ### Running Tests
@@ -56,30 +58,42 @@ $ yarn test
 $ yarn lint
 ```
 
-## Technology stacks
+## Technology Stacks
+
+### Common
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [yarn](https://yarnpkg.com)
+- [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/)
+- [stylelint](https://stylelint.io/)
+- [husky](https://github.com/typicode/husky) + [lint-staged](https://github.com/okonet/lint-staged)
+- [Jest](https://jestjs.io/) + [ts-jest](https://github.com/kulshekhar/ts-jest)
+- [Dayjs](https://day.js.org/)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [lodash](https://lodash.com/)
 
 ### Frontend
 
-- [TypeScript](https://www.typescriptlang.org/)
+- [boardgame.io](https://github.com/boardgameio/boardgame.io)
 - [React](https://reactjs.org/)
 - [React Router](https://reacttraining.com/react-router/)
-- [boardgame.io](https://github.com/boardgameio/boardgame.io)
-- [styled-component](https://styled-components.com/)
+- [React Redux](https://react-redux.js.org/) + [Redux Toolkit](https://redux-toolkit.js.org/)
+- [Redux-Saga](https://redux-saga.js.org/) + [typed-redux-saga](https://github.com/agiledigital/typed-redux-saga)
+- [Redux-LocalStorage-Simple](https://www.npmjs.com/package/redux-localstorage-simple)
+- [React Indiana Drag Scroll](https://www.npmjs.com/package/react-indiana-drag-scroll)
 - [Sass](https://sass-lang.com/)
-- [Reboot.css](https://github.com/twbs/bootstrap/releases/tag/v4.6.0)
-- [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/)
-- [stylelint](https://stylelint.io/)
-- [Jest](https://jestjs.io/)
-- [yarn](https://yarnpkg.com)
-- [webpack](https://webpack.js.org/)
-- [husky](https://github.com/typicode/husky) + [lint-staged](https://github.com/okonet/lint-staged)
+- [styled-components](https://styled-components.com/)
+- [MUI](https://mui.com/)
+- [notistack](https://github.com/iamhosseindhv/notistack)
+- [vite](https://vitejs.dev/)
+- [clsx](https://www.npmjs.com/package/clsx)
 
 ### Backend
 
-- [TypeScript](https://www.typescriptlang.org/)
 - [boardgame.io](https://github.com/boardgameio/boardgame.io)
+- [node.js](https://nodejs.org)
 
-### Editor
+### Recommended Editor
 
 - [Visual Studio Code](https://code.visualstudio.com/)
 

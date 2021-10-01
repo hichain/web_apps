@@ -1,0 +1,18 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "ts-node -r dotenv/config index.ts dotenv_config_path=../../.env.development",
+    "serve": "ts-node -r dotenv/config index.ts dotenv_config_path=../../.env.production",
+    "typecheck": "tsc --noEmit",
+    "tsc-watch": "tsc --watch"
+  },
+  "dependencies": {
+    "@types/node": "^14.14.31",
+    "node-sass": "^5.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.2.1"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "VITE_APP_VERSION=\"development\" vite",
+    "build": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite build",
+    "serve": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite preview",
+    "typecheck": "tsc --noEmit",
+    "tsc-watch": "tsc --watch",
+    "app-version": "echo \"v$npm_package_version+`git rev-parse --short HEAD`\""
+  },
+  "dependencies": {
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@material-ui/core": "^4.12.3",
+    "@mui/icons-material": "^5.0.0",
+    "@mui/material": "^5.0.0",
+    "@mui/styled-engine-sc": "^5.0.0",
+    "@reduxjs/toolkit": "^1.6.1",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "@types/styled-components": "^5.1.13",
+    "clsx": "^1.1.1",
+    "notistack": "^1.0.10",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-indiana-drag-scroll": "^2.0.1",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "redux-localstorage-simple": "^2.4.1",
+    "redux-saga": "^1.1.3",
+    "styled-components": "^5.3.1",
+    "typed-redux-saga": "^1.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@jambit/eslint-plugin-typed-redux-saga": "^0.3.1",
+    "@types/react-router": "^5.1.11",
+    "@types/react-router-dom": "^5.1.7",
+    "@vitejs/plugin-react": "^1.0.1",
+    "eslint-plugin-react": "^7.25.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "vite": "^2.6.1",
+    "vite-plugin-eslint": "^1.3.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

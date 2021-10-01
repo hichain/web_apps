@@ -1,2 +1,2 @@
 runtime: nodejs14
-entrypoint: "npm run serve:server"
+entrypoint: "npm --prefix src/server run serve"

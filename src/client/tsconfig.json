@@ -7,7 +7,7 @@
       "esnext"
     ],
     "types": ["vite/client"],
-    "outDir": "dist",
+    "outDir": "../dist/client",
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,

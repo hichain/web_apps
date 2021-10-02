@@ -27,6 +27,8 @@ jobs:
       - run: yarn typecheck:server
       - run: yarn test
       - run: yarn lint:ts
+      - run: yarn build:games
+      - run: yarn build:server
       - id: deploy
         uses: google-github-actions/deploy-appengine@main
         with:

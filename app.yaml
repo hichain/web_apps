@@ -1,3 +1,2 @@
-runtime: custom
-env: flex
-entrypoint: "yarn serve:server"
+runtime: nodejs14
+entrypoint: "cd src/server && npm run serve"

@@ -2,12 +2,12 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
-    "outDir": "../dist/server",
+    "outDir": "../dist/node_modules/@games",
     "allowJs": false,
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "moduleResolution": "node"
   },
-  "files": ["index.ts"]
+  "exclude": ["**/*.test.ts"],
 }

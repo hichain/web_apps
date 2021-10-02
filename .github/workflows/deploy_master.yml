@@ -5,6 +5,7 @@ name: Deploy Master Server to Google App Engine on merge
       - master
     paths:
       - .env*
+      - .gcloudignore
       - yarn.lock
       - app.yaml
       - package.json

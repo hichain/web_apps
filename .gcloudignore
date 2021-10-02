@@ -13,8 +13,12 @@
 .git
 .gitignore
 
-# Node.js dependencies:
+.github
+.husky
+.vscode
+
 /node_modules/
-/src/client/node_modules/
+/src/client/
 /src/server/node_modules/
 /src/games/node_modules/
+

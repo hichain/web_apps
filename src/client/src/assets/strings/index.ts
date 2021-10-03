@@ -2,6 +2,7 @@ const app = {
   title: "HICHAIN Apps",
   description: "Hichain Projectのボードゲームが遊べるアプリ",
   organization: "Hichain Project",
+  twitter: "hichain_game",
 } as const;
 
 const games = {

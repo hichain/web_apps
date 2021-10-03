@@ -1,6 +1,7 @@
 const app = {
   title: "HICHAIN Apps",
   description: "Hichain Projectのボードゲームが遊べるアプリ",
+  organization: "Hichain Project",
 } as const;
 
 const games = {

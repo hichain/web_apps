@@ -12,6 +12,7 @@ export const pages = {
 } as const;
 
 export const externalLinks = {
+  top: "https://hichain.jp",
   games: {
     slashchain: "https://hichain.jp/slashchain/",
   },

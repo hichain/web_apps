@@ -9,6 +9,7 @@ import { supportedGames } from "@games";
 import { Header } from "./header";
 import { ProgressBar } from "./progressbar";
 import { styled } from "@mui/system";
+import { Footer } from "./footer";
 
 const { match: GameMatch, top: GameTop, list: GameList } = gameComponents;
 
@@ -65,5 +66,6 @@ export const App: FC = () => (
     <StyledHeader />
     <ProgressBar />
     <Page />
+    <Footer />
   </>
 );

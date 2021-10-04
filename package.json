@@ -12,6 +12,8 @@
     "start:server": "yarn workspace server start",
     "build": "npm-run-all -p build:*",
     "build:client": "yarn workspace client build",
+    "build:server": "yarn workspace server build",
+    "build:games": "yarn workspace games build",
     "serve:client": "yarn workspace client serve",
     "serve:server": "yarn workspace server serve",
     "typecheck": "npm-run-all -p typecheck:*",

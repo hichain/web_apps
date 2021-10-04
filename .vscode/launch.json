@@ -6,7 +6,7 @@
       "type": "pwa-chrome",
       "request": "launch",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}/src",
+      "webRoot": "${workspaceFolder}/src/client",
       "skipFiles": [
         "**/<node_internals>/**",
         "**/node_modules/**"

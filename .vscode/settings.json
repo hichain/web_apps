@@ -22,6 +22,6 @@
     "**/.hg/store/**": true,
     ".husky/**": true,
     ".vscode/**": true,
-    "build/**": true,
+    "**/dist/**": true
   }
 }

@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
-    "@jambit/eslint-plugin-typed-redux-saga": "^0.3.1",
+    "@jambit/eslint-plugin-typed-redux-saga": "^0.4.0",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.3.0",
     "@vitejs/plugin-react": "^1.0.1",

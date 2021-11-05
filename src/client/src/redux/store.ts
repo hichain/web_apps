@@ -36,10 +36,6 @@ export const actionCreator = {
   view: viewModule.actions,
 } as const;
 
-export const selectors = {
-  matchHistory: matchHistoryModule.selectors,
-} as const;
-
 const localStorageConfig: {
   namespace: string;
   states: (keyof typeof reducer)[];

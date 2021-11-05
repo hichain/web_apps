@@ -1,4 +1,4 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SupportedGame } from "@games";
 
 export type JoinedMatch = {
@@ -12,7 +12,7 @@ export type MatchHistory = JoinedMatch[];
 
 const initialState: MatchHistory = [];
 
-const slice = createSlice({
+export const matchHistoryModule = createSlice({
   name: "matchHistory",
   initialState,
   reducers: {
@@ -27,19 +27,3 @@ const slice = createSlice({
     },
   },
 });
-
-const selectors = {
-  find: createSelector(
-    (state: MatchHistory) => state,
-    (
-      _state: MatchHistory,
-      props: { gameName: SupportedGame; matchID: string }
-    ) => props,
-    (matchHistory, { gameName, matchID }) =>
-      matchHistory.find(
-        (match) => match.gameName === gameName && match.matchID === matchID
-      )
-  ),
-};
-
-export const matchHistoryModule = { ...slice, selectors };

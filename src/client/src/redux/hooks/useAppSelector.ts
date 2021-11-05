@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
-import { RootState, selectors } from "../store";
+import { RootState } from "../store";
+import { selectors } from "../selectors";
 
 export const useAppSelector = <T>(
   select: (state: RootState, selector: typeof selectors) => T

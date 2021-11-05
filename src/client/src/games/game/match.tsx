@@ -41,8 +41,8 @@ const DomComponent: FC<Props> = ({
 export const GameMatchComponent: FC<ContainerProps> = (props) => {
   const { gameName, matchID } = props;
   const dispatch = useAppDispatch();
-  const match = useAppSelector(({ matchHistory }, selector) =>
-    selector.matchHistory.find(matchHistory, { gameName, matchID })
+  const match = useAppSelector((state, selector) =>
+    selector.matchHistory.find(state, { gameName, matchID })
   );
 
   useEffect(() => {

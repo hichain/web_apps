@@ -12,6 +12,15 @@ const matchHistory = {
         (match) => match.gameName === gameName && match.matchID === matchID
       )
   ),
+  getPlayingMatchList: createSelector(
+    (state: RootState) => state.matchHistory,
+    (state: RootState) => state.matchList,
+    (matchHistory, matchList) =>
+      matchHistory
+        .map((match) => [match, matchList[match.matchID]] as const)
+        .filter(([, detail]) => detail != null)
+        .map(([match, detail]) => ({ ...match, ...detail }))
+  ),
 };
 
 export const selectors = {

@@ -1,8 +1,8 @@
 import { SupportedGame } from "@games";
 import { useAppDispatch } from "@redux/hooks/useAppDispatch";
-import { useMatchHistory } from "../hooks/useMatchHistory";
 import React, { FC, useEffect } from "react";
 import { SlashchainClient } from "../slashchain";
+import { useAppSelector } from "@redux/hooks/useAppSelector";
 
 type ContainerProps = {
   children?: never;
@@ -41,7 +41,9 @@ const DomComponent: FC<Props> = ({
 export const GameMatchComponent: FC<ContainerProps> = (props) => {
   const { gameName, matchID } = props;
   const dispatch = useAppDispatch();
-  const match = useMatchHistory(gameName, matchID);
+  const match = useAppSelector((state, selector) =>
+    selector.matchHistory.find(state, { gameName, matchID })
+  );
 
   useEffect(() => {
     if (!match) {

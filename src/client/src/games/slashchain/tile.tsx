@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { RotatedTile, Tile, toRotatedTile } from "@games";
+import { DefaultRotatedTile, getAngle, Tile, toRotatedTile } from "@games";
 import { images } from "@images";
 
 const tileImages = images.games.slashchain.tiles;
@@ -13,7 +13,7 @@ type ContainerProps = {
 };
 
 type PresenterProps = {
-  rotatedTile: RotatedTile;
+  rotatedTile: DefaultRotatedTile;
   imageUrl?: string;
 };
 
@@ -49,9 +49,15 @@ const StyledComponent = styled(DomComponent)`
 
 export const TileComponent: FC<ContainerProps> = (props) => {
   const rotatedTile = toRotatedTile(props.tile);
-  const imageUrl = tileImages[rotatedTile];
+  const { tile, angle } = getAngle(rotatedTile);
+  const imageUrl = tileImages[tile];
 
   return (
-    <StyledComponent {...props} rotatedTile={rotatedTile} imageUrl={imageUrl} />
+    <StyledComponent
+      {...props}
+      rotatedTile={tile}
+      imageUrl={imageUrl}
+      angle={props.angle + angle}
+    />
   );
 };

@@ -1,5 +1,5 @@
 import { NamedPlayer } from "./player";
-import { Tile, defaultTiles, namedTiles } from "./tile";
+import { Tile, defaultRotatedTiles, namedTiles, toTile } from "./tile";
 
 export type HandTiles = Record<NamedPlayer, Tile[]>;
 
@@ -19,10 +19,10 @@ export class HandsBuilder {
   buildTiles(): HandTiles {
     return {
       slash: Object.values(namedTiles).flatMap((namedTile) =>
-        times(defaultTiles[namedTile], this.slash)
+        times(toTile(defaultRotatedTiles[namedTile]), this.slash)
       ),
       backslash: Object.values(namedTiles).flatMap((namedTile) =>
-        times(defaultTiles[namedTile], this.backslash)
+        times(toTile(defaultRotatedTiles[namedTile]), this.backslash)
       ),
     };
   }

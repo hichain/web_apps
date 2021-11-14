@@ -32,9 +32,6 @@ const StyledTileComponent = styled(TileComponent)`
 `;
 
 const StyledCellComponent = styled(CellComponent)`
-  margin: 0.6rem;
-  object-fit: contain;
-
   &.picked {
     cursor: pointer;
   }

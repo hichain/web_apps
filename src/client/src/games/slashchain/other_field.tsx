@@ -31,6 +31,7 @@ const DomComponent: FC<Props> = ({ className, hands, player, isOtherTurn }) => {
 
 const StyledComponent = styled(DomComponent)`
   display: flex;
+  gap: 3.6rem;
   align-items: flex-end;
   justify-content: center;
   transform: rotate(180deg);

@@ -43,28 +43,29 @@ const DomComponent: FC<Props> = ({
 
 const StyledComponent = styled(DomComponent)`
   margin: 0.6rem;
-  background-color: #fff;
-  border: 2px solid transparent;
-  box-shadow: 0 0 5px 1px rgb(64 60 67 / 16%);
-  transition: transform 0.12s;
   object-fit: contain;
 
-  &.pickable {
-    cursor: pointer;
-
-    &:hover {
-      box-shadow: 0 0 8px 1px rgb(64 60 67 / 48%);
-    }
+  img {
+    border: 2px solid transparent;
+    box-shadow: 0 0 5px 1px rgb(64 60 67 / 16%);
   }
 
   &.picked {
     cursor: pointer;
-    border-color: #8a8a8a;
-    box-shadow: 0 0 8px 1px rgb(64 60 67 / 48%);
 
     img {
+      border-color: #8a8a8a;
+      box-shadow: 0 0 8px 1px rgb(64 60 67 / 48%);
       transition: transform 0.12s;
       transition-timing-function: ease-in-out;
+    }
+  }
+
+  &.pickable {
+    cursor: pointer;
+
+    img:hover {
+      box-shadow: 0 0 8px 1px rgb(64 60 67 / 48%);
     }
   }
 

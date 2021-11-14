@@ -5,6 +5,8 @@
     "stylelint-config-prettier",
     "stylelint-config-recess-order"
   ],
-  "syntax": "scss",
-  "ignoreFiles": ["**/reboot.css"]
+  "syntax": "css-in-js",
+  "rules": {
+    "value-keyword-case": null
+  }
 }

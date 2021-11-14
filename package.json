@@ -23,7 +23,7 @@
     "tsc-watch:server": "yarn workspace server tsc-watch",
     "lint": "npm-run-all -p lint:*",
     "lint:ts": "eslint --max-warnings=0 './src/**/*.{ts,tsx}'",
-    "lint:css-in-js": "stylelint --max-warnings=0 --syntax 'css-in-js' './src/**/*.tsx'",
+    "lint:style": "stylelint --max-warnings=0 './src/**/*.tsx'",
     "test": "npm-run-all -p test:*",
     "test:games": "yarn workspace games test",
     "prepare": "husky install",

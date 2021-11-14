@@ -7,40 +7,38 @@ import clsx from "clsx";
 
 const playerImages = images.games.slashchain.players;
 
-type ContainerProps = {
+type Props = {
   className?: string;
   children?: never;
   player: NamedPlayer;
   isMyTurn: boolean;
 };
 
-type PresenterProps = Record<string, unknown>;
-
-type Props = ContainerProps & PresenterProps;
-
-const DomComponent: FC<Props> = ({ className, player, isMyTurn }) => {
-  return (
-    <CellComponent
-      isFocused={false}
-      className={clsx(className, { "my-turn": isMyTurn })}
-    >
-      <img src={playerImages[player]} alt={player} />
-    </CellComponent>
-  );
-};
-
-const StyledComponent = styled(DomComponent)`
-  box-sizing: content-box;
-  margin: 0.6rem 0 0.3rem 3.6rem;
-  border: 2px solid #222;
+const StyledPlayerInfo = styled.div<{ player: NamedPlayer }>`
+  width: inherit;
+  height: inherit;
+  background-image: url(${({ player }) => playerImages[player]});
+  background-repeat: no-repeat;
+  background-size: contain;
+  outline: 2px solid #222;
   opacity: 0.6;
 
   &.my-turn {
     opacity: 1;
   }
-  & > img {
-    height: 100%;
-  }
 `;
 
-export const PlayerInfoComponent = memo(StyledComponent);
+const PlayerInfo: FC<Props> = ({ className, player, isMyTurn }) => {
+  return (
+    <CellComponent isFocused={false} className={className}>
+      <StyledPlayerInfo
+        className={clsx({ "my-turn": isMyTurn })}
+        player={player}
+      />
+    </CellComponent>
+  );
+};
+
+const MemorizedPlayerInfo = memo(PlayerInfo);
+
+export { MemorizedPlayerInfo as PlayerInfoComponent };

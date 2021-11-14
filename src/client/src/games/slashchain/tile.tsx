@@ -1,57 +1,43 @@
-import React, { FC } from "react";
-import styled from "styled-components";
-import { RotatedTile, Tile, toRotatedTile } from "@games";
+import { getAngle, Tile, toRotatedTile } from "@games";
 import { images } from "@images";
+import { Box } from "@mui/system";
+import React, { FC } from "react";
 
 const tileImages = images.games.slashchain.tiles;
 
-type ContainerProps = {
+type TileComponentProps = {
   className?: string;
   children?: never;
   tile: Tile;
   angle: number;
 };
 
-type PresenterProps = {
-  rotatedTile: RotatedTile;
-  imageUrl?: string;
-};
-
-type Props = ContainerProps & PresenterProps;
-
-const DomComponent: FC<Props> = ({
+export const TileComponent: FC<TileComponentProps> = ({
   className,
-  rotatedTile,
-  imageUrl,
+  tile,
   angle,
 }) => {
+  const rotatedTile = toRotatedTile(tile);
+  const { tile: defaultRotatedTile, angle: initialAngle } =
+    getAngle(rotatedTile);
+  const imageUrl = tileImages[defaultRotatedTile];
   const name = `${rotatedTile}:${angle}`;
-  if (imageUrl == null) {
-    return <div className={className}>{`No Image (${name})`}</div>;
-  }
-  return (
-    <div className={className}>
-      <img src={imageUrl} alt={name} />
-    </div>
-  );
-};
-
-const StyledComponent = styled(DomComponent)`
-  font-size: 1.2rem;
-  word-break: break-all;
-
-  img {
-    width: 100%;
-    transform: rotate(${({ angle }) => 90 * angle}deg);
-    transform-origin: center;
-  }
-`;
-
-export const TileComponent: FC<ContainerProps> = (props) => {
-  const rotatedTile = toRotatedTile(props.tile);
-  const imageUrl = tileImages[rotatedTile];
 
   return (
-    <StyledComponent {...props} rotatedTile={rotatedTile} imageUrl={imageUrl} />
+    <Box
+      className={className}
+      sx={{
+        fontSize: "1.2rem",
+        wordBreak: "break-all",
+        transform: `rotate(${90 * (angle + initialAngle)}deg)`,
+        transformOrigin: "center",
+        height: "inherit",
+        backgroundImage: `url(${imageUrl})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {imageUrl == null ? `No Image (${name})` : ""}
+    </Box>
   );
 };

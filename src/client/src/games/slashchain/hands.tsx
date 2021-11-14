@@ -30,6 +30,7 @@ const DomComponent: FC<Props> = ({ className, player, hands }) => (
 const StyledComponent = styled(DomComponent)`
   display: flex;
   flex-wrap: wrap;
+  gap: 1.2rem;
   align-items: center;
   justify-content: center;
 `;

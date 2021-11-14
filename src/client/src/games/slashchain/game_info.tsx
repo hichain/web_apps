@@ -7,7 +7,7 @@ type Props = {
   className?: string;
   children?: never;
   events: {
-    resetGame: () => void;
+    resetGame: () => void; // TODO: fix turn order
   };
 };
 

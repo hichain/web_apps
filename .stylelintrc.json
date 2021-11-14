@@ -5,5 +5,8 @@
     "stylelint-config-prettier",
     "stylelint-config-recess-order"
   ],
-  "syntax": "css-in-js"
+  "syntax": "css-in-js",
+  "rules": {
+    "value-keyword-case": null
+  }
 }

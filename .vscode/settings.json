@@ -20,7 +20,6 @@
     "**/.git/**": true,
     "**/node_modules/*/**": true,
     "**/.hg/store/**": true,
-    ".husky/**": true,
     ".vscode/**": true,
     "**/dist/**": true
   },

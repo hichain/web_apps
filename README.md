@@ -22,7 +22,7 @@
 
 ## Requirements
 
-- Node.js v14.x
+- Node.js v20.x
 
 ## Usage
 

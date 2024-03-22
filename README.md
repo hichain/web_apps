@@ -1,8 +1,8 @@
 # HICHAIN Apps
 
 <p align="center">
-  <img src="https://img.shields.io/github/workflow/status/hichain/web_apps/Deploy%20Web%20Server%20to%20Firebase%20Hosting%20on%20merge?label=Web%20Server&style=flat-square" alt="Web Server" />
-  <img src="https://img.shields.io/github/workflow/status/hichain/web_apps/Deploy%20Master%20Server%20to%20Google%20App%20Engine%20on%20merge?label=Master%20Server&style=flat-square" alt="Master Server" />
+  <img src="https://img.shields.io/github/actions/workflow/status/hichain/web_apps/deploy_web.yml?label=Web%20Server&style=flat-square&branch=master" alt="Web Server" />
+  <img src="https://img.shields.io/github/actions/workflow/status/hichain/web_apps/deploy_master.yml?label=Master%20Server&style=flat-square&branch=master" alt="Master Server" />
   <img src="https://img.shields.io/github/v/release/hichain/web_apps?style=flat-square" alt="Version"/>
 </p>
 

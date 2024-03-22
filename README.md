@@ -66,7 +66,6 @@ $ yarn lint
 - [yarn](https://yarnpkg.com)
 - [ESLint](https://eslint.org/) + [Prettier](https://prettier.io/)
 - [stylelint](https://stylelint.io/)
-- [husky](https://github.com/typicode/husky) + [lint-staged](https://github.com/okonet/lint-staged)
 - [Jest](https://jestjs.io/) + [ts-jest](https://github.com/kulshekhar/ts-jest)
 - [Dayjs](https://day.js.org/)
 - [dotenv](https://www.npmjs.com/package/dotenv)

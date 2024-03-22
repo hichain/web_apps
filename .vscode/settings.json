@@ -1,6 +1,5 @@
 {
   "editor.renderControlCharacters": true,
-  "eslint.packageManager": "yarn",
   "editor.formatOnSave": false,
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
@@ -11,7 +10,6 @@
     "editor.quickSuggestions": {
       "strings": true
     },
-    "editor.suggest.insertMode": "replace",
   },
   "javascript.format.semicolons": "insert",
   "typescript.preferences.importModuleSpecifierEnding": "minimal",

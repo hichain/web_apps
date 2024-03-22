@@ -2,6 +2,7 @@
   "name": "hichain_web_apps",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "yarn@1.22.22",
   "workspaces": [
     "src/client",
     "src/games",

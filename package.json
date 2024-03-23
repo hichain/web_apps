@@ -36,7 +36,7 @@
   "dependencies": {
     "@games": "link:./src/games",
     "@types/lodash": "^4.14.172",
-    "boardgame.io": "0.49.0",
+    "boardgame.io": "0.50.2",
     "dayjs": "^1.10.6",
     "dotenv": "^10.0.0",
     "lodash": "^4.17.21",

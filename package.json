@@ -65,8 +65,9 @@
     "ts-jest": "^26.5.2"
   },
   "resolutions": {
-    "engine.io": "^6.5.4",
-    "socket.io-parser": "^4.2.3"
+    "engine.io": ">=6.5.4",
+    "socket.io-parser": ">=4.2.3",
+    "json5": ">=2.2.2"
   },
   "volta": {
     "node": "20.11.1",

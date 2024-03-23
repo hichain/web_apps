@@ -16,8 +16,10 @@ type GameMoves<
   Moves extends Record<string, Move>
 > = {
   [K in keyof Moves]: (
-    G: GameState,
-    ctx: Ctx,
+    context: {
+      G: GameState;
+      ctx: Ctx;
+    },
     ...args: Parameters<Moves[K]>
   ) => InvalidMove | void;
 };

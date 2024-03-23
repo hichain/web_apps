@@ -28,7 +28,7 @@ export const Slashchain: Game<"slashchain", GameState, Moves> = {
     };
   },
   moves: {
-    clickCell: (G, ctx, x, y, handsIndex, angle) => {
+    clickCell: ({ G, ctx }, x, y, handsIndex, angle) => {
       const player = playOrder[ctx.playOrderPos];
       if (player == null) {
         return INVALID_MOVE;
@@ -47,7 +47,7 @@ export const Slashchain: Game<"slashchain", GameState, Moves> = {
       G.hands[player].splice(handsIndex, 1);
     },
   },
-  endIf: (G, _) => {
+  endIf: ({ G }) => {
     // TODO: define victory conditions
     const noHands =
       G.hands.slash.length === 0 && G.hands.backslash.length === 0;

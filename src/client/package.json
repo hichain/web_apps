@@ -11,7 +11,7 @@
     "app-version": "echo \"v$npm_package_version+`git rev-parse --short HEAD`\""
   },
   "dependencies": {
-    "@emotion/react": "^11.4.1",
+    "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.0",
     "@mui/material": "^5.0.0",

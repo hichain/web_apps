@@ -67,7 +67,8 @@
   "resolutions": {
     "engine.io": ">=6.5.4",
     "socket.io-parser": ">=4.2.3",
-    "json5": ">=2.2.2"
+    "json5": ">=2.2.2",
+    "@koa/cors": ">=5.0.0"
   },
   "volta": {
     "node": "20.11.1",

@@ -64,6 +64,9 @@
     "stylelint-config-styled-components": "^0.1.1",
     "ts-jest": "^26.5.2"
   },
+  "resolutions": {
+    "engine.io": "^6.5.4"
+  },
   "volta": {
     "node": "20.11.1",
     "yarn": "1.22.22"

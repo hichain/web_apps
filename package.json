@@ -20,16 +20,18 @@
     "typecheck": "npm-run-all -p typecheck:*",
     "typecheck:client": "yarn workspace client typecheck",
     "typecheck:server": "yarn workspace server typecheck",
+    "typecheck:games": "yarn workspace games typecheck",
     "tsc-watch:client": "yarn workspace client tsc-watch",
     "tsc-watch:server": "yarn workspace server tsc-watch",
+    "tsc-watch:games": "yarn workspace games tsc-watch",
     "lint": "npm-run-all -p lint:*",
-    "lint:ts": "eslint --max-warnings=0 './src/**/*.{ts,tsx}'",
-    "lint:style": "stylelint --max-warnings=0 './src/**/*.tsx'",
+    "lint:ts": "eslint --max-warnings=0 \"./src/**/*.{ts,tsx}\"",
+    "lint:style": "stylelint --max-warnings=0 \"./src/**/*.tsx\"",
     "test": "npm-run-all -p test:*",
     "test:games": "yarn workspace games test"
   },
   "engines": {
-    "node": "14.x"
+    "node": "20.x"
   },
   "dependencies": {
     "@games": "link:./src/games",
@@ -63,7 +65,7 @@
     "ts-jest": "^26.5.2"
   },
   "volta": {
-    "node": "14.16.0",
+    "node": "20.11.1",
     "yarn": "1.22.22"
   }
 }

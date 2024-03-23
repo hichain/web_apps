@@ -5,7 +5,9 @@
   "main": "index.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "typecheck": "tsc --noEmit",
+    "tsc-watch": "tsc --watch"
   },
   "dependencies": {},
   "devDependencies": {},

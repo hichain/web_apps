@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "extends": "./tsconfig.paths.json",
-  "exclude": ["**/*.test.ts"]
+  "exclude": ["**/*.test.ts", "vite.config.ts"]
 }

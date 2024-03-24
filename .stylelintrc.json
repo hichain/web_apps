@@ -1,12 +1,15 @@
 {
-  "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-styled-components",
-    "stylelint-config-prettier",
-    "stylelint-config-recess-order"
-  ],
-  "syntax": "css-in-js",
-  "rules": {
-    "value-keyword-case": null
-  }
+  "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
+  "overrides": [
+    {
+      "files": ["src/**/*.tsx"],
+      "customSyntax": "@stylelint/postcss-css-in-js",
+      "rules": {
+        "value-keyword-case": null,
+        "function-no-unknown": null,
+        "selector-class-pattern": null,
+        "rule-empty-line-before": null
+      }
+    }
+  ]
 }

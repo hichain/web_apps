@@ -24,18 +24,25 @@ const StyledComponent = styled(DomComponent)`
   width: 32px;
   height: 32px;
 
+  /* stylelint-disable-next-line media-query-no-invalid */
   @media ${breakpoints.sm} {
     width: 39px;
     height: 39px;
   }
+
+  /* stylelint-disable-next-line media-query-no-invalid */
   @media ${breakpoints.md} {
     width: 46px;
     height: 46px;
   }
+
+  /* stylelint-disable-next-line media-query-no-invalid */
   @media ${breakpoints.lg} {
     width: 53px;
     height: 53px;
   }
+
+  /* stylelint-disable-next-line media-query-no-invalid */
   @media ${breakpoints.xl} {
     width: 60px;
     height: 60px;

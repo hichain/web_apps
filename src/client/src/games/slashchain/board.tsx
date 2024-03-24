@@ -45,10 +45,8 @@ const DomComponent: FC<Props> = ({ className, cells, columns }) => {
 
 const StyledComponent = styled(DomComponent)`
   display: flex;
-  align-items: center;
-  justify-items: center;
-  overflow-x: scroll;
-  overflow-y: scroll;
+  place-items: center center;
+  overflow: scroll scroll;
   box-shadow: inset 0 0 5px 5px #efefef;
 
   & > .board-grid {

@@ -47,7 +47,7 @@ const StyledComponent = styled(DomComponent)`
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  padding: 2rem 0 0 0;
+  padding: 2rem 0 0;
   margin: 0 auto;
 
   & > .board {
@@ -63,7 +63,7 @@ const StyledComponent = styled(DomComponent)`
 
   & > .game_info {
     width: 100%;
-    margin: 1rem auto 0 auto;
+    margin: 1rem auto 0;
   }
 `;
 

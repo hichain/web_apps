@@ -5,20 +5,23 @@ name: Pull Request Builder
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, labeled, reopened, auto_merge_enabled]
+    paths-ignore:
+      - "README.md"
+      - ".vscode/**"
+
+env:
+  node-version: 20.x
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js ${{ env.node-version }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ env.node-version }}
     - run: yarn
     - run: yarn typecheck
     - run: yarn test

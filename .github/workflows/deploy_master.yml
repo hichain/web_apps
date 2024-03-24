@@ -39,9 +39,11 @@ jobs:
       - run: yarn lint:ts
       - run: yarn build:games
       - run: yarn build:server
+      - uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: ${{ secrets.GAE_SA_KEY }}
       - id: deploy
-        uses: google-github-actions/deploy-appengine@main
+        uses: google-github-actions/deploy-appengine@v2
         with:
           deliverables: app.yaml
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          credentials: ${{ secrets.GAE_SA_KEY }}

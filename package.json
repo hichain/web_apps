@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@games": "link:./src/games",
+    "@stylelint/postcss-css-in-js": "^0.38.0",
     "@types/lodash": "^4.14.172",
     "boardgame.io": "0.50.2",
     "dayjs": "^1.10.6",

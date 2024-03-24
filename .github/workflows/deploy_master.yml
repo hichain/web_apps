@@ -1,5 +1,6 @@
 name: Deploy Master Server to Google App Engine on merge
-'on':
+
+on:
   push:
     branches:
       - master
@@ -12,27 +13,37 @@ name: Deploy Master Server to Google App Engine on merge
       - .github/workflows/deploy_master.yml
       - src/games/**
       - src/server/**
+
+env:
+  node-version: 20.x
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ env.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.node-version }}
+      - name: Cache / Restore node_modules
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-${{ env.cache-name }}-node${{ env.node-version }}-${{ hashFiles('**/yarn.lock') }}
       - run: yarn
       - run: yarn typecheck:server
       - run: yarn test
       - run: yarn lint:ts
       - run: yarn build:games
       - run: yarn build:server
+      - uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: ${{ secrets.GAE_SA_KEY }}
       - id: deploy
-        uses: google-github-actions/deploy-appengine@main
+        uses: google-github-actions/deploy-appengine@v2
         with:
           deliverables: app.yaml
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          credentials: ${{ secrets.GAE_SA_KEY }}

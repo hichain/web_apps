@@ -27,7 +27,6 @@ const createConfig = ({ mode }: UserConfig) => {
         "@routes": path.resolve(__dirname, "src/assets/routes"),
         "@envs": path.resolve(__dirname, "src/envs"),
         "@": path.resolve(__dirname, "src"),
-        "xmlhttprequest-ssl": "engine.io-client/lib/xmlhttprequest.js",
       },
     },
   });

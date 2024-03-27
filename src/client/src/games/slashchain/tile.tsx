@@ -32,7 +32,7 @@ export const TileComponent: FC<TileComponentProps> = ({
         transform: `rotate(${90 * (angle + initialAngle)}deg)`,
         transformOrigin: "center",
         height: "inherit",
-        backgroundImage: `url(${imageUrl})`,
+        backgroundImage: `url("${imageUrl}")`,
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
       }}

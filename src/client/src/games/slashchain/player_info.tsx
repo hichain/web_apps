@@ -17,7 +17,7 @@ type Props = {
 const StyledPlayerInfo = styled.div<{ player: NamedPlayer }>`
   width: inherit;
   height: inherit;
-  background-image: url(${({ player }) => playerImages[player]});
+  background-image: url("${({ player }) => playerImages[player]}");
   background-repeat: no-repeat;
   background-size: contain;
   outline: 2px solid #222;

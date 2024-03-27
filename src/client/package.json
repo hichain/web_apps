@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "VITE_APP_VERSION=\"development\" vite",
-    "build": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite build",
-    "serve": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite preview",
+    "start": "VITE_APP_VERSION=\"development\" vite dev --mode development",
+    "build": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite build --mode production",
+    "serve": "VITE_APP_VERSION=\"`yarn run --silent app-version`\" vite preview --mode development",
     "typecheck": "tsc --noEmit",
     "tsc-watch": "tsc --watch",
     "app-version": "echo \"v$npm_package_version+`git rev-parse --short HEAD`\""

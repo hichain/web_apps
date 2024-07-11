@@ -1062,10 +1062,10 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
-"@jambit/eslint-plugin-typed-redux-saga@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@jambit/eslint-plugin-typed-redux-saga/-/eslint-plugin-typed-redux-saga-0.3.1.tgz#d5a68c12bf769181c8da2c61c982bfd343709b14"
-  integrity sha512-9nfQaAvrrDBTExlPWdGxfbwaDC2L7/RlQl8nRWBnvYpZQeIDOmb3J/xDa37MrO0uhsGOlo4SL2hXIiTdWycneg==
+"@jambit/eslint-plugin-typed-redux-saga@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@jambit/eslint-plugin-typed-redux-saga/-/eslint-plugin-typed-redux-saga-0.4.0.tgz#5c882a76f57f576c5d6a982deaf6f6e1ca0ce72e"
+  integrity sha512-toReLCgaBZ6N0gbq6QTKUCkDqGS4yi0RV16HPLJ9rz8H1TE78KwLHAGhW3XLqyVn+DbcuL7+89RkQse8T5oj8g==
 
 "@jest/console@^29.7.0":
   version "29.7.0"

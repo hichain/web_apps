@@ -3,8 +3,8 @@
   "editor.formatOnSave": false,
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": false,
-    "source.fixAll": true
+    "source.organizeImports": "never",
+    "source.fixAll": "explicit"
   },
   "[json]": {
     "editor.quickSuggestions": {
